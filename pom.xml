@@ -254,7 +254,20 @@
             <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
-
+	<developers>
+		<developer>
+        	<id>serarirud</id>
+        	<name>Sergio</name>
+        	<email>serarirud@alum.us.es</email>
+         	<url></url>
+         	<roles>
+     			<role>Developer</role>
+     		</roles>
+     		<properties>
+     			<picUrl></picUrl>
+ 			</properties>
+		</developer>
+	</developers>
 
 
 </project>
