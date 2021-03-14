@@ -13,6 +13,7 @@
  */
 @icon-font-path:    "../../webjars/bootstrap/fonts/";
 
+@spring-light-green: rgb(168, 255, 168);
 @spring-green:      #6db33f;
 @spring-dark-green: #5fa134;
 @spring-brown:      #34302D;
@@ -52,6 +53,11 @@
 .table > thead > tr > th {
   background-color: lighten(@spring-brown, 3%);
   color: @spring-light-grey;
+}
+
+.table-green > thead > tr > th {
+	background-color: @spring-light-grey;
+	color: @spring-brown;
 }
 
 .table-filter {
