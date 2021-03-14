@@ -267,6 +267,18 @@
      			<picUrl></picUrl>
  			</properties>
 		</developer>
+		<developer>
+        	<id>santizdr</id>
+        	<name>Santi</name>
+        	<email>sanzultor@alum.us.es</email>
+         	<url></url>
+         	<roles>
+     			<role>Developer</role>
+     		</roles>
+     		<properties>
+     			<picUrl></picUrl>
+ 			</properties>
+		</developer>
 	</developers>
 
 
