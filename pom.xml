@@ -256,6 +256,18 @@
     </licenses>
 	<developers>
 		<developer>
+			<id>juanramonuvus</id>
+			<name>Juan Ramon</name>
+			<email>juaostrub@alum.us.es</email>
+			<roles>
+				<role>Scrum Master</role>
+				<role>Developer</role>
+			</roles>
+			<properties>
+				<picUrl></picUrl>
+			</properties>
+		</developer>
+		<developer>
         	<id>serarirud</id>
         	<name>Sergio</name>
         	<email>serarirud@alum.us.es</email>
