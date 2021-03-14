@@ -279,6 +279,18 @@
      			<picUrl></picUrl>
  			</properties>
 		</developer>
+		<developer>
+        	<id>antfunmej</id>
+        	<name>Antonio</name>
+        	<email>antfunmej@alum.us.es</email>
+         	<url></url>
+         	<roles>
+     			<role>Developer</role>
+     		</roles>
+     		<properties>
+     			<picUrl></picUrl>
+ 			</properties>
+		</developer>
 	</developers>
 
 
