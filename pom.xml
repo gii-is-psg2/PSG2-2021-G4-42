@@ -3,8 +3,8 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.springframework.samples</groupId>
-    <artifactId>spring-petclinic</artifactId>
+    <groupId>es.us.psg2</groupId>
+    <artifactId>1.0.0</artifactId>
     <version>2.2.0.BUILD-SNAPSHOT</version>
 
     <parent>
@@ -12,7 +12,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
     </parent>
-    <name>petclinic</name>
+    <name>PSG2-2021-G4-42 Petclinic</name>
 
     <properties>
 
@@ -254,7 +254,56 @@
             <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
-
+	<developers>
+		<developer>
+			<id>juanramonuvus</id>
+			<name>Juan Ramon</name>
+			<email>juaostrub@alum.us.es</email>
+			<roles>
+				<role>Scrum Master</role>
+				<role>Developer</role>
+			</roles>
+			<properties>
+				<picUrl></picUrl>
+			</properties>
+		</developer>
+		<developer>
+        	<id>serarirud</id>
+        	<name>Sergio</name>
+        	<email>serarirud@alum.us.es</email>
+         	<url></url>
+         	<roles>
+     			<role>Developer</role>
+     		</roles>
+     		<properties>
+     			<picUrl></picUrl>
+ 			</properties>
+		</developer>
+		<developer>
+        	<id>santizdr</id>
+        	<name>Santi</name>
+        	<email>sanzultor@alum.us.es</email>
+         	<url></url>
+         	<roles>
+     			<role>Developer</role>
+     		</roles>
+     		<properties>
+     			<picUrl></picUrl>
+ 			</properties>
+		</developer>
+		<developer>
+        	<id>antfunmej</id>
+        	<name>Antonio</name>
+        	<email>antfunmej@alum.us.es</email>
+         	<url></url>
+         	<roles>
+     			<role>Developer</role>
+     		</roles>
+     		<properties>
+     			<picUrl></picUrl>
+ 			</properties>
+		</developer>
+	</developers>
 
 
 </project>
