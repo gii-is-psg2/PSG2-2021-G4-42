@@ -1,6 +1,6 @@
 project:
   name: 'PSG2-2021-G4-42 Petclinic'
-  owner: 'L4'
+  ownner: 'L4'
   teamId: '42'
   identities:
     github:
