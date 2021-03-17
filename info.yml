@@ -5,28 +5,28 @@ project:
   identities:
     github:
       url: 'https://github.com/gii-is-psg2/PSG2-2021-G4-42'
-    members:
-      member1:
-        name: 'Juan Ramon'
-        surname: 'Ostos'
-        githubUsername: 'juanramonuvus'
-      member2:
-        name: 'Raúl'
-        surname: 'Parrado'
-        githubUsername: 'raupargor'
-      member3:
-        name: 'Antonio'
-        surname: 'Funes'
-        githubUsername: 'antoniofm00'
-      member4:
-        name: 'Santiago'
-        surname: 'Zuleta'
-        githubUsername: 'santizdr'
-      member5:
-        name: 'Jorge'
-        surname: 'Ruiz'
-        githubUsername: 'jorruirui1'
-      member6:
-        name: 'Sergio'
-        surname: 'Arias'
-        githubUsername: 'serarirud'
+  members:
+    member1:
+      name: 'Juan Ramon'
+      surname: 'Ostos'
+      githubUsername: 'juanramonuvus'
+    member2:
+      name: 'Raúl'
+      surname: 'Parrado'
+      githubUsername: 'raupargor'
+    member3:
+      name: 'Antonio'
+      surname: 'Funes'
+      githubUsername: 'antoniofm00'
+    member4:
+      name: 'Santiago'
+      surname: 'Zuleta'
+      githubUsername: 'santizdr'
+    member5:
+      name: 'Jorge'
+      surname: 'Ruiz'
+      githubUsername: 'jorruirui1'
+    member6:
+      name: 'Sergio'
+      surname: 'Arias'
+      githubUsername: 'serarirud'
