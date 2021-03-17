@@ -9,24 +9,24 @@ project:
     member1:
       name: 'Juan Ramon'
       surname: 'Ostos'
-      gihubUsername: 'juanramonuvus'
+      githubUsername: 'juanramonuvus'
     member2:
       name: 'Raúl'
       surname: 'Parrado'
-      gihubUsername: 'raupargor'
+      githubUsername: 'raupargor'
     member3:
       name: 'Antonio'
       surname: 'Funes'
-      gihubUsername: 'antoniofm00'
+      githubUsername: 'antoniofm00'
     member4:
       name: 'Santiago'
       surname: 'Zuleta'
-      gihubUsername: 'santizdr'
+      githubUsername: 'santizdr'
     member5:
       name: 'Jorge'
       surname: 'Ruiz'
-      gihubUsername: 'jorruirui1'
+      githubUsername: 'jorruirui1'
     member6:
       name: 'Sergio'
       surname: 'Arias'
-      gihubUsername: 'serarirud'
+      githubUsername: 'serarirud'
