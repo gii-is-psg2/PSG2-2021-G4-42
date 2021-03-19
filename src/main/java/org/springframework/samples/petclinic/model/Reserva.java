@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity
+@Entity(name="reserva")
 @Table(name= "reserva")
 public class Reserva extends BaseEntity {
 	

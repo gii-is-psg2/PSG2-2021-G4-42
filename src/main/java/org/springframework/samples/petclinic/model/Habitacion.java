@@ -3,22 +3,26 @@ package org.springframework.samples.petclinic.model;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-@Entity
+@Entity(name="habitacion")
 @Table(name = "habitacion")
 public class Habitacion extends BaseEntity {
 
 	@NotNull
 	@Min(0)
+	@Column(name = "numero")
 	private Integer numero;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "habitacion_reserva")
 	private Set<Reserva> reservas;
 
 	
