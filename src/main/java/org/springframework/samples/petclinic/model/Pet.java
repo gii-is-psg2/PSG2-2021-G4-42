@@ -15,9 +15,12 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
-import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,14 +31,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PropertyComparator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Simple business object representing a pet.
@@ -60,10 +58,23 @@ public class Pet extends NamedEntity {
 	@JoinColumn(name = "owner_id")
 	private Owner owner;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.LAZY)
 	private Set<Visit> visits;
 
-	public void setBirthDate(LocalDate birthDate) {
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Reserva> reservas;
+	
+	
+	public Set<Reserva> getReservas() {
+		return this.reservas;
+	}
+
+	
+	public void setReservas(final Set<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+
+	public void setBirthDate(final LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -75,7 +86,7 @@ public class Pet extends NamedEntity {
 		return this.type;
 	}
 
-	public void setType(PetType type) {
+	public void setType(final PetType type) {
 		this.type = type;
 	}
 
@@ -83,7 +94,7 @@ public class Pet extends NamedEntity {
 		return this.owner;
 	}
 
-	protected void setOwner(Owner owner) {
+	protected void setOwner(final Owner owner) {
 		this.owner = owner;
 	}
 
@@ -94,18 +105,18 @@ public class Pet extends NamedEntity {
 		return this.visits;
 	}
 
-	protected void setVisitsInternal(Set<Visit> visits) {
+	protected void setVisitsInternal(final Set<Visit> visits) {
 		this.visits = visits;
 	}
 
 	public List<Visit> getVisits() {
-		List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
+		final List<Visit> sortedVisits = new ArrayList<>(this.getVisitsInternal());
 		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
 		return Collections.unmodifiableList(sortedVisits);
 	}
 
-	public void addVisit(Visit visit) {
-		getVisitsInternal().add(visit);
+	public void addVisit(final Visit visit) {
+		this.getVisitsInternal().add(visit);
 		visit.setPet(this);
 	}
 

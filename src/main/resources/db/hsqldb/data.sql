@@ -62,3 +62,23 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
+INSERT INTO habitacion(numero) VALUES (1);
+INSERT INTO habitacion(numero) VALUES (2);
+INSERT INTO habitacion(numero) VALUES (3);
+INSERT INTO habitacion(numero) VALUES (4);
+INSERT INTO habitacion(numero) VALUES (5);
+INSERT INTO habitacion(numero) VALUES (6);
+INSERT INTO habitacion(numero) VALUES (7);
+INSERT INTO habitacion(numero) VALUES (8);
+INSERT INTO habitacion(numero) VALUES (9);
+INSERT INTO habitacion(numero) VALUES (10);
+INSERT INTO habitacion(numero) VALUES (11);
+INSERT INTO habitacion(numero) VALUES (12);
+INSERT INTO habitacion(numero) VALUES (13);
+INSERT INTO habitacion(numero) VALUES (14);
+INSERT INTO habitacion(numero) VALUES (15);
+
+INSERT INTO reserva(fecha_ini, fecha_fin) VALUES ('2021-03-19','2021-03-20');
+INSERT INTO reserva(fecha_ini, fecha_fin) VALUES ('2021-03-19','2021-03-20');
+INSERT INTO reserva(fecha_ini, fecha_fin) VALUES ('2021-03-21','2021-03-23');
+INSERT INTO reserva(fecha_ini, fecha_fin) VALUES ('2021-03-24','2021-03-25');
