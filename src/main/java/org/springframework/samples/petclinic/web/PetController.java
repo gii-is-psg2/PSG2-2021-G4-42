@@ -15,29 +15,29 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
-import org.springframework.samples.petclinic.service.VetService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-
-import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.springframework.beans.BeanUtils;
-import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author Juergen Hoeller
@@ -88,7 +88,32 @@ public class PetController {
 	public void initPetBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new PetValidator());
 	}
-
+	
+	@GetMapping(value="/pets/{petId}/delete")
+	public String deletePet(@PathVariable("petId") int petId, ModelMap model, Owner owner) {
+		String vista="/owners/{ownerId}";
+		Pet p = petService.findPetById(petId);
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		String nameOwner = owner.getUser().getUsername();
+		if (username.equals(nameOwner)||rol.equals("admin")) {
+			if(!p.getVisits().isEmpty()) {
+				model.addAttribute("message", "No se puede borrar una mascota con una cita pendiente");
+				model.addAttribute("messageType", "danger");
+				
+			}else {
+				try {
+					petService.deletePet(p);
+					model.addAttribute("message", "Mascota borrada correctamente.");
+				}catch(Exception e) {
+					model.addAttribute("message", "Error inesperado al borrar la mascota.");
+					model.addAttribute("messageType", "danger");
+				}
+			}
+		}
+		return vista;
+	}
+	
 	@GetMapping(value = "/pets/new")
 	public String initCreationForm(Owner owner, ModelMap model) {
 		Pet pet = new Pet();
