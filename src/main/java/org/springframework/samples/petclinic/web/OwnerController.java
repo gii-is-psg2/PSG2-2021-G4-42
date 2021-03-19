@@ -94,7 +94,7 @@ public class OwnerController {
 		Collection<Owner> results = this.ownerService.findOwnerByLastName(owner.getLastName());
 		if (results.isEmpty()) {
 			// no owners found
-			result.rejectValue("lastName", "notFound", "not found");
+			result.rejectValue("lastName", "dueño no encontrado", "dueño no encontrado");
 			return "owners/findOwners";
 		}
 		else if (results.size() == 1) {
