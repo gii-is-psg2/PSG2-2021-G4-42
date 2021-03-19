@@ -18,7 +18,7 @@ public class Habitacion extends BaseEntity {
 
 	@NotNull
 	@Min(0)
-	@Column(name = "numero")
+	@Column(name = "numero", unique=true)
 	private Integer numero;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
