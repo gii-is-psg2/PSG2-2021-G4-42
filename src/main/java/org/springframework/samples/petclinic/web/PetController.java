@@ -39,11 +39,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- * @author Juergen Hoeller
- * @author Ken Krebs
- * @author Arjen Poutsma
- */
 @Controller
 @RequestMapping("/owners/{ownerId}")
 public class PetController {
@@ -91,7 +86,6 @@ public class PetController {
 	
 	@GetMapping(value="/pets/{petId}/delete")
 	public String deletePet(@PathVariable("petId") int petId, ModelMap model, Owner owner) {
-		String vista="/owners/{ownerId}";
 		Pet p = petService.findPetById(petId);
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
@@ -103,7 +97,9 @@ public class PetController {
 				
 			}else {
 				try {
-					petService.deletePet(p);
+					owner.removePet(p);
+					this.ownerService.saveOwner(owner);
+					this.petService.delete(p);
 					model.addAttribute("message", "Mascota borrada correctamente.");
 				}catch(Exception e) {
 					model.addAttribute("message", "Error inesperado al borrar la mascota.");
@@ -111,7 +107,7 @@ public class PetController {
 				}
 			}
 		}
-		return vista;
+		return "redirect:/owners/{ownerId}";
 	}
 	
 	@GetMapping(value = "/pets/new")
