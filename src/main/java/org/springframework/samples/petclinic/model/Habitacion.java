@@ -6,14 +6,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-@Entity(name="habitacion")
-@Table(name = "habitacion")
+@Entity
+@Table(name="habitacion")
 public class Habitacion extends BaseEntity {
 
 	@NotNull
@@ -21,8 +20,7 @@ public class Habitacion extends BaseEntity {
 	@Column(name = "numero", unique=true)
 	private Integer numero;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "habitacion_reserva")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="habitacion")
 	private Set<Reserva> reservas;
 
 	

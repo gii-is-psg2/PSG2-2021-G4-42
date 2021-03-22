@@ -17,4 +17,9 @@ public class HabitacionService {
 	public Habitacion findHabitacionByNumero(final Integer numero) {
 		return this.habitacionRepository.findHabitacionByNumero(numero);
 	}
+	
+	@Transactional(readOnly = true)
+	public Integer totalDeHabitaciones() {
+		return this.habitacionRepository.totalDeHabitaciones();
+	}
 }

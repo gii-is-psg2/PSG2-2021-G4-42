@@ -78,17 +78,7 @@ INSERT INTO habitacion(id, numero) VALUES (13,13);
 INSERT INTO habitacion(id, numero) VALUES (14,14);
 INSERT INTO habitacion(id, numero) VALUES (15,15);
 
-INSERT INTO reserva(id, fecha_ini, fecha_fin) VALUES (1, '2021-03-19','2021-03-20');
-INSERT INTO reserva(id, fecha_ini, fecha_fin) VALUES (2, '2021-03-19','2021-03-20');
-INSERT INTO reserva(id, fecha_ini, fecha_fin) VALUES (3, '2021-03-21','2021-03-23');
-INSERT INTO reserva(id, fecha_ini, fecha_fin) VALUES (4, '2021-03-24','2021-03-25');
-
-INSERT INTO habitacion_reserva VALUES (1, 1);
-INSERT INTO habitacion_reserva VALUES (2, 2);
-INSERT INTO habitacion_reserva VALUES (1, 3);
-INSERT INTO habitacion_reserva VALUES (1, 4);
-
-INSERT INTO pet_reserva VALUES (1, 1);
-INSERT INTO pet_reserva VALUES (2, 2);
-INSERT INTO pet_reserva VALUES (1, 3);
-INSERT INTO pet_reserva VALUES (1, 4);
+INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (1, '2021-03-19','2021-03-20', 1, 1);
+INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (2, '2021-03-19','2021-03-20', 2, 2);
+INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (3, '2021-03-21','2021-03-23', 1, 2);
+INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (4, '2021-03-24','2021-03-25', 1, 1);
