@@ -1,11 +1,14 @@
 package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Habitacion;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Reserva;
 import org.springframework.samples.petclinic.repository.ReservaRepository;
@@ -17,6 +20,9 @@ public class ReservaService {
 	
 	@Autowired
 	private ReservaRepository reservaRepository;
+	
+	@Autowired
+	private OwnerService ownerService;
 	
 	@Transactional(readOnly = true)
 	public List<Reserva> findReservasBetweenFechas(final LocalDate fechaIni, final LocalDate fechaFin) {
@@ -34,8 +40,12 @@ public class ReservaService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Set<Pet> findPetReservaBetweenFechas(final LocalDate fechaIni, final LocalDate fechaFin){
-		return this.reservaRepository.findReservaPetByFechaIniAfterAndFechaFinBefore(fechaIni, fechaFin);
+	public List<Pet> findPetReservaBetweenFechasAndUsername(final LocalDate fechaIni, final LocalDate fechaFin, final String username){
+		final Optional<Owner> owner = this.ownerService.findOwnerByUsername(username);
+		if(!owner.isPresent()) {
+			return new ArrayList<>();
+		}
+		return this.reservaRepository.findReservaPetByFechaIniAfterAndFechaFinBeforeAndPetOwner(fechaIni, fechaFin, owner.get());
 	}
 	
 	@Transactional(readOnly = true)
