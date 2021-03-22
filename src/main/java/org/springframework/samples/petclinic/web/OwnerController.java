@@ -24,13 +24,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.OwnerService;
-import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -45,10 +48,12 @@ public class OwnerController {
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
 	private final OwnerService ownerService;
+	private final UserService userService;
 
 	@Autowired
 	public OwnerController(OwnerService ownerService, UserService userService, AuthoritiesService authoritiesService) {
 		this.ownerService = ownerService;
+		this.userService = userService;
 	}
 
 	@InitBinder
@@ -140,5 +145,22 @@ public class OwnerController {
 		mav.addObject(this.ownerService.findOwnerById(ownerId));
 		return mav;
 	}
+	
+	@GetMapping(value="/owners/{ownerId}/delete")
+	public String deleteOwner(@PathVariable("ownerId") int ownerId, Map<String, Object> model) {
+		Owner owner = this.ownerService.findOwnerById(ownerId);
+		String username = owner.getUser().getUsername();
+		String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
+		if(rol.equals("admin") && !username.equals(username2)) {
+			try {
+				this.ownerService.deleteOwner(owner);
+				System.out.println("HOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+			}catch(Exception e) {
 
+			}
+		}
+		return initFindForm(model);
+	}
+		
 }

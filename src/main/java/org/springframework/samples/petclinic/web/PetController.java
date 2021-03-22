@@ -91,22 +91,14 @@ public class PetController {
 		String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
 		String nameOwner = owner.getUser().getUsername();
 		if (username.equals(nameOwner)||rol.equals("admin")) {
-			if(!p.getVisits().isEmpty()) {
-				model.addAttribute("message", "No se puede borrar una mascota con una cita pendiente");
-				model.addAttribute("messageType", "danger");
-				
-			}else {
 				try {
 					owner.removePet(p);
 					this.ownerService.saveOwner(owner);
 					this.petService.delete(p);
-					model.addAttribute("message", "Mascota borrada correctamente.");
 				}catch(Exception e) {
-					model.addAttribute("message", "Error inesperado al borrar la mascota.");
-					model.addAttribute("messageType", "danger");
 				}
 			}
-		}
+		
 		return "redirect:/owners/{ownerId}";
 	}
 	
