@@ -50,26 +50,26 @@ public class OwnerController {
 	private final OwnerService ownerService;
 
 	@Autowired
-	public OwnerController(OwnerService ownerService, UserService userService, AuthoritiesService authoritiesService) {
+	public OwnerController(final OwnerService ownerService, final UserService userService, final AuthoritiesService authoritiesService) {
 		this.ownerService = ownerService;
 	}
 
 	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
+	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
 
 	@GetMapping(value = "/owners/new")
-	public String initCreationForm(Map<String, Object> model) {
-		Owner owner = new Owner();
+	public String initCreationForm(final Map<String, Object> model) {
+		final Owner owner = new Owner();
 		model.put("owner", owner);
-		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+		return OwnerController.VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/owners/new")
-	public String processCreationForm(@Valid Owner owner, BindingResult result) {
+	public String processCreationForm(@Valid final Owner owner, final BindingResult result) {
 		if (result.hasErrors()) {
-			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+			return OwnerController.VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			//creating owner, user and authorities
@@ -80,13 +80,13 @@ public class OwnerController {
 	}
 
 	@GetMapping(value = "/owners/find")
-	public String initFindForm(Map<String, Object> model) {
+	public String initFindForm(final Map<String, Object> model) {
 		model.put("owner", new Owner());
 		return "owners/findOwners";
 	}
 
 	@GetMapping(value = "/owners")
-	public String processFindForm(Owner owner, BindingResult result, Map<String, Object> model) {
+	public String processFindForm(Owner owner, final BindingResult result, final Map<String, Object> model) {
 
 		// allow parameterless GET request for /owners to return all records
 		if (owner.getLastName() == null) {
@@ -94,7 +94,7 @@ public class OwnerController {
 		}
 
 		// find owners by last name
-		Collection<Owner> results = this.ownerService.findOwnerByLastName(owner.getLastName());
+		final Collection<Owner> results = this.ownerService.findOwnerByLastName(owner.getLastName());
 		if (results.isEmpty()) {
 			// no owners found
 			result.rejectValue("lastName", "notFound", "not found");
@@ -113,17 +113,17 @@ public class OwnerController {
 	}
 
 	@GetMapping(value = "/owners/{ownerId}/edit")
-	public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
-		Owner owner = this.ownerService.findOwnerById(ownerId);
+	public String initUpdateOwnerForm(@PathVariable("ownerId") final int ownerId, final Model model) {
+		final Owner owner = this.ownerService.findOwnerById(ownerId);
 		model.addAttribute(owner);
-		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+		return OwnerController.VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/owners/{ownerId}/edit")
-	public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result,
-			@PathVariable("ownerId") int ownerId) {
+	public String processUpdateOwnerForm(@Valid final Owner owner, final BindingResult result,
+			@PathVariable("ownerId") final int ownerId) {
 		if (result.hasErrors()) {
-			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+			return OwnerController.VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			owner.setId(ownerId);
@@ -138,25 +138,27 @@ public class OwnerController {
 	 * @return a ModelMap with the model attributes for the view
 	 */
 	@GetMapping("/owners/{ownerId}")
-	public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
-		ModelAndView mav = new ModelAndView("owners/ownerDetails");
+	public ModelAndView showOwner(@PathVariable("ownerId") final int ownerId) {
+		final ModelAndView mav = new ModelAndView("owners/ownerDetails");
 		mav.addObject(this.ownerService.findOwnerById(ownerId));
 		return mav;
 	}
 	
 	@GetMapping(value="/owners/{ownerId}/delete")
-	public String deleteOwner(@PathVariable("ownerId") int ownerId, Map<String, Object> model) {
-		Owner owner = this.ownerService.findOwnerById(ownerId);
-		String username = owner.getUser().getUsername();
-		String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
-		String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
+	public String deleteOwner(@PathVariable("ownerId") final int ownerId, final Map<String, Object> model) {
+		final Owner owner = this.ownerService.findOwnerById(ownerId);
+		final String username = owner.getUser().getUsername();
+		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		final String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
 		if(rol.equals("admin") && !username.equals(username2)) {
 			try {
 				this.ownerService.deleteOwner(owner);
-			}catch(Exception e) {
+			}catch(final Exception e) {
 			}
-			
-			return processFindForm(new Owner(),null,model);
+
+			final Collection<Owner> results = this.ownerService.findOwnerByLastName(owner.getLastName());
+			model.put("selections", results);
+			return "owners/ownersList";
 		}else {
 			return "redirect:/";
 		}
