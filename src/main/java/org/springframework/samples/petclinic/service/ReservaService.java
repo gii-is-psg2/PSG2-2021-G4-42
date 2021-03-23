@@ -30,7 +30,14 @@ public class ReservaService {
 	}
 	
 	@Transactional
-	public void save(final Reserva reserva) {
+	public void save(final Reserva reserva) throws Exception {
+		final Pet pet = reserva.getPet();
+		final Habitacion habitacion = reserva.getHabitacion();
+		final LocalDate fechaIni = reserva.getFechaIni();
+		final LocalDate fechaFin = reserva.getFechaFin();
+		if(pet.estaOcupada(fechaIni, fechaFin) || habitacion.estaOcupada(fechaIni, fechaFin)) {
+			throw new Exception("La mascota o habitación deben de estar libre");
+		}
 		this.reservaRepository.save(reserva);
 	}
 	

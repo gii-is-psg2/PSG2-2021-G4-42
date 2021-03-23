@@ -22,8 +22,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Habitacion;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Reserva;
+import org.springframework.samples.petclinic.service.HabitacionService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.ReservaService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,6 +51,9 @@ public class ReservaController {
 	@Autowired
 	private ReservaService reservaService;
 	
+	@Autowired
+	private HabitacionService habitacionService;
+	
 	@GetMapping(value="/new")
 	public String newReserva(final ModelMap model) {
 		model.addAttribute("reserva", new Reserva());
@@ -56,35 +61,47 @@ public class ReservaController {
 	}
 	
 	@PostMapping(value="/new")
-	public String newReservaPost(@Valid final Reserva reserva, final ModelMap model, final BindingResult result) {
+	public String newReservaPost(@Valid final Reserva reserva, final BindingResult result, final ModelMap model) {
 		if(result.hasErrors()) {
-			model.addAttribute("reserva", reserva);
+			this.addModelData(model, reserva);
 			return ReservaController.VIEWS_RESERVA_CREATE_OR_UPDATE_FORM;
 		}
-		return "";
+		try {
+			this.reservaService.save(reserva);
+		}catch (final Exception e) {
+			model.addAttribute("message", e.getMessage());
+			model.addAttribute("messageType", "danger");
+			this.addModelData(model, reserva);
+			return ReservaController.VIEWS_RESERVA_CREATE_OR_UPDATE_FORM;
+		}
+		model.addAttribute("message", String.format("Habitación nº %d reservada correctamente", reserva.getHabitacion().getNumero()));
+		return "welcome";
 	}
 	
 	@PostMapping(value="/new/fechas")
 	public String newReservaFechas(@RequestParam("fechaIni") final String fechaIni, @RequestParam("fechaFin") final String fechaFin, final ModelMap model){
-		final Reserva r = new Reserva();
+		final Reserva reserva = new Reserva();
 		
 		final LocalDate fechaIni1 = LocalDate.parse(fechaIni, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		final LocalDate fechaFin1 = LocalDate.parse(fechaFin, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 			
-		r.setFechaIni(fechaIni1);
-		r.setFechaFin(fechaFin1);
+		reserva.setFechaIni(fechaIni1);
+		reserva.setFechaFin(fechaFin1);
 
-		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		final List<Pet> pets = this.petService.findPetsByOwner(username);
-		final List<Pet> petsConReserva = this.reservaService.findPetReservaBetweenFechasAndUsername(fechaIni1, fechaFin1, username);
-		
-		pets.removeAll(petsConReserva);
-		
-		model.addAttribute("pets", pets);
-		
-		model.addAttribute("reserva", r);
+		this.addModelData(model, reserva);
 		
 		return ReservaController.VIEWS_RESERVA_CREATE_OR_UPDATE_FORM;
 	}
+	
+	public void addModelData(final ModelMap model, final Reserva reserva) {
 
+		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		final List<Pet> pets = this.petService.findPetsByOwner(username);
+		
+		model.addAttribute("pets", pets);
+		
+		final List<Habitacion> habitaciones = this.habitacionService.findAll();
+		model.addAttribute("habitaciones", habitaciones);
+		model.addAttribute("reserva", reserva);
+	}
 }

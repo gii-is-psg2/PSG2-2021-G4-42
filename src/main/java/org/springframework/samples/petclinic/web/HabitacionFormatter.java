@@ -21,8 +21,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.service.PetService;
+import org.springframework.samples.petclinic.model.Habitacion;
+import org.springframework.samples.petclinic.service.HabitacionService;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,27 +41,27 @@ import org.springframework.stereotype.Component;
  * @author Michael Isvy
  */
 @Component
-public class PetFormatter implements Formatter<Pet> {
+public class HabitacionFormatter implements Formatter<Habitacion> {
 
-	private final PetService petService;
+	private final HabitacionService habitacionService;
 
 	@Autowired
-	public PetFormatter(final PetService petService) {
-		this.petService = petService;
+	public HabitacionFormatter(final HabitacionService habitacionService) {
+		this.habitacionService = habitacionService;
 	}
 
 	@Override
-	public String print(final Pet pet, final Locale locale) {
-		return pet.getName() + " - " + pet.getType();
+	public String print(final Habitacion habitacion, final Locale locale) {
+		return String.format("Habitación nº %d", habitacion.getNumero());
 	}
 
 	@Override
-	public Pet parse(final String text, final Locale locale) throws ParseException {
-		final Optional<Pet> pet = this.petService.findPetByName(text.split(" - ")[0]);
-		if(!pet.isPresent()) {
-			throw new ParseException("Pet not found: " + text, 0);
+	public Habitacion parse(final String text, final Locale locale) throws ParseException {
+		final Optional<Habitacion> habitacion = this.habitacionService.findHabitacionByNumero(Integer.valueOf(text.split("nº ")[1]));
+		if(!habitacion.isPresent()) {
+			throw new ParseException("Habitacion not found: " + text, 0);
 		}
-		return pet.get();
+		return habitacion.get();
 	}
 
 }

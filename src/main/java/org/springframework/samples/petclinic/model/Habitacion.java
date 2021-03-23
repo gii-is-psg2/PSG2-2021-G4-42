@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -23,6 +24,18 @@ public class Habitacion extends BaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="habitacion")
 	private Set<Reserva> reservas;
 
+	public Boolean estaOcupada(final LocalDate fechaIni, final LocalDate fechaFin) {
+		Boolean res = false;
+		for(final Reserva reserva : this.reservas) {
+			res = res || (reserva.getFechaIni().isAfter(fechaIni) || reserva.getFechaIni().equals(fechaIni)) 
+				&& (reserva.getFechaIni().isBefore(fechaFin) || reserva.getFechaIni().equals(fechaFin))
+				|| (reserva.getFechaFin().isAfter(fechaIni)  || reserva.getFechaFin().equals(fechaIni))
+				&& (reserva.getFechaFin().isBefore(fechaFin) || reserva.getFechaFin().equals(fechaFin))
+				|| (reserva.getFechaIni().isBefore(fechaIni) || reserva.getFechaIni().equals(fechaIni)) 
+				&& (reserva.getFechaFin().isAfter(fechaFin)  || reserva.getFechaFin().equals(fechaFin));
+		}
+		return res;
+	}
 	
 	public Set<Reserva> getReservas() {
 		return this.reservas;

@@ -3,13 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ page session="false" trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
 
 <petclinic:layout pageName="owners">
     <jsp:body>
         <h2>
             <c:if test="${reserva['new']}">Nueva </c:if> Reserva
         </h2>
-        <form:form action="new/fechas" modelAttribute="reserva" class="form-horizontal">
+        <form:form action="/reserva/new" modelAttribute="reserva" class="form-horizontal">
             <div class="form-group">
             	<label class="col-sm-4 control-label">Desde </label>
             	<div class="col-sm-2">
@@ -25,10 +26,12 @@
             </div>
             <div class="col-sm-12" style="height:5vh; border-top: 1px solid black"></div>
             <div class="form-group has-feedback col-sm-4">
-                <petclinic:select label="Mascota" name="pet" items="${pets}"/>
+                <petclinic:selectPet label="Mascota" name="pet" items="${pets}" fechaIni="${reserva.fechaIni}"
+                					fechaFin="${reserva.fechaFin}"/>
             </div>
             <div class="form-group has-feedback col-sm-8">
-                <petclinic:selectField label="Habitacion" name="pet" names="${pets}" size="5"/>
+                <petclinic:selectHabitacion label="Habitacion" name="habitacion" items="${habitaciones}" fechaIni="${reserva.fechaIni}"
+                							fechaFin="${reserva.fechaFin}"/>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-10 col-sm-2">
