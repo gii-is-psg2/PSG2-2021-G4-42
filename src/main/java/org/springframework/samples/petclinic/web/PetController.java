@@ -91,13 +91,13 @@ public class PetController {
 		String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
 		String nameOwner = owner.getUser().getUsername();
 		if (username.equals(nameOwner)||rol.equals("admin")) {
-				try {
-					owner.removePet(p);
-					this.ownerService.saveOwner(owner);
-					this.petService.delete(p);
-				}catch(Exception e) {
-				}
+			try {
+				owner.removePet(p);
+				this.ownerService.saveOwner(owner);
+				this.petService.delete(p);
+			}catch(Exception e) {
 			}
+		}
 		
 		return "redirect:/owners/{ownerId}";
 	}

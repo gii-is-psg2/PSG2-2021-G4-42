@@ -48,12 +48,10 @@ public class OwnerController {
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
 	private final OwnerService ownerService;
-	private final UserService userService;
 
 	@Autowired
 	public OwnerController(OwnerService ownerService, UserService userService, AuthoritiesService authoritiesService) {
 		this.ownerService = ownerService;
-		this.userService = userService;
 	}
 
 	@InitBinder
@@ -155,12 +153,13 @@ public class OwnerController {
 		if(rol.equals("admin") && !username.equals(username2)) {
 			try {
 				this.ownerService.deleteOwner(owner);
-				System.out.println("HOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 			}catch(Exception e) {
-
 			}
+			
+			return processFindForm(new Owner(),null,model);
+		}else {
+			return "redirect:/";
 		}
-		return initFindForm(model);
 	}
 		
 }

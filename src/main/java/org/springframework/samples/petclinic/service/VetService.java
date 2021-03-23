@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -46,4 +47,12 @@ public class VetService {
 		return vetRepository.findAll();
 	}	
 
+	@Transactional(readOnly=true)
+	public Optional<Vet> findById (int id) throws DataAccessException{
+		return this.vetRepository.findById(id);
+	}
+
+	public void delete(Vet vet) {
+		this.vetRepository.delete(vet);
+	}
 }
