@@ -15,14 +15,17 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.VetService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Map;
 
 /**
  * @author Juergen Hoeller
@@ -36,16 +39,16 @@ public class VetController {
 	private final VetService vetService;
 
 	@Autowired
-	public VetController(VetService clinicService) {
+	public VetController(final VetService clinicService) {
 		this.vetService = clinicService;
 	}
 
 	@GetMapping(value = { "/vets" })
-	public String showVetList(Map<String, Object> model) {
+	public String showVetList(final Map<String, Object> model) {
 		// Here we are returning an object of type 'Vets' rather than a collection of Vet
 		// objects
 		// so it is simpler for Object-Xml mapping
-		Vets vets = new Vets();
+		final Vets vets = new Vets();
 		vets.getVetList().addAll(this.vetService.findVets());
 		model.put("vets", vets);
 		return "vets/vetList";
@@ -56,9 +59,25 @@ public class VetController {
 		// Here we are returning an object of type 'Vets' rather than a collection of Vet
 		// objects
 		// so it is simpler for JSon/Object mapping
-		Vets vets = new Vets();
+		final Vets vets = new Vets();
 		vets.getVetList().addAll(this.vetService.findVets());
 		return vets;
 	}
+	
+	@GetMapping(value="/vets/{vetId}/delete")
+	public String deleteVet(@PathVariable("vetId") final int vetId, final Map<String, Object> model) {
+		final Vet vet = this.vetService.findById(vetId).get();
+		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		if(rol.equals("admin")) {
+			try {
+				this.vetService.delete(vet);
+			}catch (final Exception e) {
+			
+			}
+		}
+		return this.showVetList(model);
+	}
+	
+	
 
 }

@@ -111,3 +111,4 @@ INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (3, 
 INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (4, CURDATE(), DATEADD(day, 14, CURDATE()), 4, 4);
 
 INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (5, '2021-03-21','2021-03-23', 3, 3);
+

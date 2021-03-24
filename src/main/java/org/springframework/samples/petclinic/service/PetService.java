@@ -98,5 +98,11 @@ public class PetService {
 	public Optional<Pet> findPetByName(final String name) {
 		return this.petRepository.findPetByName(name);
 	}
+	
+	@Transactional
+	public void delete(Pet p) throws DataAccessException{
+		petRepository.delete(p);
+	}
+
 
 }

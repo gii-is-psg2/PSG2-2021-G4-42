@@ -70,6 +70,12 @@ public class OwnerService {
 	@Transactional(readOnly=true)
 	public Optional<Owner> findOwnerByUsername(final String username){
 		return this.ownerRepository.findOwnerByUserUsername(username);
+	}	
+	
+	@Transactional
+	public void deleteOwner(Owner owner) throws DataAccessException{
+		this.userService.delete(owner);
+		this.ownerRepository.delete(owner);
 	}
 
 }
