@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -33,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OwnerService {
 
-	private OwnerRepository ownerRepository;	
+	private final OwnerRepository ownerRepository;	
 	
 	@Autowired
 	private UserService userService;
@@ -42,28 +43,33 @@ public class OwnerService {
 	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	public OwnerService(OwnerRepository ownerRepository) {
+	public OwnerService(final OwnerRepository ownerRepository) {
 		this.ownerRepository = ownerRepository;
 	}	
 
 	@Transactional(readOnly = true)
-	public Owner findOwnerById(int id) throws DataAccessException {
-		return ownerRepository.findById(id);
+	public Owner findOwnerById(final int id) throws DataAccessException {
+		return this.ownerRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
-		return ownerRepository.findByLastName(lastName);
+	public Collection<Owner> findOwnerByLastName(final String lastName) throws DataAccessException {
+		return this.ownerRepository.findByLastName(lastName);
 	}
 
 	@Transactional
-	public void saveOwner(Owner owner) throws DataAccessException {
+	public void saveOwner(final Owner owner) throws DataAccessException {
 		//creating owner
-		ownerRepository.save(owner);		
+		this.ownerRepository.save(owner);		
 		//creating user
-		userService.saveUser(owner.getUser());
+		this.userService.saveUser(owner.getUser());
 		//creating authorities
-		authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
+		this.authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
+	}		
+	
+	@Transactional(readOnly=true)
+	public Optional<Owner> findOwnerByUsername(final String username){
+		return this.ownerRepository.findOwnerByUserUsername(username);
 	}	
 	
 	@Transactional

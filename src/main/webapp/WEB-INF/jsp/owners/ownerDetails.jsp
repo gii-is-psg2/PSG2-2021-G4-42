@@ -108,5 +108,36 @@
 
         </c:forEach>
     </table>
+     <h2>Reservas</h2>
+    <table id="reservasTable" class="table table-green table-striped">
+    	<thead>
+        <tr>
+        	<th>Habitación</th>
+            <th>Fecha inicio</th>
+            <th>Fecha fin</th>
+            <th>Mascota</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${reservas}" var="reserva">
+            <tr>
+                <td>
+                    Habitación nº<c:out value="${reserva.habitacion.numero}"/>
+                </td>
+                <td>
+                    <c:out value="${reserva.fechaIni}"/>
+                </td>
+                <td>
+                    <c:out value="${reserva.fechaFin}"/>
+                </td>
+                <td>
+                    <c:out value="${reserva.pet}"/>
+                </td>
+        
+                
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 
 </petclinic:layout>
