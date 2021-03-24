@@ -25,7 +25,7 @@
             			<form:option value="${item}" disabled="true">${item.name} - ${item.type} - Ocupada</form:option>
             		</c:if>
             		<c:if test="${not item.estaOcupada(fechaIni,fechaFin)}">
-            			<form:option value="${item}"/>
+            			<form:option value="${item}">${item.name} - ${item.type}</form:option>
             		</c:if>
             	</c:forEach>
             	</form:select>

@@ -30,4 +30,9 @@ public class HabitacionService {
 	public List<Habitacion> findAll() {
 		return this.habitacionRepository.findAll();
 	}
+
+	public void save(Habitacion habitacion) {
+		this.habitacionRepository.save(habitacion);
+		
+	}
 }

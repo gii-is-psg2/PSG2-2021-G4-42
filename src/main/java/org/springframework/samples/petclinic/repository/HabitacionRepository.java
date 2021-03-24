@@ -37,4 +37,7 @@ public interface HabitacionRepository extends Repository<Habitacion, Integer> {
 	Integer totalDeHabitaciones() throws DataAccessException;
 
 	List<Habitacion> findAll();
+
+	void save(Habitacion habitacion);
+	
 }

@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,11 @@ public class ReservaService {
 	@Autowired
 	private ReservaRepository reservaRepository;
 	
+	
+	public Collection<Reserva> findAll(){
+		return reservaRepository.findAll();
+	}
+	
 	@Transactional(readOnly = true)
 	public List<Reserva> findReservasBetweenFechas(final LocalDate fechaIni, final LocalDate fechaFin) {
 		return this.reservaRepository.findReservaByFechaIniBeforeAndFechaFinAfter(fechaIni, fechaIni);
@@ -31,11 +37,18 @@ public class ReservaService {
 		if(pet.estaOcupada(fechaIni, fechaFin) || habitacion.estaOcupada(fechaIni, fechaFin)) {
 			throw new Exception("La mascota o habitación deben de estar libre");
 		}
+		if(fechaFin.isBefore(fechaIni)||fechaIni.isBefore(LocalDate.now())||fechaFin.isBefore(LocalDate.now())) {
+			throw new Exception("Las fechas seleccionadas no son validas");
+		}
 		this.reservaRepository.save(reserva);
 	}
 	
 	@Transactional
 	public void delete(final Reserva reserva) {
 		this.reservaRepository.delete(reserva);
+	}
+	
+	public Collection<Reserva> findReservasByOwner(int id){
+		return this.reservaRepository.findReservasByOwner(id);
 	}
 }

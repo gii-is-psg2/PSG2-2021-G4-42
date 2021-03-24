@@ -16,9 +16,11 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.samples.petclinic.model.Reserva;
 
@@ -29,10 +31,17 @@ import org.springframework.samples.petclinic.model.Reserva;
  * @since 15.1.2013
  */
 public interface ReservaRepository extends Repository<Reserva, Integer> {
+	
+	Collection<Reserva> findAll() throws DataAccessException;
 
 	List<Reserva> findReservaByFechaIniBeforeAndFechaFinAfter(LocalDate fechaIni, LocalDate fechaFin) throws DataAccessException;
 	
 	void save(Reserva reserva) throws DataAccessException;
 
 	void delete(Reserva reserva) throws DataAccessException;
+	
+	@Query(value="SELECT R.ID, FECHA_FIN, FECHA_INI, HABITACION_ID, PET_ID FROM RESERVA AS R LEFT JOIN PETS AS P WHERE PET_ID = P.ID AND P.OWNER_ID = :id", nativeQuery = true)
+	public Collection<Reserva> findReservasByOwner(int id);
+	
+	
 }

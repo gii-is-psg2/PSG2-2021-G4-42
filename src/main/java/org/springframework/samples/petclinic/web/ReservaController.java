@@ -54,6 +54,13 @@ public class ReservaController {
 	@Autowired
 	private HabitacionService habitacionService;
 	
+	@GetMapping("")
+	public String reservas(ModelMap model) {
+		model.addAttribute("reservas", reservaService.findAll());
+		return "/reserva/reservaList";
+		
+	}
+	
 	@GetMapping(value="/new")
 	public String newReserva(final ModelMap model) {
 		model.addAttribute("reserva", new Reserva());

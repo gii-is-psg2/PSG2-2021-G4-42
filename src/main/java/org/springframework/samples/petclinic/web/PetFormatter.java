@@ -52,16 +52,17 @@ public class PetFormatter implements Formatter<Pet> {
 
 	@Override
 	public String print(final Pet pet, final Locale locale) {
-		return pet.getName() + " - " + pet.getType();
+		return pet.getId() + "_" + pet.getName() + " - " + pet.getType();
 	}
 
 	@Override
 	public Pet parse(final String text, final Locale locale) throws ParseException {
-		final Optional<Pet> pet = this.petService.findPetByName(text.split(" - ")[0]);
-		if(!pet.isPresent()) {
+		String p = text.split("_")[0];
+		final Pet pet = this.petService.findPetById(Integer.valueOf(p));
+		if(pet==null) {
 			throw new ParseException("Pet not found: " + text, 0);
 		}
-		return pet.get();
+		return pet;
 	}
 
 }
