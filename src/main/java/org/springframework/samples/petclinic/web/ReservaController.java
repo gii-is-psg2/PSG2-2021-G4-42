@@ -18,7 +18,7 @@ package org.springframework.samples.petclinic.web;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -37,10 +37,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
+@RequestMapping("/reserva")
 public class ReservaController {
 
 	private static final String VIEWS_RESERVA_FECHA_CREATE_OR_UPDATE_FORM = "reserva/createOrUpdateReservaFechaForm";
@@ -56,19 +58,19 @@ public class ReservaController {
 	private HabitacionService habitacionService;
 	
 	@GetMapping("")
-	public String reservas(ModelMap model) {
-		model.addAttribute("reservas", reservaService.findAll());
+	public String reservas(final ModelMap model) {
+		model.addAttribute("reservas", this.reservaService.findAll());
 		return "/reserva/reservaList";
 		
 	}
 	
-	@GetMapping(value="/reserva/new")
+	@GetMapping(value="/new")
 	public String newReserva(final ModelMap model) {
 		model.addAttribute("reserva", new Reserva());
 		return ReservaController.VIEWS_RESERVA_FECHA_CREATE_OR_UPDATE_FORM;
 	}
 	
-	@PostMapping(value="/reserva/new")
+	@PostMapping(value="/new")
 	public String newReservaPost(@Valid final Reserva reserva, final BindingResult result, final ModelMap model) {
 		if(result.hasErrors()) {
 			this.addModelData(model, reserva);
@@ -86,7 +88,7 @@ public class ReservaController {
 		return "welcome";
 	}
 	
-	@PostMapping(value="/reserva/new/fechas")
+	@PostMapping(value="/new/fechas")
 	public String newReservaFechas(@RequestParam("fechaIni") final String fechaIni, @RequestParam("fechaFin") final String fechaFin, final ModelMap model){
 		final Reserva reserva = new Reserva();
 		
@@ -101,19 +103,28 @@ public class ReservaController {
 		return ReservaController.VIEWS_RESERVA_CREATE_OR_UPDATE_FORM;
 	}
 	
-	@GetMapping(value="/owners/{ownerId}/pets/{petId}/reserva/{reservaId}/delete")
-	public String deleteReserva(@PathVariable int petId, @PathVariable int ownerId, @PathVariable int reservaId, ModelMap model) {
-		List<Reserva> reservasPet = this.reservaService.findReservasByOwner(ownerId).stream().collect(Collectors.toList());
-		Reserva reserva = this.reservaService.findById(reservaId).get();
+	@GetMapping(value="/delete/{reservaId}")
+	public String deleteReserva(@PathVariable final int reservaId, final ModelMap model) {
+		final Optional<Reserva> reserva = this.reservaService.findById(reservaId);
+		
+		if(!reserva.isPresent()) {
+			model.addAttribute("message", "La reserva seleccionada no existe: " + reservaId);
+			model.addAttribute("messageType", "warning");
+			return this.reservas(model);
+		}
+		
+		final Pet pet = reserva.get().getPet();
+		final Owner owner = pet.getOwner();
+		
+		final String usernameOwner = owner.getUser().getUsername();
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
-		final Pet pet = this.petService.findPetById(petId);
-		final String usernameOwner=pet.getOwner().getUser().getUsername();
-		final Owner owner = pet.getOwner();
-		if (username.equals(usernameOwner)||rol.equals("admin") && reservasPet.contains(reserva)) {
+		
+		if(username.equals(usernameOwner)||rol.equals("admin")) {
 			try {
-				this.reservaService.delete(reserva);
-			}catch(Exception e) {
+				this.reservaService.delete(reserva.get());
+			}catch(final Exception e) {
+				
 			}
 		}
 		return "redirect:/owners/" + owner.getId();
