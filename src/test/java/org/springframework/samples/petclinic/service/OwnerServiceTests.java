@@ -78,7 +78,7 @@ class OwnerServiceTests {
 		Assertions.assertThat(owner.getLastName()).startsWith("Franklin");
 		Assertions.assertThat(owner.getPets().size()).isEqualTo(1);
 		Assertions.assertThat(owner.getPets().get(0).getType()).isNotNull();
-		Assertions.assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("cat");
+		Assertions.assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("gato");
 	}
 
 	@Test
