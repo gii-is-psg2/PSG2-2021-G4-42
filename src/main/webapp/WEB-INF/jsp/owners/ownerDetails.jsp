@@ -1,4 +1,4 @@
-<%@ page session="false" trimDirectiveWhitespaces="true" %>
+<%@ page session="false" trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -15,24 +15,24 @@
 }
 </style>
 
-    <h2>Owner Information</h2>
+    <h2>InformaciÃ³n del dueÃ±o</h2>
 
 
     <table class="table table-striped">
         <tr>
-            <th>Name</th>
+            <th>Nombre</th>
             <td><b><c:out value="${owner.firstName} ${owner.lastName}"/></b></td>
         </tr>
         <tr>
-            <th>Address</th>
+            <th>DirecciÃ³n</th>
             <td><c:out value="${owner.address}"/></td>
         </tr>
         <tr>
-            <th>City</th>
+            <th>Ciudad</th>
             <td><c:out value="${owner.city}"/></td>
         </tr>
         <tr>
-            <th>Telephone</th>
+            <th>TelÃ©fono</th>
             <td><c:out value="${owner.telephone}"/></td>
         </tr>
     </table>
@@ -40,24 +40,26 @@
     <spring:url value="{ownerId}/edit" var="editUrl">
         <spring:param name="ownerId" value="${owner.id}"/>
     </spring:url>
-    <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Edit Owner</a>
+
+    <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Dueño</a>
    
     <sec:authorize access="hasAuthority('admin')"> 
     <spring:url value="{ownerId}/delete" var="deleteUrl">
         <spring:param name="ownerId" value="${owner.id}"/>
     </spring:url>
-    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Delete Owner</a>
+    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Eliminar Dueño</a>
     </sec:authorize>
+
 
     <spring:url value="{ownerId}/pets/new" var="addUrl">
         <spring:param name="ownerId" value="${owner.id}"/>
     </spring:url>
-    <a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Add New Pet</a>
+    <a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Agregar nueva mascota</a>
 
     <br/>
     <br/>
     <br/>
-    <h2>Pets and Visits</h2>
+    <h2>Mascotas y visitas</h2>
 
     <table class="table table-striped">
         <c:forEach var="pet" items="${owner.pets}">
@@ -65,11 +67,11 @@
             <tr>
                 <td valign="top">
                     <dl class="dl-horizontal">
-                        <dt>Name</dt>
+                        <dt>Nombre</dt>
                         <dd><c:out value="${pet.name}"/></dd>
-                        <dt>Birth Date</dt>
+                        <dt>CumpleaÃ±os</dt>
                         <dd><petclinic:localDate date="${pet.birthDate}" pattern="yyyy-MM-dd"/></dd>
-                        <dt>Type</dt>
+                        <dt>Tipo</dt>
                         <dd><c:out value="${pet.type.name}"/></dd>
                     </dl>
                 </td>
@@ -77,8 +79,8 @@
                     <table class="table-condensed">
                         <thead>
                         <tr>
-                            <th>Visit Date</th>
-                            <th>Description</th>
+                            <th>Fecha de visita</th>
+                            <th>DescripciÃ³n</th>
                         </tr>
                         </thead>
                         <c:forEach var="visit" items="${pet.visits}">
@@ -115,7 +117,7 @@
                                     <spring:param name="ownerId" value="${owner.id}"/>
                                     <spring:param name="petId" value="${pet.id}"/>
                                 </spring:url>
-                                <a href="${fn:escapeXml(visitUrl)}">A�adir visita</a>
+                                <a href="${fn:escapeXml(visitUrl)}">A�adir visita</a>
                             </td>
                         </tr>
                     </table>
@@ -128,7 +130,7 @@
     <table id="reservasTable" class="table table-green table-striped">
     	<thead>
         <tr>
-        	<th>Habitaci�n</th>
+        	<th>Habitación</th>
             <th>Fecha inicio</th>
             <th>Fecha fin</th>
             <th>Mascota</th>
@@ -139,7 +141,7 @@
         <c:forEach items="${reservas}" var="reserva">
             <tr>
                 <td>
-                    Habitaci�n n�<c:out value="${reserva.habitacion.numero}"/>
+                    Habitación nº<c:out value="${reserva.habitacion.numero}"/>
                 </td>
                 <td>
                     <c:out value="${reserva.fechaIni}"/>
