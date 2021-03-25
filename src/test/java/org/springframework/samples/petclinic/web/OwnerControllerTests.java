@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+
 import org.assertj.core.util.Lists;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,9 +15,11 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Reserva;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.OwnerService;
+import org.springframework.samples.petclinic.service.ReservaService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -50,7 +54,10 @@ class OwnerControllerTests {
 	private UserService userService;
         
         @MockBean
-        private AuthoritiesService authoritiesService; 
+        private AuthoritiesService authoritiesService;
+        
+        @MockBean
+        private ReservaService reservaService;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -78,7 +85,7 @@ class OwnerControllerTests {
 		this.george.setTelephone("6085551023");
 		this.george.setUser(user);
 		BDDMockito.given(this.clinicService.findOwnerById(OwnerControllerTests.TEST_OWNER_ID)).willReturn(this.george);
-
+		BDDMockito.given(this.reservaService.findReservasByOwner(TEST_OWNER_ID)).willReturn(new ArrayList<Reserva>());
 	}
 
 	@WithMockUser(value = "spring")
