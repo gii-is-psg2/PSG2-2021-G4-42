@@ -146,7 +146,6 @@ public class OwnerController {
 	 * @return a ModelMap with the model attributes for the view
 	 */
 	@GetMapping("/owners/{ownerId}")
-
 	public ModelAndView showOwner(ModelMap model, @PathVariable("ownerId") int ownerId) {
 		ModelAndView mav = new ModelAndView("owners/ownerDetails");
 		model.addAttribute("reservas", reservaService.findReservasByOwner(ownerId));

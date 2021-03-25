@@ -15,19 +15,27 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.PetService;
-import org.springframework.samples.petclinic.service.VetService;
+import org.springframework.samples.petclinic.service.VisitService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * @author Juergen Hoeller
@@ -39,10 +47,12 @@ import org.springframework.web.bind.annotation.*;
 public class VisitController {
 
 	private final PetService petService;
+	private final VisitService visitService;
 
 	@Autowired
-	public VisitController(PetService petService) {
+	public VisitController(PetService petService, VisitService visitService) {
 		this.petService = petService;
+		this.visitService=visitService;
 	}
 
 	@InitBinder
@@ -89,5 +99,27 @@ public class VisitController {
 		model.put("visits", this.petService.findPetById(petId).getVisits());
 		return "visitList";
 	}
+	
+//	@GetMapping(value="/owners/{ownerId}/pets/{petId}/visits/{visitId}/delete")
+//	public String deleteVisit(@PathVariable int petId, @PathVariable int ownerId, @PathVariable int visitId, Map<String, Object> model) {
+//		final Visit v = this.visitService.findById(visitId).get();
+//		final Pet pet = this.petService.findPetById(petId);
+//		final Owner owner = pet.getOwner();
+//		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+//		final String nameOwner = owner.getUser().getUsername();
+//		List<Visit> visits = this.petService.findVisitsByPetId(petId).stream().collect(Collectors.toList());
+//		if (username.equals(nameOwner)||rol.equals("admin") && visits.contains(v)) {
+//			try {
+//				pet.removeVisit(v);
+//				this.petService.savePet(pet);
+//				this.visitService.deleteVisit(v);
+//			}catch(Exception e) {
+//				model.put("message", e.getMessage());
+//			}
+//		}
+//		return "redirect:/owners/" + owner.getId();
+//	}
+	
 
 }
