@@ -16,23 +16,27 @@
 @spring-light-green: rgb(168, 255, 168);
 @spring-green:      #6db33f;
 @spring-dark-green: #5fa134;
-@spring-brown:      #34302D;
+@spring-brown:      #b09a5a;
 @spring-grey:       #838789;
+@spring-dark-grey:  #3a3a3d;
 @spring-light-grey: #f1f1f1;
-@spring-light-red: #e4605e;
+@spring-light-red:  #e4605e;
+@spring-light-brown:#d0ba7c;
+@spring-complemento: #7c92d0;
+@spring-complemento_2 :#a57cd0;
 
 @body-bg:                           @spring-light-grey;
-@text-color:                        @spring-brown;
-@link-color:                        @spring-dark-green;
-@link-hover-color:                  @spring-dark-green;
+@text-color:                        @spring-dark-grey;
+@link-color:                        @spring-brown;
+@link-hover-color:                  @spring-brown;
 
-@navbar-default-link-color:         @spring-light-red;
+@navbar-default-link-color:         @spring-light-grey;
 @navbar-default-link-active-color:  @spring-light-grey;
 @navbar-default-link-hover-color:   @spring-light-grey;
-@navbar-default-link-hover-bg:      @spring-light-red;
+@navbar-default-link-hover-bg:      @spring-complemento_2;
 @navbar-default-toggle-icon-bar-bg: @spring-light-grey;
-@navbar-default-toggle-hover-bg:    transparent;
-@navbar-default-link-active-bg:     @spring-light-red;
+@navbar-default-toggle-hover-bg:    @spring-light-brown;
+@navbar-default-link-active-bg:     @spring-complemento;
 
 @border-radius-base:             0;
 @border-radius-large:            0;
@@ -40,7 +44,7 @@
 
 @btn-default-color:              @spring-light-grey;
 @btn-default-bg:                 @spring-brown;
-@btn-default-border:             @spring-green;
+@btn-default-border:             @spring-dark-grey;
 
 @nav-tabs-active-link-hover-color:        @spring-light-grey;
 @nav-tabs-active-link-hover-bg:           @spring-brown;
@@ -50,6 +54,17 @@
 @pagination-active-bg:                    @spring-brown;
 @pagination-active-border:                @spring-green;
 @table-border-color:                      @spring-brown;
+
+.img-responsive {
+  display:block;
+  margin:auto;
+}
+
+.img-responsive-error {
+  display:block;
+  margin:auto;
+
+}
 
 .table > thead > tr > th {
   background-color: lighten(@spring-brown, 3%);
@@ -108,6 +123,8 @@ h1 {
   margin-bottom: 15px
 }
 
+
+
 .index-page--subtitle {
   font-size: 16px;
   line-height: 24px;
@@ -132,7 +149,7 @@ h1 {
 }
 
 .splash {
-  background: @spring-green;
+  background: @spring-light-brown;
   color: @spring-brown;
   display: none;
 }
