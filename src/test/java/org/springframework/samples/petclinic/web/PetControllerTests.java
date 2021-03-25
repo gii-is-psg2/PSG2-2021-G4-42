@@ -1,47 +1,28 @@
 package org.springframework.samples.petclinic.web;
 
-/*
- * Copyright 2012-2019 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-import static org.mockito.BDDMockito.given;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
-import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 /**
  * Test class for the {@link PetController}
@@ -73,76 +54,108 @@ class PetControllerTests {
 
 	@BeforeEach
 	void setup() {
-		PetType cat = new PetType();
+		final User user = new User();
+		user.setUsername("george");
+		user.setPassword("123");
+		user.setEnabled(true);
+		
+		final Authorities auth = new Authorities();
+		auth.setAuthority("owner");
+		auth.setId(1);
+		auth.setUser(user);
+
+		final Owner owner = new Owner();
+		owner.setId(PetControllerTests.TEST_OWNER_ID);
+		owner.setFirstName("George");
+		owner.setLastName("Franklin");
+		owner.setAddress("110 W. Liberty St.");
+		owner.setCity("Madison");
+		owner.setTelephone("6085551023");
+		owner.setUser(user);
+		
+		final PetType cat = new PetType();
 		cat.setId(3);
 		cat.setName("hamster");
-		given(this.petService.findPetTypes()).willReturn(Lists.newArrayList(cat));
-		given(this.ownerService.findOwnerById(TEST_OWNER_ID)).willReturn(new Owner());
-		given(this.petService.findPetById(TEST_PET_ID)).willReturn(new Pet());
+		
+		final Pet pet = new Pet();
+		pet.setId(PetControllerTests.TEST_PET_ID);
+		
+		owner.addPet(pet);
+		
+		BDDMockito.given(this.petService.findPetTypes()).willReturn(Lists.newArrayList(cat));
+		BDDMockito.given(this.ownerService.findOwnerById(PetControllerTests.TEST_OWNER_ID)).willReturn(owner);
+		BDDMockito.given(this.petService.findPetById(PetControllerTests.TEST_PET_ID)).willReturn(pet);
 	}
 
 	@WithMockUser(value = "spring")
         @Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/owners/{ownerId}/pets/new", TEST_OWNER_ID)).andExpect(status().isOk())
-				.andExpect(view().name("pets/createOrUpdatePetForm")).andExpect(model().attributeExists("pet"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/owners/{ownerId}/pets/new", PetControllerTests.TEST_OWNER_ID)).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("pets/createOrUpdatePetForm")).andExpect(MockMvcResultMatchers.model().attributeExists("pet"));
 	}
 
 	@WithMockUser(value = "spring")
         @Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
-							.with(csrf())
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/owners/{ownerId}/pets/new", PetControllerTests.TEST_OWNER_ID)
+							.with(SecurityMockMvcRequestPostProcessors.csrf())
 							.param("name", "Betty")
 							.param("type", "hamster")
 							.param("birthDate", "2015/02/12"))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/{ownerId}"));
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/owners/{ownerId}"));
 	}
 
 	@WithMockUser(value = "spring")
     @Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
-							.with(csrf())
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/owners/{ownerId}/pets/{petId}/edit", PetControllerTests.TEST_OWNER_ID, PetControllerTests.TEST_PET_ID)
+							.with(SecurityMockMvcRequestPostProcessors.csrf())
 							.param("name", "Betty")
 							.param("birthDate", "2015/02/12"))
-				.andExpect(model().attributeHasNoErrors("owner"))
-				.andExpect(model().attributeHasErrors("pet"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("pets/createOrUpdatePetForm"));
+				.andExpect(MockMvcResultMatchers.model().attributeHasNoErrors("owner"))
+				.andExpect(MockMvcResultMatchers.model().attributeHasErrors("pet"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("pets/createOrUpdatePetForm"));
 	}
 
     @WithMockUser(value = "spring")
 	@Test
 	void testInitUpdateForm() throws Exception {
-		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID))
-				.andExpect(status().isOk()).andExpect(model().attributeExists("pet"))
-				.andExpect(view().name("pets/createOrUpdatePetForm"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/owners/{ownerId}/pets/{petId}/edit", PetControllerTests.TEST_OWNER_ID, PetControllerTests.TEST_PET_ID))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("pet"))
+				.andExpect(MockMvcResultMatchers.view().name("pets/createOrUpdatePetForm"));
 	}
     
     @WithMockUser(value = "spring")
 	@Test
 	void testProcessUpdateFormSuccess() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
-							.with(csrf())
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/owners/{ownerId}/pets/{petId}/edit", PetControllerTests.TEST_OWNER_ID, PetControllerTests.TEST_PET_ID)
+							.with(SecurityMockMvcRequestPostProcessors.csrf())
 							.param("name", "Betty")
 							.param("type", "hamster")
 							.param("birthDate", "2015/02/12"))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/owners/{ownerId}"));
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/owners/{ownerId}"));
 	}
     
     @WithMockUser(value = "spring")
 	@Test
 	void testProcessUpdateFormHasErrors() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
-							.with(csrf())
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/owners/{ownerId}/pets/{petId}/edit", PetControllerTests.TEST_OWNER_ID, PetControllerTests.TEST_PET_ID)
+							.with(SecurityMockMvcRequestPostProcessors.csrf())
 							.param("name", "Betty")
 							.param("birthDate", "2015/02/12"))
-				.andExpect(model().attributeHasNoErrors("owner"))
-				.andExpect(model().attributeHasErrors("pet")).andExpect(status().isOk())
-				.andExpect(view().name("pets/createOrUpdatePetForm"));
+				.andExpect(MockMvcResultMatchers.model().attributeHasNoErrors("owner"))
+				.andExpect(MockMvcResultMatchers.model().attributeHasErrors("pet")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("pets/createOrUpdatePetForm"));
 	}
+    
+    @WithMockUser(username = "spring", authorities = "admin")
+    @Test
+    void shouldDeletePet() throws Exception {
+    	this.mockMvc.perform(MockMvcRequestBuilders.get("/owners/{ownerId}/pets/{petId}/delete", PetControllerTests.TEST_OWNER_ID, PetControllerTests.TEST_PET_ID)).andExpect(
+    		MockMvcResultMatchers.view().name("redirect:/owners/" + String.valueOf(PetControllerTests.TEST_OWNER_ID)));
+    }
 
 }
