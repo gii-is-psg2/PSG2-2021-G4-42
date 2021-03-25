@@ -86,9 +86,9 @@ class PetServiceTests {
 		final Collection<PetType> petTypes = this.petService.findPetTypes();
 
 		final PetType petType1 = EntityUtils.getById(petTypes, PetType.class, 1);
-		org.assertj.core.api.Assertions.assertThat(petType1.getName()).isEqualTo("cat");
+		org.assertj.core.api.Assertions.assertThat(petType1.getName()).isEqualTo("gato");
 		final PetType petType4 = EntityUtils.getById(petTypes, PetType.class, 4);
-		org.assertj.core.api.Assertions.assertThat(petType4.getName()).isEqualTo("snake");
+		org.assertj.core.api.Assertions.assertThat(petType4.getName()).isEqualTo("serpiente");
 	}
 
 	@Test
