@@ -100,6 +100,11 @@ public class ReservaController {
 		return ReservaController.VIEWS_RESERVA_CREATE_OR_UPDATE_FORM;
 	}
 	
+//	@GetMapping(value="")
+//	public String deleteReserva() {
+//		
+//	}
+	
 	public void addModelData(final ModelMap model, final Reserva reserva) {
 
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();

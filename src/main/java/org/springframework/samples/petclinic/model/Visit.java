@@ -46,7 +46,7 @@ public class Visit extends BaseEntity {
 	 * Holds value of property description.
 	 */
 	@NotEmpty
-	@Column(name = "description")
+	@Column(name = "description_")
 	private String description;
 
 	/**
