@@ -15,7 +15,7 @@
 }
 </style>
 
-    <h2>InformaciÃ³n del dueÃ±o</h2>
+    <h2>Información del dueño</h2>
 
 
     <table class="table table-striped">
@@ -24,7 +24,7 @@
             <td><b><c:out value="${owner.firstName} ${owner.lastName}"/></b></td>
         </tr>
         <tr>
-            <th>DirecciÃ³n</th>
+            <th>Dirección</th>
             <td><c:out value="${owner.address}"/></td>
         </tr>
         <tr>
@@ -32,7 +32,7 @@
             <td><c:out value="${owner.city}"/></td>
         </tr>
         <tr>
-            <th>TelÃ©fono</th>
+            <th>Teléfono</th>
             <td><c:out value="${owner.telephone}"/></td>
         </tr>
     </table>
@@ -69,7 +69,7 @@
                     <dl class="dl-horizontal">
                         <dt>Nombre</dt>
                         <dd><c:out value="${pet.name}"/></dd>
-                        <dt>CumpleaÃ±os</dt>
+                        <dt>Cumpleaños</dt>
                         <dd><petclinic:localDate date="${pet.birthDate}" pattern="yyyy-MM-dd"/></dd>
                         <dt>Tipo</dt>
                         <dd><c:out value="${pet.type.name}"/></dd>
@@ -80,7 +80,7 @@
                         <thead>
                         <tr>
                             <th>Fecha de visita</th>
-                            <th>DescripciÃ³n</th>
+                            <th>Descripción</th>
                         </tr>
                         </thead>
                         <c:forEach var="visit" items="${pet.visits}">
@@ -117,7 +117,7 @@
                                     <spring:param name="ownerId" value="${owner.id}"/>
                                     <spring:param name="petId" value="${pet.id}"/>
                                 </spring:url>
-                                <a href="${fn:escapeXml(visitUrl)}">A�adir visita</a>
+                                <a href="${fn:escapeXml(visitUrl)}">Añadir visita</a>
                             </td>
                         </tr>
                     </table>
