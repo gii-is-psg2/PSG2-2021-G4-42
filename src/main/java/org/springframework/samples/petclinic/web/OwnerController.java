@@ -165,7 +165,7 @@ public class OwnerController {
 			}catch(final Exception e) {
 			}
 
-			final Collection<Owner> results = this.ownerService.findOwnerByLastName(owner.getLastName());
+			final Collection<Owner> results = this.ownerService.findOwnerByLastName(""); 
 			model.put("selections", results);
 			return "owners/ownersList";
 		}else {
