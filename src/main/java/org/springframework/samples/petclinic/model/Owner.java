@@ -48,15 +48,15 @@ import org.springframework.core.style.ToStringCreator;
 public class Owner extends Person {
 
 	@Column(name = "address")
-	@NotEmpty
+	@NotEmpty(message = "no puede estar vacío")
 	private String address;
 
 	@Column(name = "city")
-	@NotEmpty
+	@NotEmpty(message = "no puede estar vacío")
 	private String city;
 
 	@Column(name = "telephone")
-	@NotEmpty
+	@NotEmpty(message = "no puede estar vacío")
 	@Digits(fraction = 0, integer = 10)
 	private String telephone;
 
