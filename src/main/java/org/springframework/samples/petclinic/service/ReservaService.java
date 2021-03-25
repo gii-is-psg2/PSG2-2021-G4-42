@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Habitacion;
@@ -21,6 +22,11 @@ public class ReservaService {
 	
 	public Collection<Reserva> findAll(){
 		return reservaRepository.findAll();
+	}
+	
+	@Transactional (readOnly=true)
+	public Optional<Reserva> findById(int id) {
+		return this.reservaRepository.findById(id);
 	}
 	
 	@Transactional(readOnly = true)

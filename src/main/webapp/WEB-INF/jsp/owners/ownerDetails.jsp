@@ -132,6 +132,7 @@
             <th>Fecha inicio</th>
             <th>Fecha fin</th>
             <th>Mascota</th>
+            <td></td>
         </tr>
         </thead>
         <tbody>
@@ -148,6 +149,14 @@
                 </td>
                 <td>
                     <c:out value="${reserva.pet}"/>
+                </td>
+                <td>
+                    <spring:url value="/owners/{ownerId}/pets/{petId}/reserva/{reservaId}/delete" var="reservaUrl">
+                      	<spring:param name="ownerId" value="${owner.id}"/>
+                      	<spring:param name="petId" value="${reserva.pet.id}"/>
+                      	<spring:param name="reservaId" value="${reserva.id}"/>
+                  	</spring:url>
+                	<a href="${fn:escapeXml(reservaUrl)}">Cancelar reserva</a>
                 </td>
         
                 
