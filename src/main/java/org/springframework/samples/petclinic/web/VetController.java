@@ -108,48 +108,4 @@ public class VetController {
 		return vista;
 	}
 	
-
-//	@GetMapping(value = { "vets/edit/{id}" })
-//	public String showUpdateForm(@PathVariable("id") int id, ModelMap model) {
-//		Vet vet = vetService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-//		model.addAttribute("vet", vet);
-//		return "update-vet";
-//	}
-//
-//	@PostMapping(value = { "vets/update/{id}" })
-//	public String updateVet(@PathVariable("id") int id, @Valid Vet vet, BindingResult result, ModelMap model) {
-//		if (result.hasErrors()) {
-//			vet.setId(id);
-//			return "update-user";
-//		}
-//
-//		vetService.save(vet);
-//		return "redirect:/index";
-//	}
-//	
-//	@GetMapping(value = "/vets/{id}/edit")
-//	public String initUpdateForm(@PathVariable("id") int id, ModelMap model) {
-//		Vet vet = this.vetService.findById(id).orElseThrow();
-//		model.put("vet", vet);
-//		return VIEWS_VETS_CREATE_OR_UPDATE_FORM;
-//	}
-//	
-//	@PostMapping(value = "/vets/{id}/edit")
-//	public String processUpdateForm(@Valid Vet vet, BindingResult result,@PathVariable("id") int id, ModelMap model) {
-//		if (result.hasErrors()) {
-//			model.put("vet", vet);
-//			return VIEWS_VETS_CREATE_OR_UPDATE_FORM;
-//		}
-//		else {
-//                        Vet vetToUpdate=vetService.findById(id).orElseThrow();
-//			BeanUtils.copyProperties(vet, vetToUpdate, "id","owner","visits");                                                                                  
-//                    try {                    
-//                        this.vetService.save(vetToUpdate);                    
-//                    } catch (Exception ex) {
-//                        result.rejectValue("name", "duplicate", "already exists");
-//                        return VIEWS_VETS_CREATE_OR_UPDATE_FORM;
-//                    }
-//			return "redirect:/owners/{ownerId}";
-//		}
-//	}
 }
