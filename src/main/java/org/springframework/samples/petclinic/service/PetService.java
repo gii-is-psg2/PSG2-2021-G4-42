@@ -69,7 +69,7 @@ public class PetService {
 
 	@Transactional(readOnly = true)
 	public Pet findPetById(final int id) throws DataAccessException {
-		return this.petRepository.findPetById(id);
+		return this.petRepository.findById(id);
 	}
 
 	@Transactional(rollbackFor = DuplicatedPetNameException.class)

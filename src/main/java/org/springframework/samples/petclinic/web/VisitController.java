@@ -33,7 +33,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -68,13 +67,13 @@ public class VisitController {
 	 * @param petId
 	 * @return Pet
 	 */
-	@ModelAttribute("visit")
-	public Visit loadPetWithVisit(@PathVariable("petId") int petId) {
-		Pet pet = this.petService.findPetById(petId);
-		Visit visit = new Visit();
-		pet.addVisit(visit);
-		return visit;
-	}
+//	@ModelAttribute("visit")
+//	public Visit loadPetWithVisit(@PathVariable("petId") int petId) {
+//		Pet pet = this.petService.findPetById(petId);
+//		Visit visit = new Visit();
+//		pet.addVisit(visit);
+//		return visit;
+//	}
 
 	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is called
 	@GetMapping(value = "/owners/*/pets/{petId}/visits/new")
@@ -100,26 +99,26 @@ public class VisitController {
 		return "visitList";
 	}
 	
-//	@GetMapping(value="/owners/{ownerId}/pets/{petId}/visits/{visitId}/delete")
-//	public String deleteVisit(@PathVariable int petId, @PathVariable int ownerId, @PathVariable int visitId, Map<String, Object> model) {
-//		final Visit v = this.visitService.findById(visitId).get();
-//		final Pet pet = this.petService.findPetById(petId);
-//		final Owner owner = pet.getOwner();
-//		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
-//		final String nameOwner = owner.getUser().getUsername();
-//		List<Visit> visits = this.petService.findVisitsByPetId(petId).stream().collect(Collectors.toList());
-//		if (username.equals(nameOwner)||rol.equals("admin") && visits.contains(v)) {
-//			try {
-//				pet.removeVisit(v);
-//				this.petService.savePet(pet);
-//				this.visitService.deleteVisit(v);
-//			}catch(Exception e) {
-//				model.put("message", e.getMessage());
-//			}
-//		}
-//		return "redirect:/owners/" + owner.getId();
-//	}
+	@GetMapping(value="/owners/{ownerId}/pets/{petId}/visits/{visitId}/delete")
+	public String deleteVisit(@PathVariable int petId, @PathVariable int ownerId, @PathVariable int visitId, Map<String, Object> model) {
+		final Visit v = this.visitService.findById(visitId).get();
+		final Pet pet = this.petService.findPetById(petId);
+		final Owner owner = pet.getOwner();
+		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		final String nameOwner = owner.getUser().getUsername();
+		List<Visit> visits = this.petService.findVisitsByPetId(petId).stream().collect(Collectors.toList());
+		if (username.equals(nameOwner)||rol.equals("admin") && visits.contains(v)) {
+			try {
+				pet.removeVisit(v);
+				this.petService.savePet(pet);
+				this.visitService.deleteVisit(v);
+			}catch(Exception e) {
+				model.put("message", e.getMessage());
+			}
+		}
+		return "redirect:/owners/" + owner.getId();
+	}
 	
 
 }
