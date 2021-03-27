@@ -103,6 +103,12 @@ public class PetController {
 		return "redirect:/owners/" + owner.getId();
 	}
 	
+	@GetMapping(value = "/pets/{petId}/visits")
+	public String showVisits(@PathVariable final int petId, final ModelMap model) {
+		model.put("visits", this.petService.findPetById(petId).getVisits());
+		return "visits/visitList";
+	}
+	
 	@GetMapping(value = "/pets/new")
 	public String initCreationForm(final Owner owner, final ModelMap model) {
 		final Pet pet = new Pet();
