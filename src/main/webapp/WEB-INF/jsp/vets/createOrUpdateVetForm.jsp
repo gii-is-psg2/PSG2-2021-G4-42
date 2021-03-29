@@ -14,9 +14,8 @@
         <div class="form-group has-feedback">
             <petclinic:inputField label="First Name" name="firstName"/>
             <petclinic:inputField label="Last Name" name="lastName"/>
-                <div class="control-group">
-                    <petclinic:selectField name="specialties" label="Specialties" names="${specialty}" size="5"/>
-                </div>
+			<petclinic:selectFieldMap name="specialties" label="Especialidades" names="${especialidades}" size="5"/>
+
             
         </div>
         <div class="form-group">

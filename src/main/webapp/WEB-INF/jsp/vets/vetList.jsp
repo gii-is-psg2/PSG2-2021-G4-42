@@ -29,7 +29,7 @@
                     <c:if test="${vet.nrOfSpecialties == 0}">none</c:if>
                 </td>
                 <td>
-                	<spring:url value="/vets/update/{id}" var="vetUrl">
+                	<spring:url value="/vets/{id}/edit" var="vetUrl">
                         <spring:param name="id" value="${vet.id}"/>
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(vetUrl)}">Editar</a>
@@ -44,7 +44,9 @@
         <tr>
             <td>
                 <a href="<spring:url value="/vets.xml" htmlEscape="true" />">View as XML</a>
-            </td>            
+            </td>
+            <td>
+            <a href="<spring:url value="/vets/new" htmlEscape="true" />">Añadir nuevo vet</a>            
         </tr>
     </table>
 </petclinic:layout>

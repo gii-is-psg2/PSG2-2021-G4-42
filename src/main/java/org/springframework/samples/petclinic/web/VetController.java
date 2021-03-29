@@ -16,18 +16,21 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Map;
-import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
+import org.springframework.samples.petclinic.service.SpecialtyService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,13 +44,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class VetController {
 
-	private static final String VIEWS_VETS_CREATE_OR_UPDATE_FORM = "vets/createOrUpdatePetForm";
-	private static final String EDIT_VET = "vets/editVet";
+	private static final String VIEWS_VET_CREATE_OR_UPDATE_FORM = "vets/createOrUpdateVetForm";
 	private final VetService vetService;
+	private SpecialtyService specialtyService;
+
+	@ModelAttribute("especialidades")
+	public Map<Integer, String> listaEspecialidades() {
+		return StreamSupport.stream(specialtyService.findAll().spliterator(), false).collect(Collectors.toList())
+				.stream().collect(Collectors.toMap(x -> x.getId(), y -> y.getName()));
+	}
 
 	@Autowired
-	public VetController(VetService clinicService) {
+	public VetController(VetService clinicService, SpecialtyService specialtyService) {
 		this.vetService = clinicService;
+		this.specialtyService = specialtyService;
 	}
 
 	@GetMapping(value = { "/vets" })
@@ -72,40 +82,46 @@ public class VetController {
 		vets.getVetList().addAll(this.vetService.findVets());
 		return vets;
 	}
-	
+
+	/*
+	 * CREAR
+	 */
 	@GetMapping(value = "/vets/new")
-	public String crearVet(ModelMap model) {
-		String vista = "vets/editVet";
-		model.addAttribute("vet", new Vet());
-		return vista;
+	public String initCreationForm(Map<String, Object> model) {
+		Vet vet = new Vet();
+		model.put("vet", vet);
+		return VIEWS_VET_CREATE_OR_UPDATE_FORM;
 	}
-	
-	@PostMapping(value = "/vets/save")
-	public String guardarVet(@Valid Vet vet, BindingResult result, ModelMap model) {
-		String vista;
-		if(result.hasErrors() ) {
-			model.addAttribute("vet", vet);
-			vista = "vets/editVet";
+
+	@PostMapping(value = "/vets/new")
+	public String processCreationForm(@Valid Vet vet, BindingResult result) {
+		if (result.hasErrors()) {
+			return VIEWS_VET_CREATE_OR_UPDATE_FORM;
 		} else {
-			vetService.save(vet);
-		
-			model.addAttribute("message", "Veterinario creado satisfactoriamente");
-			vista = showVetList(model);
+			this.vetService.save(vet);
+			return "redirect:/vets/";
 		}
-		return vista;
 	}
-	
-	@GetMapping(value = "vets/update/{id}")
-	public String editarVet(@PathVariable("id") int id, ModelMap model) {
-		String vista = "vets/editVet";
-		Optional<Vet> vet = vetService.findById(id);
-		if(!vet.isPresent()) {
-			model.addAttribute("message", "Veterinario no encontrado");
-			vista = showVetList(model);
+
+	/*
+	 * EDITAR
+	 */
+	@GetMapping(value = "/vets/{id}/edit")
+	public String initUpdateVetForm(@PathVariable("id") int id, Model model) {
+		Vet vet = this.vetService.findById(id).get();
+		model.addAttribute(vet);
+		return VIEWS_VET_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping(value = "/vets/{id}/edit")
+	public String processUpdateVetForm(@Valid Vet vet, BindingResult result, @PathVariable("id") int id) {
+		if (result.hasErrors()) {
+			return VIEWS_VET_CREATE_OR_UPDATE_FORM;
 		} else {
-			model.addAttribute("vet", vet.get());
+			vet.setId(id);
+			this.vetService.save(vet);
+			return "redirect:/vets";
 		}
-		return vista;
 	}
-	
+
 }
