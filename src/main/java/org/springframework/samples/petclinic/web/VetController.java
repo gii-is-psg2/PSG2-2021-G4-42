@@ -50,8 +50,7 @@ public class VetController {
 
 	@ModelAttribute("especialidades")
 	public Map<Integer, String> listaEspecialidades() {
-		return StreamSupport.stream(specialtyService.findAll().spliterator(), false).collect(Collectors.toList())
-				.stream().collect(Collectors.toMap(x -> x.getId(), y -> y.getName()));
+		return StreamSupport.stream(specialtyService.findAll().spliterator(), false).collect(Collectors.toMap(x -> x.getId(), y -> y.getName()));
 	}
 
 	@Autowired
