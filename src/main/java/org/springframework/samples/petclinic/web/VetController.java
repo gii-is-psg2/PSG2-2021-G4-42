@@ -15,19 +15,19 @@
  */
 package org.springframework.samples.petclinic.web;
 
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.SpecialtyService;
 import org.springframework.samples.petclinic.service.VetService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -69,7 +69,7 @@ public class VetController {
 		// Vet
 		// objects
 		// so it is simpler for Object-Xml mapping
-		Vets vets = new Vets();
+		final Vets vets = new Vets();
 		vets.getVetList().addAll(this.vetService.findVets());
 		model.put("vets", vets);
 		return "vets/vetList";
@@ -81,10 +81,26 @@ public class VetController {
 		// Vet
 		// objects
 		// so it is simpler for JSon/Object mapping
-		Vets vets = new Vets();
+		final Vets vets = new Vets();
 		vets.getVetList().addAll(this.vetService.findVets());
 		return vets;
 	}
+	
+	@GetMapping(value="/vets/{vetId}/delete")
+	public String deleteVet(@PathVariable("vetId") final int vetId, final Map<String, Object> model) {
+		final Vet vet = this.vetService.findById(vetId).get();
+		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		if(rol.equals("admin")) {
+			try {
+				this.vetService.delete(vet);
+			}catch (final Exception e) {
+			
+			}
+		}
+		return this.showVetList(model);
+	}
+	
+	
 
 	/*
 	 * CREAR

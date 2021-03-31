@@ -1,4 +1,18 @@
 @font-face {
+  font-family: 'rounded';
+  src: url('../fonts/gotham-rounded-b.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'rockwell';
+  src: url('../fonts/rockb.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'varela_roundregular';
 
   src: url('../fonts/varela_round-webfont.eot');
@@ -24,22 +38,25 @@
 body, h1, h2, h3, p, input {
   margin: 0;
   font-weight: 400;
-  font-family: "varela_roundregular", sans-serif;
+  font-family:"varela_roundregular", sans-serif;
   color: #34302d;
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 25px;
   line-height: 30px;
-  font-family: "montserratregular", sans-serif;
+  font-family: "rockwell", sans-serif;
 }
 
 h2 {
-  font-size: 18px;
-  font-weight: 700;
+  color: @spring-dark-grey;
+  text-align: center;  
+  font-size: 28px;
+  font-weight: 70;
   line-height: 24px;
   margin-bottom: 10px;
-  font-family: "montserratregular", sans-serif;
+  font-family: "rockwell",
+  sans-serif;
 }
 
 h3 {
@@ -50,8 +67,8 @@ h3 {
 }
 
 p {
-  //font-size: 15px;
-  //line-height: 24px;
+  font-size: 15px;
+  line-height: 24px;
 }
 
 strong {
