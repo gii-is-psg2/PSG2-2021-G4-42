@@ -47,7 +47,7 @@ public class ReservaServiceTests {
 		reserva.setFechaIni(LocalDate.now());
 		reserva.setFechaFin(LocalDate.now());
 		reserva.setHabitacion(this.habitacionService.findHabitacionByNumero(15).get());
-		reserva.setPet(this.petService.findPetById(1));
+		reserva.setPet(this.petService.findPetById(4));
 		
 		Assertions.assertThrows(Exception.class, ()->{
 			this.reservaService.save(reserva);
