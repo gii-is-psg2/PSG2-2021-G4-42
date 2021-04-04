@@ -51,13 +51,13 @@ public class VetService {
 	}
 	
 	@Transactional
-	public Optional<Vet> findById(int id) {
-		return vetRepository.findById(id);
-	}
-	
-	@Transactional
 	public void save(@Valid Vet vet) {
 		vetRepository.save(vet);
+	}
+	
+	@Transactional(readOnly=true)
+	public Optional<Vet> findByFirstName (String nombre) {
+		return vetRepository.findByFirstName(nombre);
 	}
 
 	@Transactional(readOnly=true)
