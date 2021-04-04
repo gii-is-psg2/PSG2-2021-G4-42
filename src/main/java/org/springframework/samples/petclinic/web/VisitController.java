@@ -15,9 +15,7 @@
  */
 package org.springframework.samples.petclinic.web;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -29,13 +27,14 @@ import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.VisitService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author Juergen Hoeller
@@ -44,19 +43,20 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @author Michael Isvy
  */
 @Controller
+@RequestMapping("/visits")
 public class VisitController {
 
 	private final PetService petService;
 	private final VisitService visitService;
 
 	@Autowired
-	public VisitController(PetService petService, VisitService visitService) {
+	public VisitController(final PetService petService, final VisitService visitService) {
 		this.petService = petService;
 		this.visitService=visitService;
 	}
 
 	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
+	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
 
@@ -68,23 +68,26 @@ public class VisitController {
 	 * @param petId
 	 * @return Pet
 	 */
-	@ModelAttribute("visit")
-	public Visit loadPetWithVisit(@PathVariable("petId") int petId) {
-		Pet pet = this.petService.findPetById(petId);
-		Visit visit = new Visit();
-		pet.addVisit(visit);
-		return visit;
-	}
+//	@ModelAttribute("visit")
+//	public Visit loadPetWithVisit(@PathVariable("petId") int petId) {
+//		Pet pet = this.petService.findPetById(petId);
+//		Visit visit = new Visit();
+//		pet.addVisit(visit);
+//		return visit;
+//	}
 
 	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is called
-	@GetMapping(value = "/owners/*/pets/{petId}/visits/new")
-	public String initNewVisitForm(@PathVariable("petId") int petId, Map<String, Object> model) {
+	@GetMapping(value = "/{petId}/new")
+	public String initNewVisitForm(@PathVariable final int petId, final ModelMap model) {
+		final Visit v = new Visit();
+		v.setPet(this.petService.findPetById(petId));
+		model.addAttribute("visit", v);
 		return "pets/createOrUpdateVisitForm";
 	}
 
 	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
-	@PostMapping(value = "/owners/{ownerId}/pets/{petId}/visits/new")
-	public String processNewVisitForm(@Valid Visit visit, BindingResult result) {
+	@PostMapping(value = "/new")
+	public String processNewVisitForm(@Valid final Visit visit, final BindingResult result) {
 		if (result.hasErrors()) {
 			return "pets/createOrUpdateVisitForm";
 		}
@@ -93,33 +96,36 @@ public class VisitController {
 			return "redirect:/owners/{ownerId}";
 		}
 	}
-
-	@GetMapping(value = "/owners/*/pets/{petId}/visits")
-	public String showVisits(@PathVariable int petId, Map<String, Object> model) {
-		model.put("visits", this.petService.findPetById(petId).getVisits());
-		return "visitList";
-	}
 	
-//	@GetMapping(value="/owners/{ownerId}/pets/{petId}/visits/{visitId}/delete")
-//	public String deleteVisit(@PathVariable int petId, @PathVariable int ownerId, @PathVariable int visitId, Map<String, Object> model) {
-//		final Visit v = this.visitService.findById(visitId).get();
-//		final Pet pet = this.petService.findPetById(petId);
-//		final Owner owner = pet.getOwner();
-//		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
-//		final String nameOwner = owner.getUser().getUsername();
-//		List<Visit> visits = this.petService.findVisitsByPetId(petId).stream().collect(Collectors.toList());
-//		if (username.equals(nameOwner)||rol.equals("admin") && visits.contains(v)) {
-//			try {
-//				pet.removeVisit(v);
-//				this.petService.savePet(pet);
-//				this.visitService.deleteVisit(v);
-//			}catch(Exception e) {
-//				model.put("message", e.getMessage());
-//			}
-//		}
-//		return "redirect:/owners/" + owner.getId();
-//	}
+	@GetMapping(value="/{visitId}/delete")
+	public String deleteVisit(@PathVariable final int visitId, final ModelMap model) {
+		final Optional<Visit> v = this.visitService.findById(visitId);
+		
+		if(!v.isPresent()) {
+			model.addAttribute("message", "No existe la visita");
+			model.addAttribute("messageType", "warning");
+			return "welcome";
+		}
+		
+		final Visit visit = v.get();
+		final Pet pet = visit.getPet();
+		
+		final Owner owner = pet.getOwner();
+		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		final String nameOwner = owner.getUser().getUsername();
+
+		if (username.equals(nameOwner)||rol.equals("admin")) {
+			try {
+				pet.removeVisit(visit);
+				this.petService.savePet(pet);
+				this.visitService.deleteVisit(visit);
+			}catch(final Exception e) {
+				model.put("message", e.getMessage());
+			}
+		}
+		return "redirect:/owners/" + owner.getId();
+	}
 	
 
 }

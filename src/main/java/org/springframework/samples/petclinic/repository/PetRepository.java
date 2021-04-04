@@ -61,6 +61,4 @@ public interface PetRepository extends CrudRepository<Pet, Integer> {
 
 	Optional<Pet> findPetByName(String name);
 
-	Pet findPetById(int id);
-
 }
