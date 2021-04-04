@@ -17,6 +17,8 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 import java.util.Optional;
+import javax.validation.Valid;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -34,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class VetService {
 
+	@Autowired
 	private VetRepository vetRepository;
 
 
@@ -45,7 +48,17 @@ public class VetService {
 	@Transactional(readOnly = true)	
 	public Collection<Vet> findVets() throws DataAccessException {
 		return vetRepository.findAll();
-	}	
+	}
+	
+	@Transactional
+	public void save(@Valid Vet vet) {
+		vetRepository.save(vet);
+	}
+	
+	@Transactional(readOnly=true)
+	public Optional<Vet> findByFirstName (String nombre) {
+		return vetRepository.findByFirstName(nombre);
+	}
 
 	@Transactional(readOnly=true)
 	public Optional<Vet> findById (int id) throws DataAccessException{
