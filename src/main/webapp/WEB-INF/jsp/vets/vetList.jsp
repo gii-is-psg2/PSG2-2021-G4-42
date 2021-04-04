@@ -56,11 +56,11 @@
 
     <table class="table-buttons">
         <tr>
-            <td>          
-                <a href="<spring:url value="/vets.xml" htmlEscape="true" />">Ver como XML</a>
+            <td style="padding-right: 7px">          
+                <a href="<spring:url value="/vets.xml"/>">Ver como XML</a>
             </td>
             <td>
-                <a href="<spring:url value="/vets/new" htmlEscape="true" />">A�adir nuevo vet</a>  
+                <a href="<spring:url value="/vets/new"/>">Añadir nuevo vet</a>  
             </td>
         </tr>
     </table>
