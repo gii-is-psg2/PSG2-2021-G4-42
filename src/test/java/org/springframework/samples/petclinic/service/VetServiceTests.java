@@ -15,31 +15,29 @@
  */
 package org.springframework.samples.petclinic.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.assertj.core.api.Assertions;
+import org.junit.Assert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.model.Visit;
-import org.springframework.samples.petclinic.model.User;
-import org.springframework.samples.petclinic.model.Authorities;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -76,17 +74,72 @@ import org.springframework.transaction.annotation.Transactional;
 class VetServiceTests {
 
 	@Autowired
-	protected VetService vetService;	
+	protected VetService vetService;
+	
+	@Autowired
+	protected SpecialtyService specialtyService;
+	
+	public Vet vet;
+	
+	@BeforeEach
+	void insertarVet() throws DataAccessException{
+		Vet vet = new Vet();
+		
+		vet.setFirstName("Nombre de prueba PSG2");
+		vet.setLastName("Apellidos de prueba PSG2");
+		vet.setSpecialties(specialtyService.findAll());
+		
+		vetService.save(vet);
+		this.vet=vet;
+	}
 
 	@Test
 	void shouldFindVets() {
-		Collection<Vet> vets = this.vetService.findVets();
+		final Collection<Vet> vets = this.vetService.findVets();
 
-		Vet vet = EntityUtils.getById(vets, Vet.class, 3);
-		assertThat(vet.getLastName()).isEqualTo("Douglas");
-		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
-		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
-		assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("surgery");
+		final Vet vet = EntityUtils.getById(vets, Vet.class, 3);
+		Assertions.assertThat(vet.getLastName()).isEqualTo("Douglas");
+		Assertions.assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+		Assertions.assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("cirugía");
+		Assertions.assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("odontología");
+	}
+	
+	@Test
+	@Transactional
+	void shouldAddNewVet() throws DataAccessException{
+		assertEquals(vet, vetService.findByFirstName("Nombre de prueba PSG2").get());
+	}
+	
+	@Test
+	@Transactional
+	void shouldUpdateVet() throws DataAccessException{
+		Vet vet1 = this.vetService.findByFirstName("Nombre de prueba PSG2").get();
+		vet1.setFirstName("Nombre de prueba PSG2 modificado");
+		vet1.setLastName("Apellidos de prueba PSG2 modficado");
+		List<Specialty> specialties = specialtyService.findAll().stream().collect(Collectors.toList());
+		Specialty s = specialties.get(1);
+		List<Specialty> listaEspecialidad = new ArrayList<>();
+		listaEspecialidad.add(s);
+		vet1.setSpecialties(listaEspecialidad);
+		
+		vetService.save(vet1);
+		
+		assertFalse(vetService.findByFirstName("Nombre de prueba PSG2").isPresent());
+		assertTrue(vetService.findByFirstName("Nombre de prueba PSG2 modificado").isPresent());
+		
+		Vet vet2 = this.vetService.findByFirstName("Nombre de prueba PSG2 modificado").get();
+		Assertions.assertThat(vet2.getLastName()).isEqualTo("Apellidos de prueba PSG2 modficado");
+		Assertions.assertThat(vet2.getSpecialties()).isEqualTo(listaEspecialidad);
+	}
+	
+	@Test
+	@Transactional
+	void shouldDeleteVet() {
+		final Optional<Vet> vet = this.vetService.findById(1);
+		
+		this.vetService.delete(vet.get());
+		
+		Assert.assertFalse(this.vetService.findById(1).isPresent());
 	}
 
 
