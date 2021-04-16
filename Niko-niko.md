@@ -34,9 +34,9 @@ In the retrospective meeting, the team has a discussion about those results.
 
 | Day           | JUAN RAMON    | RAUL           | ANTONIO        | SANTI          | JORGE          | SERGIO         |
 | ------------- | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
-| Day 1 (12/04) | :smile:       |       :smile:  |      :smile:   |       :smile:  |   :smile:      |    :smile:     |
-| Day 2         |     -         |                |                |                |                |                |
-| Day 3         | :smile:       |                |                |                |                |                |
+| Day 1 (12/04) | :smile:       |       :smile:  |      :smile:   |     :smile:    |   :smile:      |    :smile:     |
+| Day 2         |     -         |                |                |         -      |                |                |
+| Day 3         | :smile:       |                |                |     :smile:    |                |                |
 | Day 4         |     -         |                |                |                |                |                |
 | Day 5         |               |                |                |                |                |                |
 | Day 6         |               |                |                |                |                |                |
