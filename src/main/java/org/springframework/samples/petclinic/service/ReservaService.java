@@ -21,11 +21,11 @@ public class ReservaService {
 	
 	
 	public Collection<Reserva> findAll(){
-		return reservaRepository.findAll();
+		return this.reservaRepository.findAll();
 	}
 	
 	@Transactional (readOnly=true)
-	public Optional<Reserva> findById(int id) {
+	public Optional<Reserva> findById(final int id) {
 		return this.reservaRepository.findById(id);
 	}
 	
@@ -48,13 +48,13 @@ public class ReservaService {
 		}
 		this.reservaRepository.save(reserva);
 	}
-	
+
 	@Transactional
 	public void delete(final Reserva reserva) {
 		this.reservaRepository.delete(reserva);
 	}
 	
-	public Collection<Reserva> findReservasByOwner(int id){
+	public Collection<Reserva> findReservasByOwner(final int id){
 		return this.reservaRepository.findReservasByOwner(id);
 	}
 }

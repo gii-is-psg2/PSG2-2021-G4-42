@@ -32,10 +32,12 @@ import org.springframework.samples.petclinic.model.Reserva;
  */
 public interface ReservaRepository extends CrudRepository<Reserva, Integer> {
 	
+	@Override
 	Collection<Reserva> findAll() throws DataAccessException;
 
 	List<Reserva> findReservaByFechaIniBeforeAndFechaFinAfter(LocalDate fechaIni, LocalDate fechaFin) throws DataAccessException;
 	
+	@Override
 	void delete(Reserva reserva) throws DataAccessException;
 	
 	@Query(value="SELECT R.ID, FECHA_FIN, FECHA_INI, HABITACION_ID, PET_ID FROM RESERVA AS R LEFT JOIN PETS AS P WHERE PET_ID = P.ID AND P.OWNER_ID = :id", nativeQuery = true)
