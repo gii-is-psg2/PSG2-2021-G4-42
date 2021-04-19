@@ -1,10 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Collection;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -25,38 +22,39 @@ public class Causa extends BaseEntity {
 	private String descripcion;
 	
 	@NotNull
-	private Double recaudacion;
+	@Column(name = "recaudacion_objetivo")
+	private Double recaudacionObjetivo;
 
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
 
-	public void setNombre(String nombre) {
+	public void setNombre(final String nombre) {
 		this.nombre = nombre;
 	}
 
 	public String getOrganizacion() {
-		return organizacion;
+		return this.organizacion;
 	}
 
-	public void setOrganizacion(String organizacion) {
+	public void setOrganizacion(final String organizacion) {
 		this.organizacion = organizacion;
 	}
 
 	public String getDescripcion() {
-		return descripcion;
+		return this.descripcion;
 	}
 
-	public void setDescripcion(String descripcion) {
+	public void setDescripcion(final String descripcion) {
 		this.descripcion = descripcion;
 	}
 
-	public Double getRecaudacion() {
-		return recaudacion;
+	public Double getRecaudacionObjetivo() {
+		return this.recaudacionObjetivo;
 	}
 
-	public void setRecaudacion(Double recaudacion) {
-		this.recaudacion = recaudacion;
+	public void setRecaudacionObjetivo(final Double recaudacionObjetivo) {
+		this.recaudacionObjetivo = recaudacionObjetivo;
 	}
 	
 	

@@ -113,10 +113,10 @@ INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (4, 
 
 INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (5, '2021-03-21','2021-03-23', 3, 3);
 
-INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion) VALUES (1, 'ANIMALES SIN DUEÑO', 'PetClinic', 'Desde PetClinic proponemos una causa con fin de hacer una colecta de dinero para construir un refugio de nimales abandonados.', 50000);
-INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion) VALUES (2, 'INVESTIGACION ENFERMERMEDAD TOXOPLASMOSIS', 'PetClinic', 'Se trata de una causa para la recolecta de dinero destinado a la investigacion de la enfermedad de la toxoplasmosis muy comun en gatos..', 50000);
-INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion) VALUES (3, 'COLECTA DE PIENSO', 'Hogar Animal Madrid', 'Se `propone una recaudacion de dinero para abastecer de pienso y otros alimentos a protectoras de animales.', 2500);
-INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion) VALUES (4, 'RECAUDACION PARA MATERIAL MEDICO', 'PetClinic', 'Se propone una recaudacion de dinero para adquirir el material sanitario necesario para centros veterinarios con dificultades economicas.', 10000);
+INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion_objetivo) VALUES (1, 'ANIMALES SIN DUEÑO', 'PetClinic', 'Desde PetClinic proponemos una causa con fin de hacer una colecta de dinero para construir un refugio de nimales abandonados.', 50000);
+INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion_objetivo) VALUES (2, 'INVESTIGACION ENFERMERMEDAD TOXOPLASMOSIS', 'PetClinic', 'Se trata de una causa para la recolecta de dinero destinado a la investigacion de la enfermedad de la toxoplasmosis muy comun en gatos..', 50000);
+INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion_objetivo) VALUES (3, 'COLECTA DE PIENSO', 'Hogar Animal Madrid', 'Se `propone una recaudacion de dinero para abastecer de pienso y otros alimentos a protectoras de animales.', 2500);
+INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion_objetivo) VALUES (4, 'RECAUDACION PARA MATERIAL MEDICO', 'PetClinic', 'Se propone una recaudacion de dinero para adquirir el material sanitario necesario para centros veterinarios con dificultades economicas.', 10000);
 
 INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (1, '2021-03-19', 50, 1, 1);
 INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (2, '2020-05-21', 80, 1, 1);
