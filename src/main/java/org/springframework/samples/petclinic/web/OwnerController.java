@@ -22,10 +22,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.service.AdopcionService;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.OwnerService;
+
 import org.springframework.samples.petclinic.service.ReservaService;
+import org.springframework.samples.petclinic.service.VetService;
+
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -54,8 +56,7 @@ public class OwnerController {
 	
 	@Autowired
 	ReservaService reservaService;
-	@Autowired
-	AdopcionService adopcionService;
+
 	@Autowired
 	public OwnerController(final OwnerService ownerService, final UserService userService, final AuthoritiesService authoritiesService) {
 		this.ownerService = ownerService;
@@ -148,7 +149,6 @@ public class OwnerController {
 	public ModelAndView showOwner(ModelMap model, @PathVariable("ownerId") int ownerId) {
 		ModelAndView mav = new ModelAndView("owners/ownerDetails");
 		model.addAttribute("reservas", reservaService.findReservasByOwner(ownerId));
-		model.addAttribute("adopciones", adopcionService.findAdopcionByIdOwnerId(ownerId));
 		mav.addObject(this.ownerService.findOwnerById(ownerId));
 		return mav;
 	}
