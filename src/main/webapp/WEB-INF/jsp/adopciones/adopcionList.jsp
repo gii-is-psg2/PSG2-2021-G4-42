@@ -21,6 +21,7 @@
         </thead>
         <tbody>
         <c:forEach items="${adopciones}" var="adopcion">
+            <c:if test="${not (adopcion.pet.owner eq loggedOwner)}">
             <tr>
                 <td>
                     <spring:url value="/owners/{ownerId}" var="ownerUrl">
@@ -49,6 +50,8 @@
             
                 
             </tr>
+            
+            </c:if>
         </c:forEach>
         </tbody>
     </table>

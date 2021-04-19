@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Adopcion;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
@@ -17,6 +18,7 @@ import org.springframework.samples.petclinic.service.AdopcionService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.SolicitudAdopcionService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,6 +46,12 @@ public class AdopcionController {
 	@GetMapping("/adopciones")
 	public String adopciones(final ModelMap model) {
 		model.addAttribute("adopciones", this.adopcionService.findAll());
+		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Owner> loggedOwner=ownerService.findOwnerByUsername(username);
+		if(!loggedOwner.isPresent()) {
+			return "welcome";
+		}
+		model.addAttribute("loggedOwner",loggedOwner.get());
 		return "/adopciones/adopcionList";		
 	}
 
@@ -158,12 +166,18 @@ public class AdopcionController {
 		Owner o=s.getAdopcion().getPet().getOwner();
 		Owner no=s.getNuevoOwner();
 		s.getAdopcion().getPet().setOwner(no);//cambiamos el owner de la mascota
-//		solicitudAdopcionService.deleteSolicitud(s);
-
+		//solicitudAdopcionService.deleteSolicitud(s);
+		try {
+			petService.savePet(s.getAdopcion().getPet());
+		} catch (DataAccessException | DuplicatedPetNameException e) {
+			model.addAttribute("message","No se ha podido realizar la adopcion");
+			return "redirect:/owners/" + o.getId();
+		}
 		Collection<SolicitudAdopcion> c=solicitudAdopcionService.findSolicitudAdopcionByPetId(s.getAdopcion().getPet().getId());//borro todas las solicitudes de adopcion de este pet 
 		for(SolicitudAdopcion sa:c) {
 			solicitudAdopcionService.deleteSolicitud(sa);
 		}
+		
 		adopcionService.delete(s.getAdopcion());
 		model.addAttribute("message", "La solicitud se ha procesado correctamente ");
 		
