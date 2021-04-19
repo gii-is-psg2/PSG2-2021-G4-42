@@ -35,13 +35,13 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day           | JUAN RAMON    | RAUL           | ANTONIO        | SANTI          | JORGE          | SERGIO         |
 | ------------- | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
 | Day 1 (12/04) | :smile:       |       :smile:  |      :smile:   |     :smile:    |   :smile:      |    :smile:     |
-| Day 2         |     -         |         -      |                |         -      |   -            |                |
-| Day 3         | :smile:       |      -         |                |     :smile:    |    :smile:     |                |
-| Day 4         |     -         |      -         |                |                |                |                |
-| Day 5         | :smile:       |    :smile:     |                |                |                |                |
-| Day 6         |     -         |       -        |                |                |                |                |
-| Day 7         | :neutral_face:|   :worried:    |                |                |                |                |
-| Day 8         |               |    :smile:     |                |                |                |                |
+| Day 2         |     -         |         -      |                |         -      |   -            |      -         |
+| Day 3         | :smile:       |      -         |                |     :smile:    |    :smile:     |      -         |
+| Day 4         |     -         |      -         |                |                |                |    :smile:     |
+| Day 5         | :smile:       |    :smile:     |                |                |                |      -         |
+| Day 6         |     -         |       -        |                |                |                |      -         |
+| Day 7         | :neutral_face:|   :worried:    |                |                |                | :neutral_face: |
+| Day 8         |               |    :smile:     |                |                |                |    :smile:     |
 | Day 9         |               |                |                |                |                |                |
 | Day 10        |               |                |                |                |                |                |
 | Day 11        |               |                |                |                |                |                |
