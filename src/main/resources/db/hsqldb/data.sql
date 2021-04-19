@@ -110,6 +110,13 @@ INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (1, 
 INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (2, '2021-03-19','2021-03-20', 2, 2);
 INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (3, '2021-03-21','2021-03-27', 1, 2);
 INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (4, CURDATE(), DATEADD(day, 14, CURDATE()), 4, 4);
-
 INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (5, '2021-03-21','2021-03-23', 3, 3);
+
+INSERT INTO adopcion(id, fecha_puesta_en_adopcion,fecha_resolucion_adopcion, pet_id) 	VALUES (1, '2021-03-21', '2021-03-25',2);	
+INSERT INTO adopcion(id, fecha_puesta_en_adopcion,fecha_resolucion_adopcion, pet_id) VALUES (2, '2021-01-12', '2021-01-20',3);	
+
+INSERT INTO solicitud_adopcion (id,solicitud,nuevo_owner_id,fecha_solicitud,adopcion)values(1,'Quiero un hamster que coma lechuga y eso',1,'2021-03-21',1);
+INSERT INTO solicitud_adopcion (id,solicitud,nuevo_owner_id,fecha_solicitud,adopcion)values(2,'Quiero un perrito para hacerle compañia a mi hijo que no tiene amigos',3,'2021-01-14',1);
+
+
 
