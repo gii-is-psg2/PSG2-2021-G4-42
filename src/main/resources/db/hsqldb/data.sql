@@ -113,3 +113,26 @@ INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (4, 
 
 INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (5, '2021-03-21','2021-03-23', 3, 3);
 
+INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion_objetivo) VALUES (1, 'ANIMALES SIN DUEÑO', 'PetClinic', 'Desde PetClinic proponemos una causa con fin de hacer una colecta de dinero para construir un refugio de nimales abandonados.', 50000);
+INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion_objetivo) VALUES (2, 'INVESTIGACION ENFERMERMEDAD TOXOPLASMOSIS', 'PetClinic', 'Se trata de una causa para la recolecta de dinero destinado a la investigacion de la enfermedad de la toxoplasmosis muy comun en gatos..', 50000);
+INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion_objetivo) VALUES (3, 'COLECTA DE PIENSO', 'Hogar Animal Madrid', 'Se `propone una recaudacion de dinero para abastecer de pienso y otros alimentos a protectoras de animales.', 2500);
+INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion_objetivo) VALUES (4, 'RECAUDACION PARA MATERIAL MEDICO', 'PetClinic', 'Se propone una recaudacion de dinero para adquirir el material sanitario necesario para centros veterinarios con dificultades economicas.', 10000);
+
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (1, '2021-03-19', 50, 1, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (2, '2020-05-21', 80, 1, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (3, '2021-01-10', 20, 1, 2);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (4, '2019-07-04', 25, 2, 4);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (5, '2021-09-12', 32, 2, 5);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (6, '2021-11-29', 65, 2, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (7, '2021-09-19', 10, 3, 7);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (8, '2021-02-01', 15, 3, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (9, '2021-06-26', 30, 3, 6);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (10, '2021-03-09', 50, 2, 7);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (11, '2021-04-04', 20, 4, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (12, '2021-01-31', 105, 4, 5);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (13, '2021-11-20', 30, 4, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (14, '2021-05-17', 20, 2, 6);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (15, '2021-08-15', 10, 1, 9);
+
+
+
