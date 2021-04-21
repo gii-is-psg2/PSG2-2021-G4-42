@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -39,5 +40,13 @@ public class CausaService {
 	@Transactional
 	public Collection<Donacion> findDonacionesByCausa(Integer id) {
 		return this.donacionRepository.findDonacionesByCausa(id);
+	}
+	
+	public Double recaudacionTotal(Collection<Donacion> donaciones) {
+		Double result = 0.0;
+		for(Donacion d : donaciones) {
+			result+=d.getCantidadDonada();
+		}
+		return result;
 	}
 }

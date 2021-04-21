@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "causas")
 public class Causa extends BaseEntity {
+	
+	
 	@Column(length = 100)
 	@NotEmpty(message = "El nombre no puede estar vacio")
 	private String nombre;
@@ -17,13 +19,14 @@ public class Causa extends BaseEntity {
 	@NotEmpty(message = "El nombre de la organizacion no puede estar vacio")
 	private String organizacion;
 	
-	@Column(length = 5500)
+	@Column(length= 10000)
 	@NotEmpty(message = "La descripcion no puede estar vacio")
 	private String descripcion;
 	
 	@NotNull
 	@Column(name = "recaudacion_objetivo")
 	private Double recaudacionObjetivo;
+	
 
 	public String getNombre() {
 		return this.nombre;
