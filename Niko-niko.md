@@ -37,13 +37,13 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day 1 (12/04) | :smile:       |       :smile:  |      :smile:   |     :smile:    |   :smile:      |    :smile:     |
 | Day 2         |     -         |         -      |       -        |         -      |   -            |      -         |
 | Day 3         | :smile:       |      -         |       -        |     :smile:    |    :smile:     |      -         |
-| Day 4         |     -         |      -         |       :smile:  |        -       |                |    :smile:     |
-| Day 5         | :smile:       |    :smile:     |:neutral_face:  |     :smile:    |                |      -         |
-| Day 6         |     -         |       -        |       -        |        -       |                |      -         |
-| Day 7         | :neutral_face:|   :worried:    |       -        | :neutral_face: |                | :neutral_face: |
-| Day 8         | :neutral_face:|    :smile:     |:neutral_face:  |        -       |                |    :smile:     |
-| Day 9         |               |                |                |                |                |                |
-| Day 10        |               |                |                |                |                |                |
+| Day 4         |     -         |      -         |       :smile:  |        -       |    -           |    :smile:     |
+| Day 5         | :smile:       |    :smile:     |:neutral_face:  |     :smile:    |    -           |      -         |
+| Day 6         |     -         |       -        |       -        |        -       |    -           |      -         |
+| Day 7         | :neutral_face:|   :worried:    |       -        | :neutral_face: |   -            | :neutral_face: |
+| Day 8         | :neutral_face:|    :smile:     |:neutral_face:  |        -       |   :smile:      |    :smile:     |
+| Day 9         |               |                |                |                |   :neutral:    |                |
+| Day 10        |               |                |                |                |    :worried:   |                |
 | Day 11        |               |                |                |                |                |                |
 | Day 12        |               |                |                |                |                |                |
 | Day 13        |               |                |                |                |                |                |
