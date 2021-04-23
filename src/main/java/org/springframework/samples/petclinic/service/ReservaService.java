@@ -29,10 +29,10 @@ public class ReservaService {
 		return this.reservaRepository.findById(id);
 	}
 	
-	@Transactional(readOnly = true)
-	public List<Reserva> findReservasBetweenFechas(final LocalDate fechaIni, final LocalDate fechaFin) {
-		return this.reservaRepository.findReservaByFechaIniBeforeAndFechaFinAfter(fechaIni, fechaIni);
-	}
+//	@Transactional(readOnly = true)
+//	public List<Reserva> findReservasBetweenFechas(final LocalDate fechaIni, final LocalDate fechaFin) {
+//		return this.reservaRepository.findReservaByFechaIniBeforeAndFechaFinAfter(fechaIni, fechaIni);
+//	}
 	
 	@Transactional
 	public void save(final Reserva reserva) throws Exception {
@@ -54,7 +54,13 @@ public class ReservaService {
 		this.reservaRepository.delete(reserva);
 	}
 	
+	@Transactional(readOnly=true)
 	public Collection<Reserva> findReservasByOwner(final int id){
 		return this.reservaRepository.findReservasByOwner(id);
+	}
+	
+	@Transactional(readOnly=true)
+	public Reserva findByFechaIni(LocalDate fechaIni) {
+		return this.reservaRepository.findReservaByFechaIni(fechaIni);
 	}
 }
