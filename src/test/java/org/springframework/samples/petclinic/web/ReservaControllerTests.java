@@ -40,12 +40,6 @@ public class ReservaControllerTests {
 	
 	@Autowired
     private WebApplicationContext context; 
- 
-	@MockBean
-	PetFormatter petformatter;
-	
-	@MockBean
-	HabitacionFormatter habitacionformatter;
 	
 	private MockMvc mockMvc;
 	
@@ -98,7 +92,7 @@ public class ReservaControllerTests {
 		BDDMockito.given(this.petService.findPetsByOwner(ArgumentMatchers.anyString())).willReturn(new ArrayList<Pet>());
 		BDDMockito.given(this.habitacionService.findAll()).willReturn(new ArrayList<Habitacion>());
 		BDDMockito.given(this.habitacionService.findHabitacionByNumero(1)).willReturn(Optional.of(habitacion));
-		BDDMockito.given(this.petService.findPetByName("Sly")).willReturn(Optional.of(pet));
+		BDDMockito.given(this.petService.findPetById(1)).willReturn(pet);
 		BDDMockito.given(this.reservaService.findById(ReservaControllerTests.TEST_RESERVA_ID)).willReturn(Optional.of(reserva));
 	
 	
@@ -162,9 +156,9 @@ public class ReservaControllerTests {
 			with(SecurityMockMvcRequestPostProcessors.csrf())
 			.param("fechaIni", LocalDate.now().plusYears(2).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
 			.param("FechaFin", LocalDate.now().plusYears(2).plusDays(5).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-			.param("pet", "Sly - cat")
+			.param("pet", "1_Sly - cat")
 			.param("habitacion", "Habitación nº 1"))
-		.andExpect(MockMvcResultMatchers.status().isOk());//.andExpect(MockMvcResultMatchers.view().name("welcome"));
+		.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("welcome"));
 	}
 	
 	@WithMockUser(value="spring")
@@ -174,7 +168,7 @@ public class ReservaControllerTests {
 			with(SecurityMockMvcRequestPostProcessors.csrf())
 			.param("fechaIni", LocalDate.now().plusYears(2).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
 			.param("FechaFin", LocalDate.now().plusYears(2).plusDays(4).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-			.param("pet", "Sly - cat")
+			.param("pet", "1_Sly - cat")
 			.param("habitacion", "Habitación nº 1"))
 		.andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
