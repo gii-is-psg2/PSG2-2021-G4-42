@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 
 <petclinic:layout pageName="causa">
@@ -14,7 +15,12 @@
                    <br>
                    Organización:<p><c:out value="${causa.organizacion}"/></p>   
                    Descripción:<p><c:out value="${causa.descripcion}"/></p>
-                   Recaudacion:<p><c:out value="${recaudado}"/>/<c:out value="${causa.recaudacionObjetivo}"/></p>
+                   <c:if test="${recaudado < causa.recaudacionObjetivo}">
+                   		Recaudacion:<p><c:out value="${recaudado}"/>/<c:out value="${causa.recaudacionObjetivo}"/></p>
+                </c:if>
+                <c:if test="${recaudado >= causa.recaudacionObjetivo}">
+                	Recaudacion:<p> Hemos conseguido el objetivo, muchas gracias!!!</p>
+                </c:if>
                 </th>
             </tr>     
                 
@@ -60,6 +66,14 @@
     	</c:forEach>
     	</tbody>
     	</table>
-    </div>
+    	</div>
+    	<br>
+    	<c:if test="${recaudado < causa.recaudacionObjetivo}">
+    		<sec:authorize access="hasAuthority('owner')"> 
+			<a href="/donacion/${causa.id}/new/">
+	        	    <button style="size: 30px">Realizar una donacion</button>
+	 		</a>
+   			</sec:authorize>
+   		</c:if>
  
 </petclinic:layout>

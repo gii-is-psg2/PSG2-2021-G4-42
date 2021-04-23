@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -34,35 +35,36 @@ public class DonacionController {
 	OwnerService ownerService;
 	
 	
-	@InitBinder
-	public void setAllowedFields(final WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("donante", "fechaDonante");
-	}
 	
-	@GetMapping(value="/new")
-	public String newDonacion(final ModelMap model) {
-		model.addAttribute("donacion", new Donacion());
-		model.addAttribute("causas", this.causaService.findAll());
+	@GetMapping(value="{id}/new")
+	public String newDonacion(final ModelMap model, @PathVariable("id") int id, Principal principal) {
+		Donacion donacion = new Donacion();
+		donacion.setCausa(this.causaService.findById(id).get());
+		donacion.setFechaDonacion(LocalDate.now());
+		donacion.setDonante(this.ownerService.findOwnerByUsername(principal.getName()).get());
+		model.addAttribute("donacion", donacion);
+		model.addAttribute("causa", this.causaService.findById(id).get());
+		
 		return "donaciones/CreateOrUpdateDonacionForm";
 	}
 	
-	@PostMapping(value="/new")
-	public String newDonacionPost(Donacion donacion, final BindingResult result, final ModelMap model, Principal principal) {
+	@PostMapping(value="{id}/new")
+	public String newDonacionPost( @PathVariable("id") int id, @Valid Donacion donacion, final BindingResult result, final ModelMap model) {
+		System.out.println(donacion);
+		System.out.println("Hola");
 		if(result.hasErrors()) {
-			model.clear();
 			model.addAttribute("donacion", donacion);
-			model.addAttribute("message", result.getFieldErrors().stream().map(x->x.getField()).collect(Collectors.toList()));
+			model.addAttribute("causa", this.causaService.findById(id).get());
 			model.addAttribute("causas", this.causaService.findAll());
 			return "donaciones/CreateOrUpdateDonacionForm";
 		}else {
 			try {
-				donacion.setFechaDonacion(LocalDate.now());
-				donacion.setDonante(this.ownerService.findOwnerByUsername(principal.getName()).get());
+				donacion.setId(null);
 				this.donacionService.save(donacion);
 			} catch (Exception e) {
 				model.clear();
 				model.addAttribute("donacion", donacion);
-				model.addAttribute("causa", this.causaService.findAll());
+				model.addAttribute("causa", this.causaService.findById(id).get());
 				model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 				return "donaciones/CreateOrUpdateDonacionForm";
 			}

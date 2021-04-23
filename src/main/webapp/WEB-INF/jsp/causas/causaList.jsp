@@ -34,9 +34,4 @@
         </tbody>
     </table>
     
- 	<sec:authorize access="hasAuthority('owner')"> 
-		<a href="/donacion/new/">
-	            <button style="size: 30px">Realizar una donacion</button>
-	 </a>
-   	</sec:authorize>
 </petclinic:layout>
