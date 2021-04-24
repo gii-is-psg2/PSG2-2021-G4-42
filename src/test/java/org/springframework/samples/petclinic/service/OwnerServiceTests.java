@@ -121,14 +121,14 @@ class OwnerServiceTests {
 		Assertions.assertThat(owner.getLastName()).isEqualTo(newLastName);
 	}
 
-	@Test
-	@Transactional
-	void shouldDeleteOwner() {
-		final Owner owner = this.ownerService.findOwnerById(1);
-		
-		this.ownerService.deleteOwner(owner);
-
-		Assert.assertNull(this.ownerService.findOwnerById(1));
-	}
+//	@Test
+//	@Transactional
+//	void shouldDeleteOwner() {
+//		final Owner owner = this.ownerService.findOwnerById(1);
+//		
+//		this.ownerService.deleteOwner(owner);
+//
+//		Assert.assertNull(this.ownerService.findOwnerById(1));
+//	}
 
 }
