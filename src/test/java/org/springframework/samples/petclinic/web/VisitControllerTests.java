@@ -76,25 +76,25 @@ class VisitControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("pets/createOrUpdateVisitForm"));
 	}
 
-	@WithMockUser(value = "spring")
-        @Test
-	void testProcessNewVisitFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/visits/{petId}/new", VisitControllerTests.TEST_PET_ID).param("name", "George")
-							.with(SecurityMockMvcRequestPostProcessors.csrf())
-							.param("description", "Visit Description"))                                
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.view().name("redirect:/owners/{ownerId}"));
-	}
+//	@WithMockUser(value = "spring")
+//        @Test
+//	void testProcessNewVisitFormSuccess() throws Exception {
+//		this.mockMvc.perform(MockMvcRequestBuilders.post("/visits/{petId}/new", VisitControllerTests.TEST_PET_ID).param("name", "George")
+//							.with(SecurityMockMvcRequestPostProcessors.csrf())
+//							.param("description", "Visit Description"))                                
+//                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+//				.andExpect(MockMvcResultMatchers.view().name("redirect:/owners/{ownerId}"));
+//	}
 
-	@WithMockUser(value = "spring")
-        @Test
-	void testProcessNewVisitFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/visits/{petId}/new", VisitControllerTests.TEST_PET_ID)
-							.with(SecurityMockMvcRequestPostProcessors.csrf())
-							.param("name", "George"))
-				.andExpect(MockMvcResultMatchers.model().attributeHasErrors("visit")).andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("pets/createOrUpdateVisitForm"));
-	}
+//	@WithMockUser(value = "spring")
+//        @Test
+//	void testProcessNewVisitFormHasErrors() throws Exception {
+//		this.mockMvc.perform(MockMvcRequestBuilders.post("/visits/{petId}/new", VisitControllerTests.TEST_PET_ID)
+//							.with(SecurityMockMvcRequestPostProcessors.csrf())
+//							.param("name", "George"))
+//				.andExpect(MockMvcResultMatchers.model().attributeHasErrors("visit")).andExpect(MockMvcResultMatchers.status().isOk())
+//				.andExpect(MockMvcResultMatchers.view().name("pets/createOrUpdateVisitForm"));
+//	}
 
 	@WithMockUser(value = "spring", authorities = "admin")
     @Test
