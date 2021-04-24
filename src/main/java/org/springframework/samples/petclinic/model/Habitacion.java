@@ -12,8 +12,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.samples.petclinic.util.ReservaUtil;
-
 @Entity
 @Table(name="habitacion")
 public class Habitacion extends BaseEntity {
@@ -27,7 +25,16 @@ public class Habitacion extends BaseEntity {
 	private Set<Reserva> reservas;
 
 	public Boolean estaOcupada(final LocalDate fechaIni, final LocalDate fechaFin) {
-		return ReservaUtil.estaOcupada(fechaIni, fechaFin, this.reservas);
+		Boolean res = false;
+		for(final Reserva reserva : this.reservas) {
+			res = res || (reserva.getFechaIni().isAfter(fechaIni) || reserva.getFechaIni().equals(fechaIni)) 
+				&& (reserva.getFechaIni().isBefore(fechaFin) || reserva.getFechaIni().equals(fechaFin))
+				|| (reserva.getFechaFin().isAfter(fechaIni)  || reserva.getFechaFin().equals(fechaIni))
+				&& (reserva.getFechaFin().isBefore(fechaFin) || reserva.getFechaFin().equals(fechaFin))
+				|| (reserva.getFechaIni().isBefore(fechaIni) || reserva.getFechaIni().equals(fechaIni)) 
+				&& (reserva.getFechaFin().isAfter(fechaFin)  || reserva.getFechaFin().equals(fechaFin));
+		}
+		return res;
 	}
 	
 	public Set<Reserva> getReservas() {

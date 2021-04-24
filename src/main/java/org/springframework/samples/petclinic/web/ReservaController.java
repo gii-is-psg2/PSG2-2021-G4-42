@@ -78,15 +78,14 @@ public class ReservaController {
 		}
 		try {
 			this.reservaService.save(reserva);
-			model.addAttribute("message", String.format("Habitación nº %d reservada correctamente", reserva.getHabitacion().getNumero()));
-			return "welcome";
 		}catch (final Exception e) {
 			model.addAttribute("message", e.getMessage());
 			model.addAttribute("messageType", "danger");
 			this.addModelData(model, reserva);
 			return ReservaController.VIEWS_RESERVA_CREATE_OR_UPDATE_FORM;
 		}
-
+		model.addAttribute("message", String.format("Habitación nº %d reservada correctamente", reserva.getHabitacion().getNumero()));
+		return "welcome";
 	}
 	
 	@PostMapping(value="/new/fechas")

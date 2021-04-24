@@ -1,14 +1,9 @@
 package org.springframework.samples.petclinic.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.time.LocalDate;
 import java.util.Collection;
 
-import javax.transaction.Transactional;
-
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +24,8 @@ public class ReservaServiceTests {
 	@Autowired
 	HabitacionService habitacionService;
 	
+	// Pasar la inicialización de reserva a una función con la anotación @BeforeEach
 	@Test
-	@Transactional
 	public void shouldInsertReserva() throws Exception {
 		Collection<Reserva> reservas = this.reservaService.findAll();
 		final int found = reservas.size();
@@ -42,32 +37,12 @@ public class ReservaServiceTests {
 		
 		this.reservaService.save(reserva);
 		reservas = this.reservaService.findAll();
-		assertEquals(reservas.size(), found+1);
+		org.assertj.core.api.Assertions.assertThat(reservas.size()).isEqualTo(found+1);
 		
 	}
 	
 	@Test
-	@Transactional
-	public void shouldUpdateReserva() throws Exception{
-		
-		final Reserva reserva = new Reserva();
-		reserva.setFechaIni(LocalDate.now().plusYears(10));
-		reserva.setFechaFin(LocalDate.now().plusYears(10).plusDays(5));
-		reserva.setHabitacion(this.habitacionService.findHabitacionByNumero(1).get());
-		reserva.setPet(this.petService.findPetById(10));
-		this.reservaService.save(reserva);
-		
-		Reserva reserva2=this.reservaService.findByFechaIni(LocalDate.now().plusYears(10));
-		int id = reserva2.getId();
-		reserva2.setFechaFin(LocalDate.now().plusYears(10).plusDays(10));
-		this.reservaService.save(reserva2);
-		
-		assertEquals(this.reservaService.findById(id).get().getFechaFin(), LocalDate.now().plusYears(10).plusDays(10));
-		
-	}
-	
-	@Test
-	public void shouldNotSaveReservaMascotaOcupada() {
+	public void shouldNotInsertReservaMascotaOcupada() {
 		final Reserva reserva = new Reserva();
 		reserva.setFechaIni(LocalDate.now());
 		reserva.setFechaFin(LocalDate.now());
@@ -81,7 +56,7 @@ public class ReservaServiceTests {
 	}
 	
 	@Test 
-	public void shouldNotSaveReservaConHabitacionOcupada() {
+	public void shouldNotInsertReservaConHabitacionOcupada() {
 		final Reserva reserva = new Reserva();
 		reserva.setFechaIni(LocalDate.now());
 		reserva.setFechaFin(LocalDate.now());
@@ -95,9 +70,9 @@ public class ReservaServiceTests {
 	}
 	
 	@Test 
-	public void shouldNotSaveReservaConFechasIncorrectasIniMayorQueHoy() {
+	public void shouldNotInsertReservaConFechasIncorrectas() {
 		final Reserva reserva = new Reserva();
-		reserva.setFechaIni(LocalDate.now().plusYears(3));
+		reserva.setFechaIni(LocalDate.of(2021, 10, 15));
 		reserva.setFechaFin(LocalDate.now());
 		reserva.setHabitacion(this.habitacionService.findHabitacionByNumero(15).get());
 		reserva.setPet(this.petService.findPetById(10));
@@ -109,7 +84,7 @@ public class ReservaServiceTests {
 	}
 	
 	@Test
-	public void shouldNotSaveReservaConFechasIncorrectasPasadas() {
+	public void shouldNotInsertReservaConFechasIncorrectas2() {
 		final Reserva reserva = new Reserva();
 		reserva.setFechaIni(LocalDate.of(2020, 10, 10));
 		reserva.setFechaFin(LocalDate.of(2020, 10, 23));
@@ -132,11 +107,11 @@ public class ReservaServiceTests {
 		
 		this.reservaService.save(reserva);
 		
-		assertTrue(this.reservaService.findById(1).isPresent());
+		Assert.assertTrue(this.reservaService.findById(1).isPresent());
 		
 		this.reservaService.delete(reserva);
 
-		assertFalse(this.reservaService.findById(1).isPresent());
+		Assert.assertFalse(this.reservaService.findById(1).isPresent());
 	}
 	
 
