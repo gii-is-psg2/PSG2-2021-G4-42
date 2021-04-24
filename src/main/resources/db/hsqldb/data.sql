@@ -145,3 +145,6 @@ INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (24, 
 INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (25, '2021-03-19', 50, 1, 1);
 INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (26, '2020-03-21', 80, 1, 1);
 INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (27, '2021-01-10', 20, 1, 2);
+
+
+
