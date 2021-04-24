@@ -76,7 +76,6 @@ class VisitControllerTests {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/visits/{petId}/new", VisitControllerTests.TEST_PET_ID)).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.view().name("pets/createOrUpdateVisitForm"));
 	}
-
 	@WithMockUser(value = "spring")
         @Test
         @Disabled
