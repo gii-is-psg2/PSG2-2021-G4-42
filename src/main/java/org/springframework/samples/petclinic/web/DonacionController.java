@@ -11,6 +11,7 @@ import org.springframework.samples.petclinic.model.Donacion;
 import org.springframework.samples.petclinic.service.CausaService;
 import org.springframework.samples.petclinic.service.DonacionService;
 import org.springframework.samples.petclinic.service.OwnerService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -37,11 +38,12 @@ public class DonacionController {
 	
 	
 	@GetMapping(value="{id}/new")
-	public String newDonacion(final ModelMap model, @PathVariable("id") int id, Principal principal) {
+	public String newDonacion(final ModelMap model, @PathVariable("id") int id) {
 		Donacion donacion = new Donacion();
 		donacion.setCausa(this.causaService.findById(id).get());
 		donacion.setFechaDonacion(LocalDate.now());
-		donacion.setDonante(this.ownerService.findOwnerByUsername(principal.getName()).get());
+		String username=SecurityContextHolder.getContext().getAuthentication().getName();
+		donacion.setDonante(this.ownerService.findOwnerByUsername(username).get());
 		model.addAttribute("donacion", donacion);
 		model.addAttribute("causa", this.causaService.findById(id).get());
 		
@@ -50,8 +52,6 @@ public class DonacionController {
 	
 	@PostMapping(value="{id}/new")
 	public String newDonacionPost( @PathVariable("id") int id, @Valid Donacion donacion, final BindingResult result, final ModelMap model) {
-		System.out.println(donacion);
-		System.out.println("Hola");
 		if(result.hasErrors()) {
 			model.addAttribute("donacion", donacion);
 			model.addAttribute("causa", this.causaService.findById(id).get());
