@@ -32,24 +32,24 @@ In the retrospective meeting, the team has a discussion about those results.
 
 ## Sprint Template
 
-| Day           | JUAN RAMON    | RAUL           | ANTONIO        | SANTI          | JORGE          | SERGIO         |
-| ------------- | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
-| Day 1 (12/04) | :smile:       |       :smile:  |      :smile:   |     :smile:    |   :smile:      |    :smile:     |
-| Day 2         |     -         |         -      |       -        |         -      |   -            |      -         |
-| Day 3         | :smile:       |      -         |       -        |     :smile:    |    :smile:     |      -         |
-| Day 4         |     -         |      -         |       :smile:  |        -       |    -           |    :smile:     |
-| Day 5         | :smile:       |    :smile:     |:neutral_face:  |     :smile:    |    -           |      -         |
-| Day 6         |     -         |       -        |       -        |        -       |    -           |      -         |
-| Day 7         | :neutral_face:|   :worried:    |       -        | :neutral_face: |   -            | :neutral_face: |
-| Day 8         | :neutral_face:|    :smile:     |:neutral_face:  |        -       |   :smile:      |    :smile:     |
-| Day 9         |  :worried:    |       -        |                |        -       | :neutral_face: |                |
-| Day 10        |  :worried:    |       -        |                |        -       |    :worried:   |                |
-| Day 11        |       -       |       -        |                |        -       |                |                |
-| Day 12        |   :smile:     |                |                |        -       |                |                |
-| Day 13        |      -        |                |                |        -       |                |                |
-| Day 14        |   :smile:     |                |                |        -       |                |                |
-| Day 15        |               |                |                |                |                |                |
-| Day 16        |               |                |                |                |                |                |
-| Day 17        |               |                |                |                |                |                |
-| Day 18        |               |                |                |                |                |                |
+| Day                  | JUAN RAMON    | RAUL           | ANTONIO        | SANTI          | JORGE          | SERGIO         |
+| -------------        | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
+| Day 1 (12/04)        | :smile:       |       :smile:  |      :smile:   |     :smile:    |   :smile:      |    :smile:     |
+| Day 2 (13/04)        |     -         |         -      |       -        |         -      |   -            |      -         |
+| Day 3 (14/04)        | :smile:       |      -         |       -        |     :smile:    |    :smile:     |      -         |
+| Day 4 (15/04)        |     -         |      -         |       :smile:  |        -       |    -           |    :smile:     |
+| Day 5 (16/04)        | :smile:       |    :smile:     |:neutral_face:  |     :smile:    |    -           |      -         |
+| Day 6 (17/04)        |     -         |       -        |       -        |        -       |    -           |      -         |
+| Day 7 (18/04)        | :neutral_face:|   :worried:    |       -        | :neutral_face: |   -            | :neutral_face: |
+| Day 8 (19/04)        | :neutral_face:|    :smile:     |:neutral_face:  |        -       |   :smile:      |    :smile:     |
+| Day 9 (20/04)        |  :worried:    |       -        |                |        -       | :neutral_face: |                |
+| Day 10(21/04)        |  :worried:    |       -        |                |        -       |    :worried:   |                |
+| Day 11(22/04)        |       -       |       -        |                |        -       |                |                |
+| Day 12(23/04)        |   :smile:     |       -        |                |        -       |                |                |
+| Day 13(24/04)        |      -        |       -        |                |        -       |                |                |
+| Day 14(25/04)        |   :smile:     |       -        |                |        -       |                |                |
+| Day 15(26/04)        |               |                |                |                |                |                |
+| Day 16(27/04)        |               |                |                |                |                |                |
+| Day 17(28/04)        |               |                |                |                |                |                |
+| Day 18(29/04)        |               |                |                |                |                |                |
 
