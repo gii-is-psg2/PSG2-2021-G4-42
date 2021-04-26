@@ -46,8 +46,8 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day 10        |  :worried:    |       -        |                |        -       |    :worried:   |                |
 | Day 11        |       -       |       -        |                |                |                |                |
 | Day 12        |   :smile:     |                |                |                |                |                |
-| Day 13        |               |                |                |                |                |                |
-| Day 14        |               |                |                |                |                |                |
+| Day 13        |      -        |                |                |                |                |                |
+| Day 14        |   :smile:     |                |                |                |                |                |
 | Day 15        |               |                |                |                |                |                |
 | Day 16        |               |                |                |                |                |                |
 | Day 17        |               |                |                |                |                |                |
