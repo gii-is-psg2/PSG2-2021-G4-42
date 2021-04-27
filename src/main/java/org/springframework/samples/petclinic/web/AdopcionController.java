@@ -23,16 +23,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AdopcionController {
-	private static final String VIEWS_ADOPCION_CREATE_OR_UPDATE_FORM = "adopciones/createOrUpdateAdopcionesForm";
-	private static final String VIEWS_ADOPCION_LIST = "adopciones/adopcionList";
-	private static final String VIEWS_ADOPCION_INTERESADOS_FORM = "adopciones/interesadosAdopciones";
-	private static final String VIEWS_ADOPCION_SOLICITUD_FORM = "adopciones/solicitarAdopcion";
+	public static final String VIEWS_ADOPCION_CREATE_OR_UPDATE_FORM = "adopciones/createOrUpdateAdopcionesForm";
+	public static final String VIEWS_ADOPCION_LIST = "/adopciones/adopcionList";
+	public static final String VIEWS_ADOPCION_INTERESADOS_FORM = "adopciones/interesadosAdopciones";
+	public static final String VIEWS_ADOPCION_SOLICITUD_FORM = "adopciones/solicitarAdopcion";
 
 	@Autowired
 	private PetService petService;
@@ -43,6 +45,16 @@ public class AdopcionController {
 	@Autowired
 	private SolicitudAdopcionService solicitudAdopcionService;
 
+	@InitBinder("adopcion")
+	public void initAdopcionBinder(final WebDataBinder dataBinder) {
+		dataBinder.setValidator(new AdopcionValidator());
+	}
+	
+	@InitBinder("solicitudAdopcion")
+	public void initSolicitudAdopcionBinder(final WebDataBinder dataBinder) {
+		dataBinder.setValidator(new SolicitudAdopcionValidator());
+	}
+	
 	@GetMapping("/adopciones")
 	public String adopciones(final ModelMap model) {
 		model.addAttribute("adopciones", this.adopcionService.findAll());
@@ -52,14 +64,14 @@ public class AdopcionController {
 			return "welcome";
 		}
 		model.addAttribute("loggedOwner",loggedOwner.get());
-		return "/adopciones/adopcionList";		
+		return VIEWS_ADOPCION_LIST;		
 	}
 
 	@GetMapping(value="/owners/{ownerId}/adopciones/{petId}/new")
 	public String newAdopcion(final ModelMap model,@PathVariable("petId") final int petId,@PathVariable("ownerId") final int ownerId) {
 		final Pet pet=this.petService.findPetById(petId);
 		final Owner o=this.ownerService.findOwnerById(ownerId);
-//		Adopcion a=adopcionService.findAdopcionByIdPetId(pet.getId());
+		
 		model.addAttribute("pet", pet);
 		model.addAttribute("owner",o);
 		model.addAttribute("fecha",LocalDate.now());
@@ -80,11 +92,8 @@ public class AdopcionController {
 			model.addAttribute("messageType", "danger");
 			model.addAttribute("pet",pet);
 			this.adopcionService.delete(a);
-		//	this.addModelData(model, adopcion);
 			return AdopcionController.VIEWS_ADOPCION_CREATE_OR_UPDATE_FORM;
 		}
-//		model.addAttribute("pet", pet);
-//		model.addAttribute("owner", o);
 		final Adopcion a=this.adopcionService.findAdopcionByIdPetId(o.getId());
 		model.addAttribute("adopciones", a);
 		return "redirect:/owners/"+o.getId();
@@ -153,7 +162,6 @@ public class AdopcionController {
 		model.addAttribute(solicitud);
 		this.solicitudAdopcionService.saveSolicitud(solicitud);
 		model.addAttribute("message", "La solicitud se ha creado correctamente ");
-	//	model.addAttribute("messageType", "info");
 		return this.adopciones(model);
 	}
 	
@@ -176,7 +184,7 @@ public class AdopcionController {
 		final Owner o = s.getAdopcion().getPet().getOwner();
 		final Owner no = s.getNuevoOwner();
 		s.getAdopcion().getPet().setOwner(no);//cambiamos el owner de la mascota
-		//solicitudAdopcionService.deleteSolicitud(s);
+		
 		try {
 			this.petService.savePet(s.getAdopcion().getPet());
 		} catch (DataAccessException | DuplicatedPetNameException e) {
