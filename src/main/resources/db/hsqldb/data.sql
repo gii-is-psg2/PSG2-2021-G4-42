@@ -112,11 +112,46 @@ INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (3, 
 INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (4, CURDATE(), DATEADD(day, 14, CURDATE()), 4, 4);
 INSERT INTO reserva(id, fecha_ini, fecha_fin, pet_id, habitacion_id) VALUES (5, '2021-03-21','2021-03-23', 3, 3);
 
+
 INSERT INTO adopcion(id, fecha_puesta_en_adopcion,fecha_resolucion_adopcion, pet_id) 	VALUES (1, '2021-03-21', '2021-03-25',2);	
 INSERT INTO adopcion(id, fecha_puesta_en_adopcion,fecha_resolucion_adopcion, pet_id) VALUES (2, '2021-01-12', '2021-01-20',3);	
 
 INSERT INTO solicitud_adopcion (id,solicitud,nuevo_owner_id,fecha_solicitud,adopcion)values(1,'Quiero un hamster que coma lechuga y eso',1,'2021-03-21',1);
 INSERT INTO solicitud_adopcion (id,solicitud,nuevo_owner_id,fecha_solicitud,adopcion)values(2,'Quiero un perrito para hacerle compañia a mi hijo que no tiene amigos',3,'2021-01-14',1);
+
+INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion_objetivo) VALUES (1, 'ANIMALES SIN DUEÑO', 'PetClinic', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in lectus non mi tristique dapibus. Donec eget justo dui. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis luctus sapien a nibh placerat, nec vestibulum eros mattis. Curabitur viverra at risus in volutpat. Duis ut orci felis. In iaculis metus sit amet nibh convallis, quis porta magna tincidunt. Donec ante nunc, accumsan a sapien sed, sodales feugiat velit. Integer suscipit tempor nibh. Ut interdum vestibulum lacus at dapibus. Cras fringilla malesuada fringilla. Cras viverra egestas bibendum. Duis sed sapien quis justo mattis porta.Mauris non sodales ipsum. Suspendisse sit amet mollis nisi. Suspendisse eget odio volutpat magna lacinia finibus. Suspendisse vestibulum ligula neque, at varius mi molestie ac. Nam nec mi ac libero condimentum mollis. Nunc eu nulla sed massa facilisis feugiat. Proin elementum metus eu ante malesuada maximus. Morbi sed mauris pulvinar, convallis risus non, imperdiet nisi. Quisque eleifend, tellus ut finibus scelerisque, sem mauris tristique ipsum, non sodales sapien sem in erat. Donec ornare, magna in sollicitudin blandit, dolor lectus molestie orci, eu mattis nunc sem ut diam. Nam vestibulum rhoncus nunc nec sollicitudin. In tempor urna sit amet mauris venenatis dapibus.', 50000);
+INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion_objetivo) VALUES (2, 'INVESTIGACIÓN ENFERMERMEDAD TOXOPLASMOSIS', 'PetClinic', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in lectus non mi tristique dapibus. Donec eget justo dui. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis luctus sapien a nibh placerat, nec vestibulum eros mattis. Curabitur viverra at risus in volutpat. Duis ut orci felis. In iaculis metus sit amet nibh convallis, quis porta magna tincidunt. Donec ante nunc, accumsan a sapien sed, sodales feugiat velit. Integer suscipit tempor nibh. Ut interdum vestibulum lacus at dapibus. Cras fringilla malesuada fringilla. Cras viverra egestas bibendum. Duis sed sapien quis justo mattis porta.', 50000);
+INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion_objetivo) VALUES (3, 'COLECTA DE PIENSO', 'Hogar Animal Madrid', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus in lectus non mi tristique dapibus. Donec eget justo dui. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis luctus sapien a nibh placerat, nec vestibulum eros mattis. Curabitur viverra at risus in volutpat. Duis ut orci felis. In iaculis metus sit amet nibh convallis, quis porta magna tincidunt. Donec ante nunc, accumsan a sapien sed, sodales feugiat velit. Integer suscipit tempor nibh. Ut interdum vestibulum lacus at dapibus. Cras fringilla malesuada fringilla. Cras viverra egestas bibendum. Duis sed sapien quis justo mattis porta.', 2500);
+INSERT INTO causas(id, nombre, organizacion, descripcion, recaudacion_objetivo) VALUES (4, 'RECAUDACIÓN PARA MATERIAL MEDICO', 'PetClinic', 'Donec vel sollicitudin nunc, gravida hendrerit metus. Pellentesque ex ipsum, imperdiet varius nisi vitae, vestibulum volutpat justo. Morbi tempus velit semper sem semper, a eleifend magna luctus. Morbi dictum eros nunc. Phasellus in dapibus nisl. Fusce quis nisi at erat ullamcorper rhoncus sit amet nec ipsum. Nunc aliquet ut dolor ac iaculis. Fusce pharetra, nibh id luctus ultricies, orci mauris malesuada ex, ut consectetur metus nibh in nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam egestas ligula quis viverra ullamcorper.', 10000);
+
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (1, '2021-03-19', 50, 1, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (2, '2020-04-21', 80, 1, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (3, '2021-01-10', 20, 1, 2);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (4, '2019-07-04', 25, 2, 4);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (5, '2021-04-12', 32, 2, 5);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (6, '2021-03-29', 65, 2, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (7, '2021-04-19', 10, 3, 7);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (8, '2021-02-01', 15, 3, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (9, '2021-01-26', 30, 3, 6);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (10, '2021-03-09', 50, 2, 7);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (11, '2021-04-04', 20, 4, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (12, '2021-01-31', 105, 4, 5);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (13, '2021-01-20', 30, 4, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (14, '2021-03-17', 20, 2, 6);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (15, '2021-02-15', 10, 1, 9);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (16, '2021-03-19', 50, 1, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (17, '2020-01-21', 80, 1, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (18, '2021-01-10', 20, 1, 2);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (19, '2021-03-19', 50, 1, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (20, '2020-04-21', 80, 1, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (21, '2021-01-10', 20, 1, 2);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (22, '2021-03-19', 50, 1, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (23, '2020-02-21', 80, 1, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (24, '2021-01-10', 20, 1, 2);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (25, '2021-03-19', 50, 1, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (26, '2020-03-21', 80, 1, 1);
+INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (27, '2021-01-10', 20, 1, 2);
+
 
 
 
