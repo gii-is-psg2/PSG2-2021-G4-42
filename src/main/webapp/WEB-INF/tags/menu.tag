@@ -40,6 +40,13 @@
 					<span>veterinarios</span>
 				</petclinic:menuItem>
 				
+
+				<petclinic:menuItem active="${name eq 'vets'}" url="/adopciones"
+					title="adopciones">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>adopciones</span>
+				</petclinic:menuItem>
+				
 				<petclinic:menuItem active="${name eq 'causa'}" url="/causa"
 					title="causas">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
@@ -50,11 +57,10 @@
 				<petclinic:menuItem active="${name eq 'reserva'}" url="/reserva/new"
 					title="reserva">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>reserva habitaci�n</span>
+					<span>reserva habitación</span>
 				</petclinic:menuItem>
 				</sec:authorize>
 				
-
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
@@ -106,7 +112,7 @@
 										<div class="col-lg-12">
 											<p>
 												<a href="#" class="btn btn-primary btn-block">Mi perfil</a>
-												<a href="#" class="btn btn-danger btn-block">Cambiar contraseña</a>
+												<a href="#" class="btn btn-danger btn-block">Cambiar contraseÃ±a</a>
 											</p>
 										</div>
 									</div>
