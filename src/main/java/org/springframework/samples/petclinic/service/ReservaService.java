@@ -21,18 +21,18 @@ public class ReservaService {
 	
 	
 	public Collection<Reserva> findAll(){
-		return reservaRepository.findAll();
+		return this.reservaRepository.findAll();
 	}
 	
 	@Transactional (readOnly=true)
-	public Optional<Reserva> findById(int id) {
+	public Optional<Reserva> findById(final int id) {
 		return this.reservaRepository.findById(id);
 	}
 	
-	@Transactional(readOnly = true)
-	public List<Reserva> findReservasBetweenFechas(final LocalDate fechaIni, final LocalDate fechaFin) {
-		return this.reservaRepository.findReservaByFechaIniBeforeAndFechaFinAfter(fechaIni, fechaIni);
-	}
+//	@Transactional(readOnly = true)
+//	public List<Reserva> findReservasBetweenFechas(final LocalDate fechaIni, final LocalDate fechaFin) {
+//		return this.reservaRepository.findReservaByFechaIniBeforeAndFechaFinAfter(fechaIni, fechaIni);
+//	}
 	
 	@Transactional
 	public void save(final Reserva reserva) throws Exception {
@@ -48,13 +48,19 @@ public class ReservaService {
 		}
 		this.reservaRepository.save(reserva);
 	}
-	
+
 	@Transactional
 	public void delete(final Reserva reserva) {
 		this.reservaRepository.delete(reserva);
 	}
 	
-	public Collection<Reserva> findReservasByOwner(int id){
+	@Transactional(readOnly=true)
+	public Collection<Reserva> findReservasByOwner(final int id){
 		return this.reservaRepository.findReservasByOwner(id);
+	}
+	
+	@Transactional(readOnly=true)
+	public Reserva findByFechaIni(LocalDate fechaIni) {
+		return this.reservaRepository.findReservaByFechaIni(fechaIni);
 	}
 }
