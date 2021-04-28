@@ -30,7 +30,7 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day 5         |    :fearful:   (I´m desperate, I need help)        |
 
 
-## Sprint Template
+## Sprint 3
 
 | Day                  | JUAN RAMON    | RAUL           | ANTONIO        | SANTI          | JORGE          | SERGIO         |
 | -------------        | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
