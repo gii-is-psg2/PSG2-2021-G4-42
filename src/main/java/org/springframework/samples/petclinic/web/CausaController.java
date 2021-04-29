@@ -1,9 +1,10 @@
 package org.springframework.samples.petclinic.web;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Causa;
@@ -11,8 +12,10 @@ import org.springframework.samples.petclinic.model.Donacion;
 import org.springframework.samples.petclinic.service.CausaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -24,11 +27,6 @@ public class CausaController {
 	
 	@GetMapping("")
 	public String listCausas(final ModelMap model) {
-		List<Double> donacionesT = new ArrayList<Double>();
-		for(Causa c : this.causaService.findAll()) {
-			donacionesT.add(this.causaService.recaudacionTotal(this.causaService.findDonacionesByCausa(c.getId())));
-		}
-		model.addAttribute("donacionesTotales", donacionesT);
 		model.addAttribute("causas", this.causaService.findAll());
 		
 		return "causas/causaList";
@@ -49,4 +47,30 @@ public class CausaController {
 			return listCausas(model);
 		}
 	}
+	
+	@GetMapping("/new")
+	public String createNewCausa(final ModelMap model) {
+		Causa causa = new Causa();
+		model.addAttribute("causa", causa);
+		return "causas/createOrUpdateCausaForm";
+	}
+	
+	@PostMapping("/new")
+	public String postNewCausa(@Valid Causa causa, final BindingResult result,final ModelMap model){
+		if(result.hasErrors()) {
+			model.addAttribute("causa", causa);
+			return "causas/createOrUpdateCausaForm";
+		}else {
+			try {
+				this.causaService.save(causa);
+		}catch(Exception e) {
+			model.addAttribute("causa", causa);
+			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
+			return "causas/createOrUpdateCausaForm";
+		}
+		return "redirect:/causa/";
+		}
+	}
+	
 }
+
