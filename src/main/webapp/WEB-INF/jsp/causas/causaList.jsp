@@ -40,11 +40,9 @@
         </tbody>
     </table>
     <div>
-    	<sec:authorize access="hasAuthority('admin')"> 
-			<a href="/causa/new">
-	        	    <button style="size: 30px">Crear causa</button>
-	 		</a>
-   		</sec:authorize>
+		<a href="/causa/new">
+        	    <button style="size: 30px">Crear causa</button>
+ 		</a>
     </div>
     
 </petclinic:layout>
