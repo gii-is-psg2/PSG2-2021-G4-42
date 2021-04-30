@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.web;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 
@@ -15,9 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,7 +65,7 @@ public class DonacionController {
 				model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
 				return "donaciones/CreateOrUpdateDonacionForm";
 			}
-			return "redirect:/causa/";
+			return "redirect:/causa/"+id;
 			
 			
 		}

@@ -23,6 +23,7 @@ public class CausaService {
 	@Autowired
 	private DonacionRepository donacionRepository;
 	
+	@Transactional(readOnly=true)
 	public Collection<Causa> findAll(){
 		return causaRepository.findAll();
 	}
