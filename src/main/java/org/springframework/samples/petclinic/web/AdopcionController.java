@@ -171,16 +171,16 @@ public class AdopcionController {
 		final Set<SolicitudAdopcion> s=this.solicitudAdopcionService.findSolicitudAdopcionByPetId(petId);
 		model.addAttribute("solicitudes",s);
 		
-		//falta terminar esto
+		final Pet pet = this.petService.findPetById(petId);
 		
-//		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
-//		String rol = "";
-//		if(rolOptional.isPresent()) {
-//			rol = rolOptional.get().getAuthority();
-//		}
-//		
-//		model.addAttribute("showButtons", (rol.equals("admin") || username.equals(s..getUser().getUsername())));
+		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+		String rol = "";
+		if(rolOptional.isPresent()) {
+			rol = rolOptional.get().getAuthority();
+		}
+		
+		model.addAttribute("showButtons", (rol.equals("admin") || username.equals(pet.getOwner().getUser().getUsername())));
 		
 
 		return AdopcionController.VIEWS_ADOPCION_INTERESADOS_FORM;
@@ -228,6 +228,15 @@ public class AdopcionController {
 	public String interesadosAdopcionDenegar(@PathVariable final int solicitudId, final ModelMap model) {
 		final SolicitudAdopcion s=this.solicitudAdopcionService.findSolicitudById(solicitudId).get();
 		final Owner o=s.getAdopcion().getPet().getOwner();
+		
+		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		if(rol.equals("admin") || !username.equals(o.getUser().getUsername())) {
+			model.addAttribute("message", "No puedes aceptar una solicitud de otra mascota");
+			model.addAttribute("messageType", "danger");
+			return "welcome";
+		}
 		this.solicitudAdopcionService.deleteSolicitud(s);
 		model.addAttribute("message", "La solicitud se ha borrado correctamente ");
 		
