@@ -7,22 +7,11 @@
 
 <petclinic:layout pageName = "crearCausas">
 	<form:form action="/causa/new" modelAttribute="causa" class="form-horizontal">
-		<div>
-			<h3> Detalles de la Causa </h3>
-			<p>Nombre de la causa</p>
-			<form:input size="" type="text" path="nombre"/>
-			<p>Nombre de la organizacion</p>
-			<form:input type="text" path="organizacion"/>
-			<p>Descripción</p>
-			<form:textarea rows="10" cols="50" path="descripcion"/>
-		</div>
-		<br>
-		<br>
-		<div>
-			<h3>Establece la recaudacion objetivo de esta causa</h3>
-			<form:input type="number" path="recaudacionObjetivo"/>
-		</div>
-		<br>
+		<petclinic:inputField label="Nombre de la causa" name="nombre"></petclinic:inputField>
+		<petclinic:inputField label="Nombre de la organización" name="organizacion"></petclinic:inputField>
+		<petclinic:textarea label="Descripción" name="descripcion"></petclinic:textarea>
+		<petclinic:inputField label="Establece la recaudación objetivo de la causa"
+								 name="recaudacionObjetivo" type="number"></petclinic:inputField>
 		<div>
 			<button class="btn btn-default" type="submit">Crear causa</button>
 		</div>

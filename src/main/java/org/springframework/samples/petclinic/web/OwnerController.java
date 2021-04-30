@@ -17,6 +17,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -27,9 +28,9 @@ import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.ReservaService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -37,7 +38,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Juergen Hoeller
@@ -64,26 +64,6 @@ public class OwnerController {
 	@InitBinder
 	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
-	}
-
-	@GetMapping(value = "/owners/new")
-	public String initCreationForm(final Map<String, Object> model) {
-		final Owner owner = new Owner();
-		model.put("owner", owner);
-		return OwnerController.VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
-	}
-
-	@PostMapping(value = "/owners/new")
-	public String processCreationForm(@Valid final Owner owner, final BindingResult result) {
-		if (result.hasErrors()) {
-			return OwnerController.VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			//creating owner, user and authorities
-			this.ownerService.saveOwner(owner);
-			
-			return "redirect:/owners/" + owner.getId();
-		}
 	}
 
 	@GetMapping(value = "/owners/find")
@@ -120,9 +100,21 @@ public class OwnerController {
 	}
 
 	@GetMapping(value = "/owners/{ownerId}/edit")
-	public String initUpdateOwnerForm(@PathVariable("ownerId") final int ownerId, final Model model) {
+	public String initUpdateOwnerForm(@PathVariable("ownerId") final int ownerId, final ModelMap model) {
 		final Owner owner = this.ownerService.findOwnerById(ownerId);
 		model.addAttribute(owner);
+		
+		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+		String rol = "";
+		if(rolOptional.isPresent()) {
+			rol = rolOptional.get().getAuthority();
+		}
+		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		if(!username.equals(owner.getUser().getUsername()) || !rol.equals("admin")) {
+			return showOwner(model, ownerId);
+		}
+		
 		return OwnerController.VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
 
@@ -145,12 +137,21 @@ public class OwnerController {
 	 * @return a ModelMap with the model attributes for the view
 	 */
 	@GetMapping("/owners/{ownerId}")
-	public ModelAndView showOwner(ModelMap model, @PathVariable("ownerId") int ownerId) {
-		ModelAndView mav = new ModelAndView("owners/ownerDetails");
+	public String showOwner(ModelMap model, @PathVariable("ownerId") int ownerId) {
 		model.addAttribute("reservas", reservaService.findReservasByOwner(ownerId));
 		model.addAttribute("adopciones", adopcionService.findAdopcionByIdOwnerId(ownerId));
-		mav.addObject(this.ownerService.findOwnerById(ownerId));
-		return mav;
+		final Owner owner = this.ownerService.findOwnerById(ownerId);
+		model.addAttribute("owner", owner);
+		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+		String rol = "";
+		if(rolOptional.isPresent()) {
+			rol = rolOptional.get().getAuthority();
+		}
+		
+		model.addAttribute("showButtons", (rol.equals("admin") || username.equals(owner.getUser().getUsername())));
+		
+		return "owners/ownerDetails";
 	}
 	
 	@GetMapping(value="/owners/{ownerId}/delete")

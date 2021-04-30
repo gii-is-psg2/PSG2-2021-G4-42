@@ -19,6 +19,7 @@ import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.SolicitudAdopcionService;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -169,6 +170,18 @@ public class AdopcionController {
 	public String interesadosAdopcion(@PathVariable final int petId, final ModelMap model) {
 		final Set<SolicitudAdopcion> s=this.solicitudAdopcionService.findSolicitudAdopcionByPetId(petId);
 		model.addAttribute("solicitudes",s);
+		
+		//falta terminar esto
+		
+//		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+//		String rol = "";
+//		if(rolOptional.isPresent()) {
+//			rol = rolOptional.get().getAuthority();
+//		}
+//		
+//		model.addAttribute("showButtons", (rol.equals("admin") || username.equals(s..getUser().getUsername())));
+		
 
 		return AdopcionController.VIEWS_ADOPCION_INTERESADOS_FORM;
 	}
@@ -179,14 +192,23 @@ public class AdopcionController {
 		if(solicitud.isEmpty()) {
 			return "welcome";
 		}
-		final SolicitudAdopcion s = solicitud.get();
 		
+		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		final SolicitudAdopcion s = solicitud.get();
 		final Owner o = s.getAdopcion().getPet().getOwner();
+		if(rol.equals("admin") || !username.equals(o.getUser().getUsername())) {
+			model.addAttribute("message", "No puedes aceptar una solicitud de otra mascota");
+			model.addAttribute("messageType", "danger");
+			return "welcome";
+		}
+		
 		final Owner no = s.getNuevoOwner();
 		s.getAdopcion().getPet().setOwner(no);//cambiamos el owner de la mascota
 		
 		try {
-			this.petService.savePet(s.getAdopcion().getPet());
+			this.petService.savePet(s.getAdopcion().getPet()); 
 		} catch (DataAccessException | DuplicatedPetNameException e) {
 			model.addAttribute("message","No se ha podido realizar la adopcion");
 			return "redirect:/owners/" + o.getId();
