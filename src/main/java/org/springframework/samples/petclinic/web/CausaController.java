@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.samples.petclinic.model.Causa;
 import org.springframework.samples.petclinic.model.Donacion;
 import org.springframework.samples.petclinic.service.CausaService;
@@ -69,7 +70,7 @@ public class CausaController {
 				this.causaService.save(causa);
 		}catch(Exception e) {
 			model.addAttribute(CAUSA, causa);
-			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
+			model.addAttribute("message", result.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList()));
 			return VIEWS_CAUSA_CREATE_OR_UPDATE_FORM;
 		}
 		return "redirect:/causa/";

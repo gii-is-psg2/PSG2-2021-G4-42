@@ -25,6 +25,8 @@ import java.util.stream.StreamSupport;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.model.NamedEntity;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
@@ -61,7 +63,7 @@ public class VetController {
 
 	@ModelAttribute("especialidades")
 	public Map<Integer, String> listaEspecialidades() {
-		return StreamSupport.stream(this.specialtyService.findAll().spliterator(), false).collect(Collectors.toMap(x -> x.getId(), y -> y.getName()));
+		return StreamSupport.stream(this.specialtyService.findAll().spliterator(), false).collect(Collectors.toMap(BaseEntity::getId, NamedEntity::getName));
 	}
 
 	@Autowired

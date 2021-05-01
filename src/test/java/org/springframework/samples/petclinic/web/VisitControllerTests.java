@@ -39,6 +39,7 @@ class VisitControllerTests {
 	private static final int TEST_PET_ID = 1;
 	private static final int TEST_VISIT_ID = 1;
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private VisitController visitController;
 

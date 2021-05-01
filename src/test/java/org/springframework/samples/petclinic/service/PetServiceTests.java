@@ -213,7 +213,7 @@ class PetServiceTests {
 	@Test
 	void shouldFindVisitsByPetId() throws Exception {
 		final Collection<Visit> visits = this.petService.findVisitsByPetId(7);
-		org.assertj.core.api.Assertions.assertThat(visits.size()).isEqualTo(2);
+		org.assertj.core.api.Assertions.assertThat(visits).hasSize(2);
 		final Visit[] visitArr = visits.toArray(new Visit[visits.size()]);
 		org.assertj.core.api.Assertions.assertThat(visitArr[0].getPet()).isNotNull();
 		org.assertj.core.api.Assertions.assertThat(visitArr[0].getDate()).isNotNull();

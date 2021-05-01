@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Adopcion;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.SolicitudAdopcion;
 import org.springframework.samples.petclinic.repository.AdopcionRepository;
 import org.springframework.samples.petclinic.service.exceptions.CannotAdoptYourOwnPetException;
 import org.springframework.samples.petclinic.service.exceptions.FechaPropuestaDebeSerPosteriorFechaAdopcionException;
@@ -53,9 +54,9 @@ public class AdopcionService {
 			this.adopcionRepository.save(adopcion);
 		}
 		else {
-			final Set<Owner> owners= adopcion.getSolicitudAdopcion().stream().map(x->x.getNuevoOwner()).collect(Collectors.toSet());
+			final Set<Owner> owners= adopcion.getSolicitudAdopcion().stream().map(SolicitudAdopcion::getNuevoOwner).collect(Collectors.toSet());
 			final LocalDate fechaPuestaEnAdopcion = adopcion.getFechaPuestaEnAdopcion();
-			final Set<LocalDate> fechasPropuestaAdopcion = adopcion.getSolicitudAdopcion().stream().map(x->x.getFechaSolicitud()).collect(Collectors.toSet());
+			final Set<LocalDate> fechasPropuestaAdopcion = adopcion.getSolicitudAdopcion().stream().map(SolicitudAdopcion::getFechaSolicitud).collect(Collectors.toSet());
 			final LocalDate fechaResolucionAdopcion = adopcion.getFechaResolucionAdopcion();
 
 			if(owners.contains(ownerOriginal)) {
