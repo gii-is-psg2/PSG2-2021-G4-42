@@ -78,7 +78,7 @@ class VisitControllerTests {
 	}
 	@WithMockUser(value = "spring")
         @Test
-        @Disabled
+        @Disabled("No funciona, se arreglará más adelante")
 	void testProcessNewVisitFormSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/visits/{petId}/new", VisitControllerTests.TEST_PET_ID).param("name", "George")
 							.with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -89,7 +89,7 @@ class VisitControllerTests {
 
 	@WithMockUser(value = "spring")
         @Test
-        @Disabled
+        @Disabled("No funciona, se arreglará más adelante")
 	void testProcessNewVisitFormHasErrors() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/visits/{petId}/new", VisitControllerTests.TEST_PET_ID)
 							.with(SecurityMockMvcRequestPostProcessors.csrf())

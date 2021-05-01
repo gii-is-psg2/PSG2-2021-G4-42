@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -30,11 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 		@Transactional
 		public void saveSolicitud(final SolicitudAdopcion s) throws DataAccessException {
 			this.solicitudAdopcionRepository.save(s);		
-		}		
-//		@Transactional
-//		public void numeroDeSolicitudes(final SolicitudAdopcion s) throws DataAccessException {
-//			this.solicitudAdopcionRepository.numeroDeSolicitudes();		
-//		}		
+		}			
 		
 		@Transactional
 		public void deleteSolicitud(SolicitudAdopcion s) throws DataAccessException{

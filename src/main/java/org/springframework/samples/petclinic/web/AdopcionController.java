@@ -19,6 +19,7 @@ import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.SolicitudAdopcionService;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+import org.springframework.samples.petclinic.web.exceptions.AdopcionNoEncontradaException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -110,7 +111,7 @@ public class AdopcionController {
 	
 	
 	@GetMapping(value="/adopciones/delete/{adopcionId}")
-	public String deleteAdopcion(@PathVariable final int adopcionId, final ModelMap model) {
+	public String deleteAdopcion(@PathVariable final int adopcionId, final ModelMap model) throws AdopcionNoEncontradaException {
 		final Optional<Adopcion> adopcion = this.adopcionService.findById(adopcionId);
 		
 		if(!adopcion.isPresent()) {
@@ -134,7 +135,7 @@ public class AdopcionController {
 			try {
 				this.adopcionService.delete(adopcion.get());
 			}catch(final Exception e) {
-				
+				throw new AdopcionNoEncontradaException();
 			}
 		}
 		return VIEWS_REDIRECT_OWNER + owner.getId();
@@ -269,7 +270,7 @@ public class AdopcionController {
 		
 		return VIEWS_REDIRECT_OWNER + o.getId();
 	}
-	public void addModelData(final ModelMap model, final Adopcion adopcion) {
+	public void addModelData(final ModelMap model) {
 
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		final List<Pet> pets = this.petService.findPetsByOwner(username);		

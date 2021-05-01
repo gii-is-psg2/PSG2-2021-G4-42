@@ -11,6 +11,10 @@ import org.springframework.samples.petclinic.model.Adopcion;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.repository.AdopcionRepository;
+import org.springframework.samples.petclinic.service.exceptions.CannotAdoptYourOwnPetException;
+import org.springframework.samples.petclinic.service.exceptions.FechaPropuestaDebeSerPosteriorFechaAdopcionException;
+import org.springframework.samples.petclinic.service.exceptions.FechaPuestaEnAdopcionNoValidaException;
+import org.springframework.samples.petclinic.service.exceptions.FechaResolucionAdopcionNoValidaException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,15 +42,13 @@ public class AdopcionService {
 	public Adopcion findAdopcionByIdPetId(final int id) {
 		return this.adopcionRepository.findAdopcionByPetId(id);
 	}
-	//	@Transactional(readOnly = true)
-	//	public List<Adopcion> findAdopcionesBetweenFechas(final LocalDate fechaIni, final LocalDate fechaFin) {
-	//		return this.adopcionRepository.findAdopcionByFechaIniBeforeAndFechaFinAfter(fechaIni, fechaIni);
-	//	}
 
 	@Transactional
-	public void save(final Adopcion adopcion) throws Exception {
+	public void save(final Adopcion adopcion)
+			throws CannotAdoptYourOwnPetException, FechaPuestaEnAdopcionNoValidaException,
+			FechaResolucionAdopcionNoValidaException, FechaPropuestaDebeSerPosteriorFechaAdopcionException {
 		final Pet pet = adopcion.getPet();
-		final Owner ownerOriginal = adopcion.getPet().getOwner();
+		final Owner ownerOriginal = pet.getOwner();
 		if(adopcion.getSolicitudAdopcion()==null) {
 			this.adopcionRepository.save(adopcion);
 		}
@@ -57,17 +59,17 @@ public class AdopcionService {
 			final LocalDate fechaResolucionAdopcion = adopcion.getFechaResolucionAdopcion();
 
 			if(owners.contains(ownerOriginal)) {
-				throw new Exception("No puedes adoptar a tu propia mascota. "+pet.getName()+"encontrará pronto un nuevo dueño!");
+				throw new CannotAdoptYourOwnPetException();
 			}
 
 			if(fechaPuestaEnAdopcion==null) {
-				throw new Exception("La fecha de puesta en adopción no es válida");
+				throw new FechaPuestaEnAdopcionNoValidaException();
 			}		
 			if(!this.compruebaFechasPropuestaEsPosteriorAFechaPuesta(fechaPuestaEnAdopcion, fechasPropuestaAdopcion) || !this.compruebaFechaResolucionEsPosteriorAFechasPropuestas(fechaResolucionAdopcion, fechasPropuestaAdopcion)) {
-				throw new Exception("Las fecha de resolución de la adopción no es válida");
+				throw new FechaResolucionAdopcionNoValidaException();
 			}
 			if(!fechasPropuestaAdopcion.isEmpty() && !this.compruebaFechasPropuestaEsPosteriorAFechaPuesta(fechaPuestaEnAdopcion, fechasPropuestaAdopcion)) {
-				throw new Exception("La fecha de propuesta de adopcion debe ser después de la fecha de puesta en adopción");
+				throw new FechaPropuestaDebeSerPosteriorFechaAdopcionException();
 			}
 
 			this.adopcionRepository.save(adopcion);
@@ -93,8 +95,4 @@ public class AdopcionService {
 	public void delete(final Adopcion adopcion) {
 		this.adopcionRepository.delete(adopcion);
 	}
-
-	//	public Collection<Adopcion> findAdopcionesByPet(int id){
-	//		return this.adopcionRepository.findAdopcionesByPet(id);
-	//	}
 }

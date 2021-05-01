@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -11,6 +10,7 @@ import org.springframework.samples.petclinic.model.Causa;
 import org.springframework.samples.petclinic.model.Donacion;
 import org.springframework.samples.petclinic.repository.CausaRepository;
 import org.springframework.samples.petclinic.repository.DonacionRepository;
+import org.springframework.samples.petclinic.service.exceptions.CausaNoValidaException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +34,7 @@ public class CausaService {
 	}
 	
 	@Transactional
-	public void save(@Valid final Causa causa) throws Exception {
+	public void save(@Valid final Causa causa) throws CausaNoValidaException {
 		this.causaRepository.save(causa);
 	}
 	

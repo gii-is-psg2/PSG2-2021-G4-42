@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+import org.springframework.samples.petclinic.web.exceptions.OwnerNoEncontradoException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -66,16 +67,6 @@ public class PetController {
 	public Owner findOwner(@PathVariable("ownerId") final int ownerId) {
 		return this.ownerService.findOwnerById(ownerId);
 	}
-        
-        /*@ModelAttribute("pet")
-	public Pet findPet(@PathVariable("petId") Integer petId) {
-            Pet result=null;
-		if(petId!=null)
-                    result=this.clinicService.findPetById(petId);
-                else
-                    result=new Pet();
-            return result;
-	}*/
                 
 	@InitBinder("owner")
 	public void initOwnerBinder(final WebDataBinder dataBinder) {
@@ -88,7 +79,7 @@ public class PetController {
 	}
 	
 	@GetMapping(value="/pets/{petId}/delete")
-	public String deletePet(@PathVariable("petId") final int petId, final ModelMap model, final Owner owner) {
+	public String deletePet(@PathVariable("petId") final int petId, final ModelMap model, final Owner owner) throws OwnerNoEncontradoException {
 		final Pet p = this.petService.findPetById(petId);
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
@@ -103,6 +94,7 @@ public class PetController {
 				this.ownerService.saveOwner(owner);
 				this.petService.delete(p);
 			}catch(final Exception e) {	
+				throw new OwnerNoEncontradoException();
 			}
 		}
 		

@@ -30,6 +30,7 @@ import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.SpecialtyService;
 import org.springframework.samples.petclinic.service.VetService;
+import org.springframework.samples.petclinic.web.exceptions.VetNoEncontradoException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -93,7 +94,7 @@ public class VetController {
 	}
 	
 	@GetMapping(value="/vets/{vetId}/delete")
-	public String deleteVet(@PathVariable("vetId") final int vetId, final Map<String, Object> model) {
+	public String deleteVet(@PathVariable("vetId") final int vetId, final Map<String, Object> model) throws VetNoEncontradoException {
 		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
 		String rol = "";
 		if(rolOptional.isPresent()) {
@@ -109,7 +110,7 @@ public class VetController {
 				}
 				this.vetService.delete(vet.get());
 			}catch (final Exception e) {
-			
+				throw new VetNoEncontradoException();
 			}
 		}
 		return this.showVetList(model);

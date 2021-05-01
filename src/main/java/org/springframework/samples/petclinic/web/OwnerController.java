@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.ReservaService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.samples.petclinic.web.exceptions.OwnerNoEncontradoException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -156,7 +157,7 @@ public class OwnerController {
 	}
 	
 	@GetMapping(value="/owners/{ownerId}/delete")
-	public String deleteOwner(@PathVariable("ownerId") final int ownerId, final Map<String, Object> model) {
+	public String deleteOwner(@PathVariable("ownerId") final int ownerId, final Map<String, Object> model) throws OwnerNoEncontradoException {
 		final Owner owner = this.ownerService.findOwnerById(ownerId);
 		final String username = owner.getUser().getUsername();
 		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
@@ -169,6 +170,7 @@ public class OwnerController {
 			try {
 				this.ownerService.deleteOwner(owner);
 			}catch(final Exception e) {
+				throw new OwnerNoEncontradoException();
 			}
 
 			final Collection<Owner> results = this.ownerService.findOwnerByLastName(""); 

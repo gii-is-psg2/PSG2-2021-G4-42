@@ -30,6 +30,7 @@ import org.springframework.samples.petclinic.model.Reserva;
 import org.springframework.samples.petclinic.service.HabitacionService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.ReservaService;
+import org.springframework.samples.petclinic.web.exceptions.ReservaNoEncontradaException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -107,7 +108,7 @@ public class ReservaController {
 	}
 	
 	@GetMapping(value="/delete/{reservaId}")
-	public String deleteReserva(@PathVariable final int reservaId, final ModelMap model) {
+	public String deleteReserva(@PathVariable final int reservaId, final ModelMap model) throws ReservaNoEncontradaException {
 		final Optional<Reserva> reserva = this.reservaService.findById(reservaId);
 		
 		if(!reserva.isPresent()) {
@@ -131,7 +132,7 @@ public class ReservaController {
 			try {
 				this.reservaService.delete(reserva.get());
 			}catch(final Exception e) {
-				
+				throw new ReservaNoEncontradaException();
 			}
 		}
 		return "redirect:/owners/" + owner.getId();
