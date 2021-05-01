@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.service;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,7 @@ class SolicitudAdopcionServiceTests {
 	@Test
 	@Transactional
 	void shouldFindNewSolicitudAdopciones() {
-		Assertions.assertThat(solicitudAdopcion.equals(solicitudAdopcionService.findSolicitudById(3).get()));
+		Assert.assertTrue(solicitudAdopcion.equals(solicitudAdopcionService.findSolicitudById(3).get()));
 	}
 
 	@Test
@@ -58,11 +57,11 @@ class SolicitudAdopcionServiceTests {
 
 		solicitudAdopcionService.saveSolicitud(solicitudAdopcion1);
 
-		Assertions.assertThat(solicitudAdopcionService.findSolicitudById(1).get().equals(solicitudAdopcion1));
-		Assertions.assertThat(solicitudAdopcion1.getFechaSolicitud().isEqual(LocalDate.of(2020, 04, 21)));
-		Assertions.assertThat(solicitudAdopcion1.getNuevoOwner().equals(ownerService.findOwnerById(6)));
-		Assertions.assertThat(solicitudAdopcion1.getAdopcion().equals(adopcionService.findById(2).get()));
-		Assertions.assertThat(solicitudAdopcion1.getSolicitud().equals("Solicitud de prueba modificada"));
+		Assert.assertTrue(solicitudAdopcionService.findSolicitudById(1).get().equals(solicitudAdopcion1));
+		Assert.assertTrue(solicitudAdopcion1.getFechaSolicitud().isEqual(LocalDate.of(2020, 04, 21)));
+		Assert.assertTrue(solicitudAdopcion1.getNuevoOwner().equals(ownerService.findOwnerById(6)));
+		Assert.assertTrue(solicitudAdopcion1.getAdopcion().equals(adopcionService.findById(2).get()));
+		Assert.assertTrue(solicitudAdopcion1.getSolicitud().equals("Solicitud de prueba modificada"));
 	}
 
 	@Test

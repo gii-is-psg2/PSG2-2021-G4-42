@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,9 +49,9 @@ class AdopcionServiceTests {
 		final Collection<Adopcion> adopciones = this.adopcionService.findAll();
 
 		final Adopcion adopcion = EntityUtils.getById(adopciones, Adopcion.class, 2);
-		Assertions.assertThat(adopcion.getFechaPuestaEnAdopcion().isEqual(LocalDate.of(2021, 1, 12)));
-		Assertions.assertThat(adopcion.getFechaResolucionAdopcion().isEqual(LocalDate.of(2021, 1, 20)));
-		Assertions.assertThat(adopcion.getPet().equals(petService.findPetById(3)));
+		Assert.assertTrue(adopcion.getFechaPuestaEnAdopcion().isEqual(LocalDate.of(2021, 1, 12)));
+		Assert.assertTrue(adopcion.getFechaResolucionAdopcion().isEqual(LocalDate.of(2021, 1, 20)));
+		Assert.assertTrue(adopcion.getPet().equals(petService.findPetById(3)));
 	}
 
 	@Test
@@ -72,10 +71,10 @@ class AdopcionServiceTests {
 
 		adopcionService.save(adopcion1);
 
-		Assertions.assertThat(adopcionService.findAdopcionByIdPetId(4).equals(adopcion1));
-		Assertions.assertThat(adopcion1.getFechaPuestaEnAdopcion().isEqual(LocalDate.of(2020, 03, 10)));
-		Assertions.assertThat(adopcion1.getFechaResolucionAdopcion().isEqual(LocalDate.of(2020, 03, 15)));
-		Assertions.assertThat(
+		Assert.assertTrue(adopcionService.findAdopcionByIdPetId(4).equals(adopcion1));
+		Assert.assertTrue(adopcion1.getFechaPuestaEnAdopcion().isEqual(LocalDate.of(2020, 03, 10)));
+		Assert.assertTrue(adopcion1.getFechaResolucionAdopcion().isEqual(LocalDate.of(2020, 03, 15)));
+		Assert.assertTrue(
 				adopcion1.getSolicitudAdopcion().equals(solicitudAdopcionService.findSolicitudAdopcionByPetId(4)));
 	}
 
