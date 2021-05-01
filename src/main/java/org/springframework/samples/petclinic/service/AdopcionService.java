@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,19 +23,19 @@ public class AdopcionService {
 
 
 	public Collection<Adopcion> findAll(){
-		return adopcionRepository.findAll();
+		return this.adopcionRepository.findAll();
 	}
 
 	@Transactional (readOnly=true)
-	public Optional<Adopcion> findById(int id) {
+	public Optional<Adopcion> findById(final int id) {
 		return this.adopcionRepository.findById(id);
 	}
 	@Transactional (readOnly=true)
-	public Collection<Adopcion> findAdopcionByIdOwnerId(int id) {
+	public Collection<Adopcion> findAdopcionByIdOwnerId(final int id) {
 		return this.adopcionRepository.findAdopcionByPetOwnerId(id);
 	}
 	@Transactional (readOnly=true)
-	public Adopcion findAdopcionByIdPetId(int id) {
+	public Adopcion findAdopcionByIdPetId(final int id) {
 		return this.adopcionRepository.findAdopcionByPetId(id);
 	}
 	//	@Transactional(readOnly = true)
@@ -49,7 +48,7 @@ public class AdopcionService {
 		final Pet pet = adopcion.getPet();
 		final Owner ownerOriginal = adopcion.getPet().getOwner();
 		if(adopcion.getSolicitudAdopcion()==null) {
-			adopcionRepository.save(adopcion);
+			this.adopcionRepository.save(adopcion);
 		}
 		else {
 			final Set<Owner> owners= adopcion.getSolicitudAdopcion().stream().map(x->x.getNuevoOwner()).collect(Collectors.toSet());
@@ -64,27 +63,27 @@ public class AdopcionService {
 			if(fechaPuestaEnAdopcion==null) {
 				throw new Exception("La fecha de puesta en adopción no es válida");
 			}		
-			if(fechaResolucionAdopcion!=null && (!compruebaFechasPropuestaEsPosteriorAFechaPuesta(fechaPuestaEnAdopcion, fechasPropuestaAdopcion) || !compruebaFechaResolucionEsPosteriorAFechasPropuestas(fechaResolucionAdopcion, fechasPropuestaAdopcion))) {
+			if(!this.compruebaFechasPropuestaEsPosteriorAFechaPuesta(fechaPuestaEnAdopcion, fechasPropuestaAdopcion) || !this.compruebaFechaResolucionEsPosteriorAFechasPropuestas(fechaResolucionAdopcion, fechasPropuestaAdopcion)) {
 				throw new Exception("Las fecha de resolución de la adopción no es válida");
 			}
-			if((fechasPropuestaAdopcion!=null || !fechasPropuestaAdopcion.isEmpty()) && !compruebaFechasPropuestaEsPosteriorAFechaPuesta(fechaPuestaEnAdopcion, fechasPropuestaAdopcion)) {
+			if(!fechasPropuestaAdopcion.isEmpty() && !this.compruebaFechasPropuestaEsPosteriorAFechaPuesta(fechaPuestaEnAdopcion, fechasPropuestaAdopcion)) {
 				throw new Exception("La fecha de propuesta de adopcion debe ser después de la fecha de puesta en adopción");
 			}
 
 			this.adopcionRepository.save(adopcion);
 		}
 	}
-	public Boolean compruebaFechasPropuestaEsPosteriorAFechaPuesta(LocalDate f,Set<LocalDate> fechas) {
-		Boolean r=true;
-		for(LocalDate fecha:fechas) {
+	public boolean compruebaFechasPropuestaEsPosteriorAFechaPuesta(final LocalDate f,final Set<LocalDate> fechas) {
+		boolean r=true;
+		for(final LocalDate fecha:fechas) {
 			r=r&&fecha.isAfter(f);
 		}
 		return r;
 
 	}
-	public Boolean compruebaFechaResolucionEsPosteriorAFechasPropuestas(LocalDate f,Set<LocalDate> fechas) {
-		Boolean r=true;
-		for(LocalDate fecha:fechas) {
+	public boolean compruebaFechaResolucionEsPosteriorAFechasPropuestas(final LocalDate f,final Set<LocalDate> fechas) {
+		boolean r=true;
+		for(final LocalDate fecha:fechas) {
 			r=r&&fecha.isBefore(f);
 		}
 		return r;

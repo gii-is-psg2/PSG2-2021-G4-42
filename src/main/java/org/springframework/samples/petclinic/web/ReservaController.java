@@ -30,6 +30,7 @@ import org.springframework.samples.petclinic.model.Reserva;
 import org.springframework.samples.petclinic.service.HabitacionService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.ReservaService;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -119,7 +120,11 @@ public class ReservaController {
 		
 		final String usernameOwner = owner.getUser().getUsername();
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+		String rol = "";
+		if(rolOptional.isPresent()) {
+			rol = rolOptional.get().toString();
+		}
 		
 		if(username.equals(usernameOwner)||rol.equals("admin")) {
 			try {

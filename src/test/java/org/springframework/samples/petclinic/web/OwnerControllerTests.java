@@ -89,40 +89,7 @@ class OwnerControllerTests {
 		this.george.setTelephone("6085551023");
 		this.george.setUser(user);
 		BDDMockito.given(this.clinicService.findOwnerById(OwnerControllerTests.TEST_OWNER_ID)).willReturn(this.george);
-		BDDMockito.given(this.reservaService.findReservasByOwner(TEST_OWNER_ID)).willReturn(new ArrayList<Reserva>());
-	}
-
-	@WithMockUser(value = "spring")
-	@Test
-	void testInitCreationForm() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/owners/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("owner"))
-		.andExpect(MockMvcResultMatchers.view().name("owners/createOrUpdateOwnerForm"));
-	}
-
-	@WithMockUser(value = "spring")
-	@Test
-	void testProcessCreationFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/owners/new").param("firstName", "Joe").param("lastName", "Bloggs")
-				.with(SecurityMockMvcRequestPostProcessors.csrf())
-				.param("address", "123 Caramel Street")
-				.param("city", "London")
-				.param("telephone", "01316761638"))
-		.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
-	}
-
-	@WithMockUser(value = "spring")
-	@Test
-	void testProcessCreationFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/owners/new")
-				.with(SecurityMockMvcRequestPostProcessors.csrf())
-				.param("firstName", "Joe")
-				.param("lastName", "Bloggs")
-				.param("city", "London"))
-		.andExpect(MockMvcResultMatchers.status().isOk())
-		.andExpect(MockMvcResultMatchers.model().attributeHasErrors("owner"))
-		.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("owner", "address"))
-		.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("owner", "telephone"))
-		.andExpect(MockMvcResultMatchers.view().name("owners/createOrUpdateOwnerForm"));
+		BDDMockito.given(this.reservaService.findReservasByOwner(OwnerControllerTests.TEST_OWNER_ID)).willReturn(new ArrayList<Reserva>());
 	}
 
 	@WithMockUser(value = "spring")
@@ -156,19 +123,6 @@ class OwnerControllerTests {
 		.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("owner", "lastName"))
 		.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrorCode("owner", "lastName", "notFound"))
 		.andExpect(MockMvcResultMatchers.view().name("owners/findOwners"));
-	}
-
-	@WithMockUser(value = "spring")
-	@Test
-	void testInitUpdateOwnerForm() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/owners/{ownerId}/edit", OwnerControllerTests.TEST_OWNER_ID)).andExpect(MockMvcResultMatchers.status().isOk())
-		.andExpect(MockMvcResultMatchers.model().attributeExists("owner"))
-		.andExpect(MockMvcResultMatchers.model().attribute("owner", Matchers.hasProperty("lastName", Matchers.is("Franklin"))))
-		.andExpect(MockMvcResultMatchers.model().attribute("owner", Matchers.hasProperty("firstName", Matchers.is("George"))))
-		.andExpect(MockMvcResultMatchers.model().attribute("owner", Matchers.hasProperty("address", Matchers.is("110 W. Liberty St."))))
-		.andExpect(MockMvcResultMatchers.model().attribute("owner", Matchers.hasProperty("city", Matchers.is("Madison"))))
-		.andExpect(MockMvcResultMatchers.model().attribute("owner", Matchers.hasProperty("telephone", Matchers.is("6085551023"))))
-		.andExpect(MockMvcResultMatchers.view().name("owners/createOrUpdateOwnerForm"));
 	}
 
 	@WithMockUser(value = "spring")

@@ -1,12 +1,15 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Causa;
 import org.springframework.samples.petclinic.model.Donacion;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.service.CausaService;
 import org.springframework.samples.petclinic.service.DonacionService;
 import org.springframework.samples.petclinic.service.OwnerService;
@@ -14,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,34 +39,51 @@ public class DonacionController {
 	
 	
 	@GetMapping(value="{id}/new")
-	public String newDonacion(final ModelMap model, @PathVariable("id") int id) {
-		Donacion donacion = new Donacion();
-		donacion.setCausa(this.causaService.findById(id).get());
+	public String newDonacion(final ModelMap model, @PathVariable("id") final int id) {
+		final Donacion donacion = new Donacion();
+		final Optional<Causa> causa = this.causaService.findById(id);
+		
+		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		final Optional<Owner> owner = this.ownerService.findOwnerByUsername(username);
+		
+		if(causa.isEmpty() || owner.isEmpty()) {
+			model.addAttribute("message", "Error al hacer la donación");
+			model.addAttribute("messageType", "danger");
+			return "welcome";
+		}
+		
+		donacion.setCausa(causa.get());
+		donacion.setDonante(owner.get());
 		donacion.setFechaDonacion(LocalDate.now());
-		String username=SecurityContextHolder.getContext().getAuthentication().getName();
-		donacion.setDonante(this.ownerService.findOwnerByUsername(username).get());
 		model.addAttribute("donacion", donacion);
-		model.addAttribute("causa", this.causaService.findById(id).get());
+		model.addAttribute("causa", causa.get());
 		
 		return "donaciones/CreateOrUpdateDonacionForm";
 	}
 	
 	@PostMapping(value="{id}/new")
-	public String newDonacionPost( @PathVariable("id") int id, @Valid Donacion donacion, final BindingResult result, final ModelMap model) {
+	public String newDonacionPost( @PathVariable("id") final int id, @Valid final Donacion donacion, final BindingResult result, final ModelMap model) {
+
+		final Optional<Causa> causa = this.causaService.findById(id);
+		if(causa.isEmpty()) {
+			model.addAttribute("message", "Error al hacer la donación");
+			model.addAttribute("messageType", "danger");
+			return "welcome";
+		}
 		if(result.hasErrors()) {
 			model.addAttribute("donacion", donacion);
-			model.addAttribute("causa", this.causaService.findById(id).get());
+			model.addAttribute("causa", causa.get());
 			model.addAttribute("causas", this.causaService.findAll());
 			return "donaciones/CreateOrUpdateDonacionForm";
 		}else {
 			try {
 				donacion.setId(null);
 				this.donacionService.save(donacion);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				model.clear();
 				model.addAttribute("donacion", donacion);
-				model.addAttribute("causa", this.causaService.findById(id).get());
-				model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
+				model.addAttribute("causa", causa.get());
+				model.addAttribute("message", result.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList()));
 				return "donaciones/CreateOrUpdateDonacionForm";
 			}
 			return "redirect:/causa/"+id;

@@ -65,7 +65,7 @@ public class AdopcionController {
 			return "welcome";
 		}
 		model.addAttribute("loggedOwner",loggedOwner.get());
-		return VIEWS_ADOPCION_LIST;		
+		return AdopcionController.VIEWS_ADOPCION_LIST;		
 	}
 
 	@GetMapping(value="/owners/{ownerId}/adopciones/{petId}/new")
@@ -116,7 +116,11 @@ public class AdopcionController {
 		
 		final String usernameOwner = owner.getUser().getUsername();
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+		String rol = "";
+		if(rolOptional.isPresent()) {
+			rol = rolOptional.get().toString();
+		}
 		
 		if(username.equals(usernameOwner)||rol.equals("admin")) {
 			try {
@@ -193,7 +197,11 @@ public class AdopcionController {
 			return "welcome";
 		}
 		
-		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+		String rol = "";
+		if(rolOptional.isPresent()) {
+			rol = rolOptional.get().toString();
+		}
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		
 		final SolicitudAdopcion s = solicitud.get();
@@ -226,10 +234,21 @@ public class AdopcionController {
 	
 	@GetMapping(value="/adopciones/solicitudAdopcion/{solicitudId}/denegar")
 	public String interesadosAdopcionDenegar(@PathVariable final int solicitudId, final ModelMap model) {
-		final SolicitudAdopcion s=this.solicitudAdopcionService.findSolicitudById(solicitudId).get();
-		final Owner o=s.getAdopcion().getPet().getOwner();
+		final Optional<SolicitudAdopcion> s=this.solicitudAdopcionService.findSolicitudById(solicitudId);
 		
-		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		if(s.isEmpty()) {
+			model.addAttribute("message", "Error al denegar la adopción");
+			model.addAttribute("messageType", "danger");
+			return "welcome";
+		}
+		
+		final Owner o=s.get().getAdopcion().getPet().getOwner();
+		
+		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+		String rol = "";
+		if(rolOptional.isPresent()) {
+			rol = rolOptional.get().toString();
+		}
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		
 		if(rol.equals("admin") || !username.equals(o.getUser().getUsername())) {
@@ -237,7 +256,7 @@ public class AdopcionController {
 			model.addAttribute("messageType", "danger");
 			return "welcome";
 		}
-		this.solicitudAdopcionService.deleteSolicitud(s);
+		this.solicitudAdopcionService.deleteSolicitud(s.get());
 		model.addAttribute("message", "La solicitud se ha borrado correctamente ");
 		
 		return "redirect:/owners/" + o.getId();

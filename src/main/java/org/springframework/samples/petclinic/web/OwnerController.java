@@ -112,7 +112,7 @@ public class OwnerController {
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		
 		if(!username.equals(owner.getUser().getUsername()) || !rol.equals("admin")) {
-			return showOwner(model, ownerId);
+			return this.showOwner(model, ownerId);
 		}
 		
 		return OwnerController.VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
@@ -137,9 +137,9 @@ public class OwnerController {
 	 * @return a ModelMap with the model attributes for the view
 	 */
 	@GetMapping("/owners/{ownerId}")
-	public String showOwner(ModelMap model, @PathVariable("ownerId") int ownerId) {
-		model.addAttribute("reservas", reservaService.findReservasByOwner(ownerId));
-		model.addAttribute("adopciones", adopcionService.findAdopcionByIdOwnerId(ownerId));
+	public String showOwner(final ModelMap model, @PathVariable("ownerId") final int ownerId) {
+		model.addAttribute("reservas", this.reservaService.findReservasByOwner(ownerId));
+		model.addAttribute("adopciones", this.adopcionService.findAdopcionByIdOwnerId(ownerId));
 		final Owner owner = this.ownerService.findOwnerById(ownerId);
 		model.addAttribute("owner", owner);
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -158,7 +158,11 @@ public class OwnerController {
 	public String deleteOwner(@PathVariable("ownerId") final int ownerId, final Map<String, Object> model) {
 		final Owner owner = this.ownerService.findOwnerById(ownerId);
 		final String username = owner.getUser().getUsername();
-		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+		String rol = "";
+		if(rolOptional.isPresent()) {
+			rol = rolOptional.get().toString();
+		}
 		final String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
 		if(rol.equals("admin") && !username.equals(username2)) {
 			try {

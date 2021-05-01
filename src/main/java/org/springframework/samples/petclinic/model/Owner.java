@@ -74,14 +74,14 @@ public class Owner extends Person {
 	}
 
 	public User getUser() {
-		return user;
+		return this.user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(final User user) {
 		this.user = user;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(final String address) {
 		this.address = address;
 	}
 
@@ -89,7 +89,7 @@ public class Owner extends Person {
 		return this.city;
 	}
 
-	public void setCity(String city) {
+	public void setCity(final String city) {
 		this.city = city;
 	}
 
@@ -97,7 +97,7 @@ public class Owner extends Person {
 		return this.telephone;
 	}
 
-	public void setTelephone(String telephone) {
+	public void setTelephone(final String telephone) {
 		this.telephone = telephone;
 	}
 
@@ -108,23 +108,23 @@ public class Owner extends Person {
 		return this.pets;
 	}
 
-	protected void setPetsInternal(Set<Pet> pets) {
+	protected void setPetsInternal(final Set<Pet> pets) {
 		this.pets = pets;
 	}
 
 	public List<Pet> getPets() {
-		List<Pet> sortedPets = new ArrayList<>(getPetsInternal());
+		final List<Pet> sortedPets = new ArrayList<>(this.getPetsInternal());
 		PropertyComparator.sort(sortedPets, new MutableSortDefinition("name", true, true));
 		return Collections.unmodifiableList(sortedPets);
 	}
 
-	public void addPet(Pet pet) {
-		getPetsInternal().add(pet);
+	public void addPet(final Pet pet) {
+		this.getPetsInternal().add(pet);
 		pet.setOwner(this);
 	}
 	
-	public boolean removePet(Pet pet) {
-		return getPetsInternal().remove(pet);
+	public boolean removePet(final Pet pet) {
+		return this.getPetsInternal().remove(pet);
 	}
 
 	/**
@@ -132,16 +132,19 @@ public class Owner extends Person {
 	 * @param name to test
 	 * @return true if pet name is already in use
 	 */
-	public Pet getPet(String name) {
-		return getPet(name, false);
+	public Pet getPet(final String name) {
+		return this.getPet(name, false);
 	}
 	
-	public Pet getPetwithIdDifferent(String name,Integer id) {
+	public Pet getPetwithIdDifferent(String name,final Integer id) {
 		name = name.toLowerCase();
-		for (Pet pet : getPetsInternal()) {
+		for (final Pet pet : this.getPetsInternal()) {
 			String compName = pet.getName();
 			compName = compName.toLowerCase();
-			if (compName.equals(name) && pet.getId()!=id) {
+			if(id == null || pet.getId() == null) {
+				return pet;
+			}
+			if (compName.equals(name) && !id.equals(pet.getId())) {
 				return pet;
 			}
 		}
@@ -153,9 +156,9 @@ public class Owner extends Person {
 	 * @param name to test
 	 * @return true if pet name is already in use
 	 */
-	public Pet getPet(String name, boolean ignoreNew) {
+	public Pet getPet(String name, final boolean ignoreNew) {
 		name = name.toLowerCase();
-		for (Pet pet : getPetsInternal()) {
+		for (final Pet pet : this.getPetsInternal()) {
 			if (!ignoreNew || !pet.isNew()) {
 				String compName = pet.getName();
 				compName = compName.toLowerCase();
