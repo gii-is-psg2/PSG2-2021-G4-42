@@ -62,6 +62,8 @@ public class CausaController {
 			return "causas/createOrUpdateCausaForm";
 		}else {
 			try {
+				String up = causa.getNombre().toUpperCase();
+				causa.setNombre(up);
 				this.causaService.save(causa);
 		}catch(Exception e) {
 			model.addAttribute("causa", causa);
