@@ -36,7 +36,15 @@ public class AdopcionController {
 	public static final String VIEWS_ADOPCION_LIST = "/adopciones/adopcionList";
 	public static final String VIEWS_ADOPCION_INTERESADOS_FORM = "adopciones/interesadosAdopciones";
 	public static final String VIEWS_ADOPCION_SOLICITUD_FORM = "adopciones/solicitarAdopcion";
-
+	public static final String VIEWS_REDIRECT_OWNER = "redirect:/owners/";
+	public static final String ADOPCIONES = "adopciones";
+	public static final String WELCOME = "welcome";
+	public static final String MESSAGE = "message";
+	public static final String DANGER = "danger";
+	public static final String MESSAGE_TYPE = "messageType";
+	public static final String WARNING = "warning";
+	public static final String ADMIN = "admin";
+	
 	@Autowired
 	private PetService petService;
 	@Autowired
@@ -58,11 +66,11 @@ public class AdopcionController {
 	
 	@GetMapping("/adopciones")
 	public String adopciones(final ModelMap model) {
-		model.addAttribute("adopciones", this.adopcionService.findAll());
+		model.addAttribute(ADOPCIONES, this.adopcionService.findAll());
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		final Optional<Owner> loggedOwner=this.ownerService.findOwnerByUsername(username);
 		if(!loggedOwner.isPresent()) {
-			return "welcome";
+			return WELCOME;
 		}
 		model.addAttribute("loggedOwner",loggedOwner.get());
 		return AdopcionController.VIEWS_ADOPCION_LIST;		
@@ -89,15 +97,15 @@ public class AdopcionController {
 			this.adopcionService.save(a);
 		}catch (final Exception e) {		
 			final Adopcion a=this.adopcionService.findAdopcionByIdPetId(pet.getId());
-			model.addAttribute("message", "La mascota ya está en adopción");
-			model.addAttribute("messageType", "danger");
+			model.addAttribute(MESSAGE, "La mascota ya está en adopción");
+			model.addAttribute(MESSAGE_TYPE, DANGER);
 			model.addAttribute("pet",pet);
 			this.adopcionService.delete(a);
 			return AdopcionController.VIEWS_ADOPCION_CREATE_OR_UPDATE_FORM;
 		}
 		final Adopcion a=this.adopcionService.findAdopcionByIdPetId(o.getId());
-		model.addAttribute("adopciones", a);
-		return "redirect:/owners/"+o.getId();
+		model.addAttribute(ADOPCIONES, a);
+		return VIEWS_REDIRECT_OWNER+o.getId();
 	}
 	
 	
@@ -106,8 +114,8 @@ public class AdopcionController {
 		final Optional<Adopcion> adopcion = this.adopcionService.findById(adopcionId);
 		
 		if(!adopcion.isPresent()) {
-			model.addAttribute("message", "La adopcion seleccionada no existe: " + adopcionId);
-			model.addAttribute("messageType", "warning");
+			model.addAttribute(MESSAGE, "La adopcion seleccionada no existe: " + adopcionId);
+			model.addAttribute(MESSAGE_TYPE, WARNING);
 			return this.adopciones(model);
 		}
 		
@@ -122,21 +130,21 @@ public class AdopcionController {
 			rol = rolOptional.get().toString();
 		}
 		
-		if(username.equals(usernameOwner)||rol.equals("admin")) {
+		if(username.equals(usernameOwner)||rol.equals(ADMIN)) {
 			try {
 				this.adopcionService.delete(adopcion.get());
 			}catch(final Exception e) {
 				
 			}
 		}
-		return "redirect:/owners/" + owner.getId();
+		return VIEWS_REDIRECT_OWNER + owner.getId();
 	}
 	@GetMapping(value="/adopciones/solicitud/{adopcionId}")
 	public String solicitudAdopcion(@PathVariable final int adopcionId, final ModelMap model) {
 		final Optional<Adopcion> adopcion = this.adopcionService.findById(adopcionId);
 		if(!adopcion.isPresent()) {
-			model.addAttribute("message", "La adopcion seleccionada no existe: " + adopcionId);
-			model.addAttribute("messageType", "warning");
+			model.addAttribute(MESSAGE, "La adopcion seleccionada no existe: " + adopcionId);
+			model.addAttribute(MESSAGE_TYPE, WARNING);
 			return this.adopciones(model);
 		}		
 		final Pet pet = adopcion.get().getPet();		
@@ -145,7 +153,7 @@ public class AdopcionController {
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		final Optional<Owner> loggedOwner=this.ownerService.findOwnerByUsername(username);
 		if(!loggedOwner.isPresent()) {
-			return "welcome";
+			return WELCOME;
 		}
 		
 		s.setNuevoOwner(loggedOwner.get());
@@ -159,14 +167,14 @@ public class AdopcionController {
 	@PostMapping(value="/adopciones/solicitud/{adopcionId}")
 	public String solicitudAdopcionPost(@PathVariable final int adopcionId,@Valid final SolicitudAdopcion solicitud, final BindingResult result, final ModelMap model) {
 		if(result.hasErrors()) {
-			model.addAttribute("message", "No se ha podido completar la solicitud de adopción. ");
-			model.addAttribute("messageType", "warning");
+			model.addAttribute(MESSAGE, "No se ha podido completar la solicitud de adopción. ");
+			model.addAttribute(MESSAGE_TYPE, WARNING);
 			return this.solicitudAdopcion(adopcionId, model);
 		}
 		solicitud.setFechaSolicitud(LocalDate.now());
 		model.addAttribute(solicitud);
 		this.solicitudAdopcionService.saveSolicitud(solicitud);
-		model.addAttribute("message", "La solicitud se ha creado correctamente ");
+		model.addAttribute(MESSAGE, "La solicitud se ha creado correctamente ");
 		return this.adopciones(model);
 	}
 	
@@ -184,7 +192,7 @@ public class AdopcionController {
 			rol = rolOptional.get().getAuthority();
 		}
 		
-		model.addAttribute("showButtons", (rol.equals("admin") || username.equals(pet.getOwner().getUser().getUsername())));
+		model.addAttribute("showButtons", (rol.equals(ADMIN) || username.equals(pet.getOwner().getUser().getUsername())));
 		
 
 		return AdopcionController.VIEWS_ADOPCION_INTERESADOS_FORM;
@@ -194,7 +202,7 @@ public class AdopcionController {
 	public String interesadosAdopcionAceptar(@PathVariable final int solicitudId, final ModelMap model) {
 		final Optional<SolicitudAdopcion> solicitud = this.solicitudAdopcionService.findSolicitudById(solicitudId);
 		if(solicitud.isEmpty()) {
-			return "welcome";
+			return WELCOME;
 		}
 		
 		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
@@ -206,10 +214,10 @@ public class AdopcionController {
 		
 		final SolicitudAdopcion s = solicitud.get();
 		final Owner o = s.getAdopcion().getPet().getOwner();
-		if(rol.equals("admin") || !username.equals(o.getUser().getUsername())) {
-			model.addAttribute("message", "No puedes aceptar una solicitud de otra mascota");
-			model.addAttribute("messageType", "danger");
-			return "welcome";
+		if(rol.equals(ADMIN) || !username.equals(o.getUser().getUsername())) {
+			model.addAttribute(MESSAGE, "No puedes aceptar una solicitud de otra mascota");
+			model.addAttribute(MESSAGE_TYPE, DANGER);
+			return WELCOME;
 		}
 		
 		final Owner no = s.getNuevoOwner();
@@ -218,8 +226,8 @@ public class AdopcionController {
 		try {
 			this.petService.savePet(s.getAdopcion().getPet()); 
 		} catch (DataAccessException | DuplicatedPetNameException e) {
-			model.addAttribute("message","No se ha podido realizar la adopcion");
-			return "redirect:/owners/" + o.getId();
+			model.addAttribute(MESSAGE,"No se ha podido realizar la adopcion");
+			return VIEWS_REDIRECT_OWNER + o.getId();
 		}
 		final Collection<SolicitudAdopcion> c=this.solicitudAdopcionService.findSolicitudAdopcionByPetId(s.getAdopcion().getPet().getId());//borro todas las solicitudes de adopcion de este pet 
 		for(final SolicitudAdopcion sa:c) {
@@ -227,9 +235,9 @@ public class AdopcionController {
 		}
 		
 		this.adopcionService.delete(s.getAdopcion());
-		model.addAttribute("message", "La solicitud se ha procesado correctamente ");
+		model.addAttribute(MESSAGE, "La solicitud se ha procesado correctamente ");
 		
-		return "redirect:/owners/" + o.getId();
+		return VIEWS_REDIRECT_OWNER + o.getId();
 	}
 	
 	@GetMapping(value="/adopciones/solicitudAdopcion/{solicitudId}/denegar")
@@ -237,9 +245,9 @@ public class AdopcionController {
 		final Optional<SolicitudAdopcion> s=this.solicitudAdopcionService.findSolicitudById(solicitudId);
 		
 		if(s.isEmpty()) {
-			model.addAttribute("message", "Error al denegar la adopción");
-			model.addAttribute("messageType", "danger");
-			return "welcome";
+			model.addAttribute(MESSAGE, "Error al denegar la adopción");
+			model.addAttribute(MESSAGE_TYPE, DANGER);
+			return WELCOME;
 		}
 		
 		final Owner o=s.get().getAdopcion().getPet().getOwner();
@@ -251,15 +259,15 @@ public class AdopcionController {
 		}
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		
-		if(rol.equals("admin") || !username.equals(o.getUser().getUsername())) {
-			model.addAttribute("message", "No puedes aceptar una solicitud de otra mascota");
-			model.addAttribute("messageType", "danger");
-			return "welcome";
+		if(rol.equals(ADMIN) || !username.equals(o.getUser().getUsername())) {
+			model.addAttribute(MESSAGE, "No puedes aceptar una solicitud de otra mascota");
+			model.addAttribute(MESSAGE_TYPE, DANGER);
+			return WELCOME;
 		}
 		this.solicitudAdopcionService.deleteSolicitud(s.get());
-		model.addAttribute("message", "La solicitud se ha borrado correctamente ");
+		model.addAttribute(MESSAGE, "La solicitud se ha borrado correctamente ");
 		
-		return "redirect:/owners/" + o.getId();
+		return VIEWS_REDIRECT_OWNER + o.getId();
 	}
 	public void addModelData(final ModelMap model, final Adopcion adopcion) {
 
@@ -267,6 +275,6 @@ public class AdopcionController {
 		final List<Pet> pets = this.petService.findPetsByOwner(username);		
 		model.addAttribute("pets", pets);
 		final List<Adopcion> adopciones = (List<Adopcion>) this.adopcionService.findAll();
-		model.addAttribute("adopciones", adopciones);
+		model.addAttribute(ADOPCIONES, adopciones);
 	}
 }

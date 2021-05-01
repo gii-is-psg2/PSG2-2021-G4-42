@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/causa")
 public class CausaController {
+	public static final String CAUSA = "causa";
+	public static final String VIEWS_CAUSA_CREATE_OR_UPDATE_FORM = "causas/createOrUpdateCausaForm";
 
 	@Autowired
 	private CausaService causaService;
@@ -38,7 +40,7 @@ public class CausaController {
 		Double recaudado = causaService.recaudacionTotal(this.causaService.findDonacionesByCausa(id));
 		Collection<Donacion> donaciones = causaService.findDonacionesByCausa(id);
 		if(causa.isPresent()) {
-			model.addAttribute("causa", causa.get());
+			model.addAttribute(CAUSA, causa.get());
 			model.addAttribute("recaudado", recaudado);
 			model.addAttribute("donaciones", donaciones);
 			return "causas/causaDetails";
@@ -51,24 +53,24 @@ public class CausaController {
 	@GetMapping("/new")
 	public String createNewCausa(final ModelMap model) {
 		Causa causa = new Causa();
-		model.addAttribute("causa", causa);
-		return "causas/createOrUpdateCausaForm";
+		model.addAttribute(CAUSA, causa);
+		return VIEWS_CAUSA_CREATE_OR_UPDATE_FORM;
 	}
 	
 	@PostMapping("/new")
 	public String postNewCausa(@Valid Causa causa, final BindingResult result,final ModelMap model){
 		if(result.hasErrors()) {
-			model.addAttribute("causa", causa);
-			return "causas/createOrUpdateCausaForm";
+			model.addAttribute(CAUSA, causa);
+			return VIEWS_CAUSA_CREATE_OR_UPDATE_FORM;
 		}else {
 			try {
 				String up = causa.getNombre().toUpperCase();
 				causa.setNombre(up);
 				this.causaService.save(causa);
 		}catch(Exception e) {
-			model.addAttribute("causa", causa);
+			model.addAttribute(CAUSA, causa);
 			model.addAttribute("message", result.getAllErrors().stream().map(x->x.getDefaultMessage()).collect(Collectors.toList()));
-			return "causas/createOrUpdateCausaForm";
+			return VIEWS_CAUSA_CREATE_OR_UPDATE_FORM;
 		}
 		return "redirect:/causa/";
 		}

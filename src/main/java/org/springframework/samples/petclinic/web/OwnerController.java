@@ -48,8 +48,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class OwnerController {
 
-	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
-
+	public static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
+	public static final String ADMIN = "admin";
+	
 	private final OwnerService ownerService;
 	
 	@Autowired
@@ -111,7 +112,7 @@ public class OwnerController {
 		}
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		
-		if(!username.equals(owner.getUser().getUsername()) || !rol.equals("admin")) {
+		if(!username.equals(owner.getUser().getUsername()) || !rol.equals(ADMIN)) {
 			return this.showOwner(model, ownerId);
 		}
 		
@@ -149,7 +150,7 @@ public class OwnerController {
 			rol = rolOptional.get().getAuthority();
 		}
 		
-		model.addAttribute("showButtons", (rol.equals("admin") || username.equals(owner.getUser().getUsername())));
+		model.addAttribute("showButtons", (rol.equals(ADMIN) || username.equals(owner.getUser().getUsername())));
 		
 		return "owners/ownerDetails";
 	}
@@ -164,7 +165,7 @@ public class OwnerController {
 			rol = rolOptional.get().toString();
 		}
 		final String username2 = SecurityContextHolder.getContext().getAuthentication().getName();
-		if(rol.equals("admin") && !username.equals(username2)) {
+		if(rol.equals(ADMIN) && !username.equals(username2)) {
 			try {
 				this.ownerService.deleteOwner(owner);
 			}catch(final Exception e) {

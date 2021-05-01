@@ -46,8 +46,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/reserva")
 public class ReservaController {
 
-	private static final String VIEWS_RESERVA_FECHA_CREATE_OR_UPDATE_FORM = "reserva/createOrUpdateReservaFechaForm";
-	private static final String VIEWS_RESERVA_CREATE_OR_UPDATE_FORM = "reserva/createOrUpdateReservaForm";
+	public static final String VIEWS_RESERVA_FECHA_CREATE_OR_UPDATE_FORM = "reserva/createOrUpdateReservaFechaForm";
+	public static final String VIEWS_RESERVA_CREATE_OR_UPDATE_FORM = "reserva/createOrUpdateReservaForm";
+	public static final String MESSAGE = "message";
 	
 	@Autowired
 	private PetService petService;
@@ -79,10 +80,10 @@ public class ReservaController {
 		}
 		try {
 			this.reservaService.save(reserva);
-			model.addAttribute("message", String.format("Habitación nº %d reservada correctamente", reserva.getHabitacion().getNumero()));
+			model.addAttribute(MESSAGE, String.format("Habitación nº %d reservada correctamente", reserva.getHabitacion().getNumero()));
 			return "welcome";
 		}catch (final Exception e) {
-			model.addAttribute("message", e.getMessage());
+			model.addAttribute(MESSAGE, e.getMessage());
 			model.addAttribute("messageType", "danger");
 			this.addModelData(model, reserva);
 			return ReservaController.VIEWS_RESERVA_CREATE_OR_UPDATE_FORM;
@@ -110,7 +111,7 @@ public class ReservaController {
 		final Optional<Reserva> reserva = this.reservaService.findById(reservaId);
 		
 		if(!reserva.isPresent()) {
-			model.addAttribute("message", "La reserva seleccionada no existe: " + reservaId);
+			model.addAttribute(MESSAGE, "La reserva seleccionada no existe: " + reservaId);
 			model.addAttribute("messageType", "warning");
 			return this.reservas(model);
 		}

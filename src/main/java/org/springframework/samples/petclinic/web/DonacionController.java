@@ -26,6 +26,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/donacion")
 public class DonacionController {
+	public static final String MESSAGE = "message";
+	public static final String DONACION = "donacion";
+	public static final String CAUSA = "causa";
+	public static final String VIEWS_DONACIONES_CREATE_OR_UPDATE_DONACION_FORM = "donaciones/CreateOrUpdateDonacionForm";
 	
 	@Autowired
 	DonacionService donacionService;
@@ -47,7 +51,7 @@ public class DonacionController {
 		final Optional<Owner> owner = this.ownerService.findOwnerByUsername(username);
 		
 		if(causa.isEmpty() || owner.isEmpty()) {
-			model.addAttribute("message", "Error al hacer la donación");
+			model.addAttribute(MESSAGE, "Error al hacer la donación");
 			model.addAttribute("messageType", "danger");
 			return "welcome";
 		}
@@ -55,10 +59,10 @@ public class DonacionController {
 		donacion.setCausa(causa.get());
 		donacion.setDonante(owner.get());
 		donacion.setFechaDonacion(LocalDate.now());
-		model.addAttribute("donacion", donacion);
-		model.addAttribute("causa", causa.get());
+		model.addAttribute(DONACION, donacion);
+		model.addAttribute(CAUSA, causa.get());
 		
-		return "donaciones/CreateOrUpdateDonacionForm";
+		return VIEWS_DONACIONES_CREATE_OR_UPDATE_DONACION_FORM;
 	}
 	
 	@PostMapping(value="{id}/new")
@@ -66,25 +70,25 @@ public class DonacionController {
 
 		final Optional<Causa> causa = this.causaService.findById(id);
 		if(causa.isEmpty()) {
-			model.addAttribute("message", "Error al hacer la donación");
+			model.addAttribute(MESSAGE, "Error al hacer la donación");
 			model.addAttribute("messageType", "danger");
 			return "welcome";
 		}
 		if(result.hasErrors()) {
-			model.addAttribute("donacion", donacion);
-			model.addAttribute("causa", causa.get());
+			model.addAttribute(DONACION, donacion);
+			model.addAttribute(CAUSA, causa.get());
 			model.addAttribute("causas", this.causaService.findAll());
-			return "donaciones/CreateOrUpdateDonacionForm";
+			return VIEWS_DONACIONES_CREATE_OR_UPDATE_DONACION_FORM;
 		}else {
 			try {
 				donacion.setId(null);
 				this.donacionService.save(donacion);
 			} catch (final Exception e) {
 				model.clear();
-				model.addAttribute("donacion", donacion);
-				model.addAttribute("causa", causa.get());
-				model.addAttribute("message", result.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList()));
-				return "donaciones/CreateOrUpdateDonacionForm";
+				model.addAttribute(DONACION, donacion);
+				model.addAttribute(CAUSA, causa.get());
+				model.addAttribute(MESSAGE, result.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList()));
+				return VIEWS_DONACIONES_CREATE_OR_UPDATE_DONACION_FORM;
 			}
 			return "redirect:/causa/"+id;
 			

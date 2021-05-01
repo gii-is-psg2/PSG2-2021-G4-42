@@ -52,7 +52,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class VetController {
 
-	private static final String VIEWS_VET_CREATE_OR_UPDATE_FORM = "vets/createOrUpdateVetForm";
+	public static final String VIEWS_VET_CREATE_OR_UPDATE_FORM = "vets/createOrUpdateVetForm";
+	public static final String MESSAGE = "message";
+	
 	private final VetService vetService;
 	private final SpecialtyService specialtyService;
 
@@ -101,7 +103,7 @@ public class VetController {
 			try {
 				final Optional<Vet> vet = this.vetService.findById(vetId);
 				if(vet.isEmpty()) {
-					model.put("message", "Problema a eliminar un veterinario");
+					model.put(MESSAGE, "Problema a eliminar un veterinario");
 					model.put("messageType", "danger");
 					return "welcome";
 				}
@@ -132,7 +134,7 @@ public class VetController {
 		} else {
 			vet.setSpecialties(specialties);
 			this.vetService.save(vet);
-			model.addAttribute("message", "Veterinario añadido correctamente");
+			model.addAttribute(MESSAGE, "Veterinario añadido correctamente");
 			return this.showVetList(model);
 		}
 	}
@@ -144,7 +146,7 @@ public class VetController {
 	public String initUpdateVetForm(@PathVariable("id") final int id, final Model model) {
 		final Optional<Vet> vet = this.vetService.findById(id);
 		if(vet.isEmpty()) {
-			model.addAttribute("message", "Problema a eliminar un veterinario");
+			model.addAttribute(MESSAGE, "Problema a eliminar un veterinario");
 			model.addAttribute("messageType", "danger");
 			return "welcome";
 		}
@@ -161,7 +163,7 @@ public class VetController {
 			vet.setId(id);
 			vet.setSpecialties(specialties);
 			this.vetService.save(vet);
-			model.addAttribute("message", "Veterinario actualizado correctamente");
+			model.addAttribute(MESSAGE, "Veterinario actualizado correctamente");
 			return this.showVetList(model);
 		}
 	}
