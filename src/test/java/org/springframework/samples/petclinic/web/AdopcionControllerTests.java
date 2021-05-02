@@ -35,11 +35,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(controllers = AdopcionController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
-public class AdopcionControllerTests {
+class AdopcionControllerTests {
 	private static final int TEST_ADOPCION_ID = 1;
-
-	@Autowired
-	private AdopcionController adopcionController;
 
 	@MockBean
 	private AdopcionService adopcionService;
@@ -236,14 +233,14 @@ public class AdopcionControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name(AdopcionController.VIEWS_ADOPCION_INTERESADOS_FORM));
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities = "admin")
 	@Test
 	void testInteresadosAdopcionAceptarGet() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/adopciones/solicitudAdopcion/{solicitudId}/aceptar", 0))
 				.andExpect(MockMvcResultMatchers.view().name("redirect:/owners/" + this.owner.getId()));
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities = "admin")
 	@Test
 	void testInteresadosAdopcionDenegarGet() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/adopciones/solicitudAdopcion/{solicitudId}/denegar", 0))

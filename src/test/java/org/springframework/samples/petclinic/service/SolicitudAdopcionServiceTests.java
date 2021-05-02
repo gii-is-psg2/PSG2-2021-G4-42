@@ -29,13 +29,13 @@ class SolicitudAdopcionServiceTests {
 
 	@BeforeEach
 	void insertarSolicitudAdopcion() throws Exception {
-		SolicitudAdopcion solicitudAdopcion = new SolicitudAdopcion();
-		solicitudAdopcion.setAdopcion(adopcionService.findById(2).get());
+		final SolicitudAdopcion solicitudAdopcion = new SolicitudAdopcion();
+		solicitudAdopcion.setAdopcion(this.adopcionService.findById(2).get());
 		solicitudAdopcion.setFechaSolicitud(LocalDate.of(2021, 04, 20));
-		solicitudAdopcion.setNuevoOwner(ownerService.findOwnerById(4));
+		solicitudAdopcion.setNuevoOwner(this.ownerService.findOwnerById(4));
 		solicitudAdopcion.setSolicitud("Solicitud de prueba");
 
-		solicitudAdopcionService.saveSolicitud(solicitudAdopcion);
+		this.solicitudAdopcionService.saveSolicitud(solicitudAdopcion);
 		
 		this.solicitudAdopcion = solicitudAdopcion;
 	}
@@ -43,25 +43,26 @@ class SolicitudAdopcionServiceTests {
 	@Test
 	@Transactional
 	void shouldFindNewSolicitudAdopciones() {
-		Assert.assertTrue(solicitudAdopcion.equals(solicitudAdopcionService.findSolicitudById(3).get()));
+		Assert.assertEquals(this.solicitudAdopcion, this.solicitudAdopcionService.findSolicitudById(3).get());
 	}
 
 	@Test
 	@Transactional
 	void shouldUpdateSolicitudAdopcion() {
-		SolicitudAdopcion solicitudAdopcion1 = this.solicitudAdopcionService.findSolicitudById(1).get();
-		solicitudAdopcion1.setAdopcion(adopcionService.findById(2).get());
+		final SolicitudAdopcion solicitudAdopcion1 = this.solicitudAdopcionService.findSolicitudById(1).get();
+		solicitudAdopcion1.setAdopcion(this.adopcionService.findById(2).get());
 		solicitudAdopcion1.setFechaSolicitud(LocalDate.of(2020, 04, 21));
-		solicitudAdopcion1.setNuevoOwner(ownerService.findOwnerById(6));
-		solicitudAdopcion1.setSolicitud("Solicitud de prueba modificada");
+		solicitudAdopcion1.setNuevoOwner(this.ownerService.findOwnerById(6));
+		final String textoSolicitud = "Solicitud de prueba modificada";
+		solicitudAdopcion1.setSolicitud(textoSolicitud);
 
-		solicitudAdopcionService.saveSolicitud(solicitudAdopcion1);
+		this.solicitudAdopcionService.saveSolicitud(solicitudAdopcion1);
 
-		Assert.assertTrue(solicitudAdopcionService.findSolicitudById(1).get().equals(solicitudAdopcion1));
+		Assert.assertEquals(this.solicitudAdopcionService.findSolicitudById(1).get(), solicitudAdopcion1);
 		Assert.assertTrue(solicitudAdopcion1.getFechaSolicitud().isEqual(LocalDate.of(2020, 04, 21)));
-		Assert.assertTrue(solicitudAdopcion1.getNuevoOwner().equals(ownerService.findOwnerById(6)));
-		Assert.assertTrue(solicitudAdopcion1.getAdopcion().equals(adopcionService.findById(2).get()));
-		Assert.assertTrue(solicitudAdopcion1.getSolicitud().equals("Solicitud de prueba modificada"));
+		Assert.assertEquals(solicitudAdopcion1.getNuevoOwner(), this.ownerService.findOwnerById(6));
+		Assert.assertEquals(solicitudAdopcion1.getAdopcion(), this.adopcionService.findById(2).get());
+		Assert.assertEquals(solicitudAdopcion1.getSolicitud(), textoSolicitud);
 	}
 
 	@Test

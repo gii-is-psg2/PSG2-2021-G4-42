@@ -32,13 +32,12 @@ import org.springframework.transaction.annotation.Transactional;
 		}			
 		
 		@Transactional
-		public void deleteSolicitud(SolicitudAdopcion s) throws DataAccessException{
+		public void deleteSolicitud(final SolicitudAdopcion s) throws DataAccessException{
 			this.solicitudAdopcionRepository.delete(s);
 		}
 
-		public Set<SolicitudAdopcion> findSolicitudAdopcionByPetId(int petId) {						
-			Set<SolicitudAdopcion> solicitudes_id=this.solicitudAdopcionRepository.findSolicitudAdopcionByAdopcionPetId(petId);		
-			return solicitudes_id;
+		public Set<SolicitudAdopcion> findSolicitudAdopcionByPetId(final int petId) {						
+			return this.solicitudAdopcionRepository.findSolicitudAdopcionByAdopcionPetId(petId);
 		}
 
 	}

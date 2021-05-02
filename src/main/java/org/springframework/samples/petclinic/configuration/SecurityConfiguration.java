@@ -26,8 +26,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private final String ADMIN = "admin";
-	private final String OWNER = "owner";
+	private static final String ADMIN = "admin";
+	private static final String OWNER = "owner";
 	@Autowired
 	DataSource dataSource;
 	
@@ -37,16 +37,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/users/new").permitAll()
-				.antMatchers("/admin/**").hasAnyAuthority(ADMIN)
-				.antMatchers("/owners/**").hasAnyAuthority(OWNER,ADMIN)				
+				.antMatchers("/admin/**").hasAnyAuthority(SecurityConfiguration.ADMIN)
+				.antMatchers("/owners/**").hasAnyAuthority(SecurityConfiguration.OWNER,SecurityConfiguration.ADMIN)				
 				.antMatchers("/vets/**").authenticated()
-				.antMatchers("/pets/**").hasAnyAuthority(OWNER, ADMIN)
-				.antMatchers("/reserva/**").hasAnyAuthority(OWNER, ADMIN)
-				.antMatchers("/adopciones/**").hasAnyAuthority(OWNER, ADMIN)
-				.antMatchers("/visits/**").hasAnyAuthority(OWNER, ADMIN)
+				.antMatchers("/pets/**").hasAnyAuthority(SecurityConfiguration.OWNER, SecurityConfiguration.ADMIN)
+				.antMatchers("/reserva/**").hasAnyAuthority(SecurityConfiguration.OWNER, SecurityConfiguration.ADMIN)
+				.antMatchers("/adopciones/**").hasAnyAuthority(SecurityConfiguration.OWNER, SecurityConfiguration.ADMIN)
+				.antMatchers("/visits/**").hasAnyAuthority(SecurityConfiguration.OWNER, SecurityConfiguration.ADMIN)
 				.antMatchers("/causa/**").authenticated()
-				.antMatchers("/causa/new").permitAll()
-				.antMatchers("/donacion/**").hasAnyAuthority(OWNER, ADMIN)
+				.antMatchers("/donacion/**").hasAnyAuthority(SecurityConfiguration.OWNER, SecurityConfiguration.ADMIN)
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()
