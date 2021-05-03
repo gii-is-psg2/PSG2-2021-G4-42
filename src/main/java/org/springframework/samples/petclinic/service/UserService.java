@@ -23,6 +23,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,25 +37,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
 
-	private UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	
+	private final UserRepository userRepository;
 
 	@Autowired
-	public UserService(UserRepository userRepository) {
+	public UserService(final UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 
 	@Transactional
-	public void saveUser(User user) throws DataAccessException {
+	public void saveUser(final User user) throws DataAccessException {
 		user.setEnabled(true);
-		userRepository.save(user);
+		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+		this.userRepository.save(user);
 	}
 	
-	public Optional<User> findUser(String username) {
-		return userRepository.findById(username);
+	public Optional<User> findUser(final String username) {
+		return this.userRepository.findById(username);
 	}
 
-	public void delete(Owner owner) {
-		User u = owner.getUser();
+	public void delete(final Owner owner) {
+		final User u = owner.getUser();
 		this.userRepository.delete(u);
 	}
 }

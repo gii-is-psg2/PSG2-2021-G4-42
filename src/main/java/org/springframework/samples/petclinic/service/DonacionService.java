@@ -15,7 +15,7 @@ public class DonacionService {
 	private DonacionRepository donacionRepository;
 	
 	@Transactional
-	public void save(@Valid final Donacion donacion) throws Exception{
+	public void save(@Valid final Donacion donacion) {
 		this.donacionRepository.save(donacion);
 	}
 

@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /*
@@ -26,6 +26,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	private static final String ADMIN = "admin";
+	private static final String OWNER = "owner";
 	@Autowired
 	DataSource dataSource;
 	
@@ -35,16 +37,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/users/new").permitAll()
-				.antMatchers("/admin/**").hasAnyAuthority("admin")
-				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
+				.antMatchers("/admin/**").hasAnyAuthority(SecurityConfiguration.ADMIN)
+				.antMatchers("/owners/**").hasAnyAuthority(SecurityConfiguration.OWNER,SecurityConfiguration.ADMIN)				
 				.antMatchers("/vets/**").authenticated()
-				.antMatchers("/pets/**").hasAnyAuthority("owner", "admin")
-				.antMatchers("/reserva/**").hasAnyAuthority("owner", "admin")
-				.antMatchers("/adopciones/**").hasAnyAuthority("owner", "admin")
-				.antMatchers("/visits/**").hasAnyAuthority("owner", "admin")
+				.antMatchers("/pets/**").hasAnyAuthority(SecurityConfiguration.OWNER, SecurityConfiguration.ADMIN)
+				.antMatchers("/reserva/**").hasAnyAuthority(SecurityConfiguration.OWNER, SecurityConfiguration.ADMIN)
+				.antMatchers("/adopciones/**").hasAnyAuthority(SecurityConfiguration.OWNER, SecurityConfiguration.ADMIN)
+				.antMatchers("/visits/**").hasAnyAuthority(SecurityConfiguration.OWNER, SecurityConfiguration.ADMIN)
 				.antMatchers("/causa/**").authenticated()
-				.antMatchers("/causa/new").permitAll()
-				.antMatchers("/donacion/**").hasAnyAuthority("owner", "admin")
+				.antMatchers("/donacion/**").hasAnyAuthority(SecurityConfiguration.OWNER, SecurityConfiguration.ADMIN)
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()
@@ -76,11 +77,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	      .passwordEncoder(this.passwordEncoder());	
 	}
 	
-	@Bean
-	public PasswordEncoder passwordEncoder() {	    
-		final PasswordEncoder encoder =  NoOpPasswordEncoder.getInstance();
-	    return encoder;
-	}
+	 @Bean
+	    public PasswordEncoder passwordEncoder() {
+	        return new BCryptPasswordEncoder();
+	    }
 	
 }
 

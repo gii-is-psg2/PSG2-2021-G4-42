@@ -18,7 +18,7 @@ import org.springframework.samples.petclinic.model.Reserva;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-public class ReservaServiceTests {
+class ReservaServiceTests {
 	
 	@Autowired
 	PetService petService;
@@ -31,7 +31,7 @@ public class ReservaServiceTests {
 	
 	@Test
 	@Transactional
-	public void shouldInsertReserva() throws Exception {
+	void shouldInsertReserva() throws Exception {
 		Collection<Reserva> reservas = this.reservaService.findAll();
 		final int found = reservas.size();
 		final Reserva reserva = new Reserva();
@@ -48,7 +48,7 @@ public class ReservaServiceTests {
 	
 	@Test
 	@Transactional
-	public void shouldUpdateReserva() throws Exception{
+	void shouldUpdateReserva() throws Exception{
 		
 		final Reserva reserva = new Reserva();
 		reserva.setFechaIni(LocalDate.now().plusYears(10));
@@ -67,7 +67,7 @@ public class ReservaServiceTests {
 	}
 	
 	@Test
-	public void shouldNotSaveReservaMascotaOcupada() {
+	void shouldNotSaveReservaMascotaOcupada() {
 		final Reserva reserva = new Reserva();
 		reserva.setFechaIni(LocalDate.now());
 		reserva.setFechaFin(LocalDate.now());
@@ -81,7 +81,7 @@ public class ReservaServiceTests {
 	}
 	
 	@Test 
-	public void shouldNotSaveReservaConHabitacionOcupada() {
+	void shouldNotSaveReservaConHabitacionOcupada() {
 		final Reserva reserva = new Reserva();
 		reserva.setFechaIni(LocalDate.now());
 		reserva.setFechaFin(LocalDate.now());
@@ -95,7 +95,7 @@ public class ReservaServiceTests {
 	}
 	
 	@Test 
-	public void shouldNotSaveReservaConFechasIncorrectasIniMayorQueHoy() {
+	void shouldNotSaveReservaConFechasIncorrectasIniMayorQueHoy() {
 		final Reserva reserva = new Reserva();
 		reserva.setFechaIni(LocalDate.now().plusYears(3));
 		reserva.setFechaFin(LocalDate.now());
@@ -109,7 +109,7 @@ public class ReservaServiceTests {
 	}
 	
 	@Test
-	public void shouldNotSaveReservaConFechasIncorrectasPasadas() {
+	void shouldNotSaveReservaConFechasIncorrectasPasadas() {
 		final Reserva reserva = new Reserva();
 		reserva.setFechaIni(LocalDate.of(2020, 10, 10));
 		reserva.setFechaFin(LocalDate.of(2020, 10, 23));
@@ -122,7 +122,7 @@ public class ReservaServiceTests {
 	}
 	
 	@Test
-	public void shouldDeleteReserva() throws Exception {
+	void shouldDeleteReserva() throws Exception {
 		final Reserva reserva = new Reserva();
 		reserva.setFechaIni(LocalDate.of(2100, 10, 15));
 		reserva.setFechaFin(LocalDate.of(2100, 10, 16));

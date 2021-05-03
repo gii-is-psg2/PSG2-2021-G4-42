@@ -35,8 +35,6 @@ public interface ReservaRepository extends CrudRepository<Reserva, Integer> {
 	Collection<Reserva> findAll() throws DataAccessException;
 	
 	Reserva findReservaByFechaIni(LocalDate fechaIni);
-
-//	List<Reserva> findReservaByFechaIniBeforeAndFechaFinAfter(LocalDate fechaIni, LocalDate fechaFin) throws DataAccessException;
 	
 	@Query(value="SELECT R.ID, FECHA_FIN, FECHA_INI, HABITACION_ID, PET_ID FROM RESERVA AS R LEFT JOIN PETS AS P WHERE PET_ID = P.ID AND P.OWNER_ID = :id", nativeQuery = true)
 	public Collection<Reserva> findReservasByOwner(int id);

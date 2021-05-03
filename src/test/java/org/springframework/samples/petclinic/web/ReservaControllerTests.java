@@ -34,7 +34,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ReservaControllerTests {
+class ReservaControllerTests {
 	
 	private static final int TEST_RESERVA_ID = 0;
 	
@@ -152,7 +152,7 @@ public class ReservaControllerTests {
 	@WithMockUser(value="spring", authorities = "owner")
 	@Test
 	void testInitCreationRerserva2() throws Exception{
-		mockMvc.perform(MockMvcRequestBuilders.post("/reserva/new").
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/reserva/new").
 			with(SecurityMockMvcRequestPostProcessors.csrf())
 			.param("fechaIni", LocalDate.now().plusYears(2).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
 			.param("FechaFin", LocalDate.now().plusYears(2).plusDays(5).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))

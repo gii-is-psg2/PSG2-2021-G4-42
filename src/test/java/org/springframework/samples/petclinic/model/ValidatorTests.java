@@ -35,7 +35,7 @@ class ValidatorTests {
 
 		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
 		final ConstraintViolation<Person> violation = constraintViolations.iterator().next();
-		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("firstName");
+		Assertions.assertThat(violation.getPropertyPath().toString()).hasToString("firstName");
 		Assertions.assertThat(violation.getMessage()).isEqualTo("no puede estar vacío");
 	}
 

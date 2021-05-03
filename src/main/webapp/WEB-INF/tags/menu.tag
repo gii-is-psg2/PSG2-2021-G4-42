@@ -39,28 +39,29 @@
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>veterinarios</span>
 				</petclinic:menuItem>
-				
 
+				<sec:authorize access="hasAuthority('owner')">
 				<petclinic:menuItem active="${name eq 'vets'}" url="/adopciones"
 					title="adopciones">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>adopciones</span>
 				</petclinic:menuItem>
-				
+				</sec:authorize>
+
 				<petclinic:menuItem active="${name eq 'causa'}" url="/causa"
 					title="causas">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>causas</span>
 				</petclinic:menuItem>
-				
+
 				<sec:authorize access="hasAuthority('owner')">
-				<petclinic:menuItem active="${name eq 'reserva'}" url="/reserva/new"
-					title="reserva">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>reserva habitaciÃ³n</span>
-				</petclinic:menuItem>
+					<petclinic:menuItem active="${name eq 'reserva'}"
+						url="/reserva/new" title="reserva">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>reserva habitación</span>
+					</petclinic:menuItem>
 				</sec:authorize>
-				
+
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
@@ -74,7 +75,8 @@
 
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
-					<li><a href="<c:url value="/login" />">Iniciar sesi&oacute;n</a></li>
+					<li><a href="<c:url value="/login" />">Iniciar
+							sesi&oacute;n</a></li>
 					<li><a href="<c:url value="/users/new" />">Registrarse</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
@@ -98,14 +100,15 @@
 											</p>
 											<p class="text-left">
 												<a href="<c:url value="/logout" />"
-													class="btn btn-primary btn-block btn-sm">Cerrar Sesi&oacute;n</a>
+													class="btn btn-primary btn-block btn-sm">Cerrar
+													Sesi&oacute;n</a>
 											</p>
 										</div>
 									</div>
 								</div>
 							</li>
 							<li class="divider"></li>
-<!-- 							
+							<!-- 							
                             <li> 
 								<div class="navbar-login navbar-login-session">
 									<div class="row">
