@@ -11,7 +11,7 @@ import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-public class VisitServiceTest {
+class VisitServiceTest {
 
 	@Autowired
 	private VisitService visitService;

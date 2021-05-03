@@ -17,7 +17,6 @@ package org.springframework.samples.petclinic.web;
 
 import java.text.ParseException;
 import java.util.Locale;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;

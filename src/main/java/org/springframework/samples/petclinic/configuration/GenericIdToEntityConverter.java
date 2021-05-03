@@ -3,10 +3,7 @@ package org.springframework.samples.petclinic.configuration;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Converter;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,28 +26,31 @@ public final class GenericIdToEntityConverter implements ConditionalGenericConve
 
         
 
-    public Set<ConvertiblePair> getConvertibleTypes() {
-    	Set<ConvertiblePair> result=new HashSet<ConvertiblePair>();
+    @Override
+	public Set<ConvertiblePair> getConvertibleTypes() {
+    	final Set<ConvertiblePair> result=new HashSet<>();
         result.add(new ConvertiblePair(Number.class, BaseEntity.class));
         result.add(new ConvertiblePair(CharSequence.class, BaseEntity.class));
         return result;
     }
 
-    public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
+    @Override
+	public boolean matches(final TypeDescriptor sourceType, final TypeDescriptor targetType) {
         return BaseEntity.class.isAssignableFrom(targetType.getType())
         && this.conversionService.canConvert(sourceType, TypeDescriptor.valueOf(Integer.class));
     }
 
-    public Object convert(Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
-        if (source == null || entityManager==null) {
+    @Override
+	public Object convert(final Object source, final TypeDescriptor sourceType, final TypeDescriptor targetType) {
+        if (source == null || this.entityManager==null) {
             return null;
         }
 
-        Integer id = (Integer) this.conversionService.convert(source, sourceType, TypeDescriptor.valueOf(Integer.class));
+        final Integer id = (Integer) this.conversionService.convert(source, sourceType, TypeDescriptor.valueOf(Integer.class));
 
-        Object entity = entityManager.find(targetType.getType(), id);
+        final Object entity = this.entityManager.find(targetType.getType(), id);
         if (entity == null) {
-            log.info("Did not find an entity with id {} of type {}", id,  targetType.getType());
+            GenericIdToEntityConverter.log.info("Did not find an entity with id {} of type {}", id,  targetType.getType());
             return null;
         }
 
