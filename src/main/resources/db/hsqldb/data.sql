@@ -1,35 +1,40 @@
+SET @OWNERPASSWORD = '$2a$10$EpYujHk.hvec21TY47HPMewIiXGzod8zRVceUAPktahjpi.scOAT.'; -- 0wn3r
+SET @ADMINPASSWORD = '$2a$10$3UWLDoyWxSpg8rjlSPDGW.hwvZQSP7yjbkrRTm4BEtUPKV018CecC'; -- 4dm1n
+SET @VETPASSWORD = '$2a$10$naCJs.wTuohU1FBT69k9e.nRtYGkENadeRpuVgrqoTvn1iNTYYQIK'; -- v3t
+
+
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
-INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('admin1',@ADMINPASSWORD,TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('owner1',@OWNERPASSWORD,TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 
-INSERT INTO users(username,password,enabled) VALUES ('owner2','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('owner2',@OWNERPASSWORD,TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (3,'owner2','owner');
 
-INSERT INTO users(username,password,enabled) VALUES ('owner3','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('owner3',@OWNERPASSWORD,TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (4,'owner3','owner');
 
-INSERT INTO users(username,password,enabled) VALUES ('owner4','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('owner4',@OWNERPASSWORD,TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (5,'owner4','owner');
 
-INSERT INTO users(username,password,enabled) VALUES ('owner5','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('owner5',@OWNERPASSWORD,TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (6,'owner5','owner');
 
-INSERT INTO users(username,password,enabled) VALUES ('owner6','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('owner6',@OWNERPASSWORD,TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (7,'owner6','owner');
 
-INSERT INTO users(username,password,enabled) VALUES ('owner7','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('owner7',@OWNERPASSWORD,TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (8,'owner7','owner');
 
-INSERT INTO users(username,password,enabled) VALUES ('owner8','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('owner8',@OWNERPASSWORD,TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (9,'owner8','owner');
 
-INSERT INTO users(username,password,enabled) VALUES ('owner9','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('owner9',@OWNERPASSWORD,TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (10,'owner9','owner');
 
-INSERT INTO users(username,password,enabled) VALUES ('owner10','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('owner10',@OWNERPASSWORD,TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (11,'owner10','owner');
 -- One vet user, named vet1 with passwor v3t
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
