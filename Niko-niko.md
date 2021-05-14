@@ -38,10 +38,10 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day 2 (08/05)        |       -       |    :fearful:   |      :smile:   |       -        |       -        |      -         |
 | Day 3 (09/05)        |   :smile:     |      -         |        -       |       -        |      -         |      -         |
 | Day 4 (10/05)        |   :smile:     |    :smile:     |        -       | :neutral_face: |  :smile:       |  :smile:       |
-| Day 5 (11/05)        |      -        |      -         |                |       -        |                |                |
-| Day 6 (12/05)        |   :worried:   |    :fearful:   |                |       -        |                |                |
-| Day 7 (13/05)        |               |                |                |                |                |                |
-| Day 8 (14/05)        |               |                |                |                |                |                |
+| Day 5 (11/05)        |      -        |      -         |  :smile:       |       -        |                |                |
+| Day 6 (12/05)        |   :worried:   |    :fearful:   |      -         |       -        |                |                |
+| Day 7 (13/05)        |               |                |        -       |                |                |                |
+| Day 8 (14/05)        |               |                | :smile:        |                |                |                |
 | Day 9 (15/05)        |               |                |                |                |                |                |
 | Day 10 (16/05)       |               |                |                |                |                |                |
 | Day 11 (17/05)       |               |                |                |                |                |                |
