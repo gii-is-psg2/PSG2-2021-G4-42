@@ -42,8 +42,8 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day 6 (12/05)        |   :worried:   |    :fearful:   |      -         |       -        |                |      -         |
 | Day 7 (13/05)        |   :worried:   |      -         |        -       |                |                |      -         |
 | Day 8 (14/05)        |   :smile:     |    :smile:     | :smile:        |                |                |      :smile:   |
-| Day 9 (15/05)        |               |    :smile:     |                |                |                |                |
-| Day 10 (16/05)       |               |      -         |                |                |                |                |
+| Day 9 (15/05)        |   :smile:     |    :smile:     |                |                |                |                |
+| Day 10 (16/05)       |      -        |      -         |                |                |                |                |
 | Day 11 (17/05)       |               |                |                |                |                |                |
 | Day 12 (18/05)       |               |                |                |                |                |                |
 | Day 13 (19/05)       |               |                |                |                |                |                |
