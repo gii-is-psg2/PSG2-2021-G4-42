@@ -44,8 +44,8 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day 8 (14/05)        |   :smile:     |    :smile:     | :smile:        |       -        |    :smile:     |      :smile:   |
 | Day 9 (15/05)        |   :smile:     |    :smile:     |       -        |       -        |       -        |                |
 | Day 10 (16/05)       |      -        |      -         |       -        |       -        |     :smile:    |                |
-| Day 11 (17/05)       |               |                |    :smile:     |  :smile:       |     :smile:    |                |
-| Day 12 (18/05)       |               |                |                |                |       -        |                |
+| Day 11 (17/05)       |               |      -         |    :smile:     |  :smile:       |     :smile:    |                |
+| Day 12 (18/05)       |               |      -         |                |                |       -        |                |
 | Day 13 (19/05)       |               |                |                |                |                |                |
 | Day 14 (20/05)       |               |                |                |                |                |                |
 | Day 15 (21/05)       |               |                |                |                |                |                |
