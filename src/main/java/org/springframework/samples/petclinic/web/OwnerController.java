@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -58,11 +59,12 @@ public class OwnerController {
 	ReservaService reservaService;
 	@Autowired
 	AdopcionService adopcionService;
+	
 	@Autowired
 	public OwnerController(final OwnerService ownerService, final UserService userService, final AuthoritiesService authoritiesService) {
 		this.ownerService = ownerService;
 	}
-
+	
 	@InitBinder
 	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
@@ -154,6 +156,15 @@ public class OwnerController {
 		model.addAttribute("showButtons", (rol.equals(ADMIN) || username.equals(owner.getUser().getUsername())));
 		
 		return "owners/ownerDetails";
+	}
+	
+	@GetMapping("/owners/profile")
+	public String showProfile(final ModelMap model, Principal principal) {
+		Optional<Owner> owner = ownerService.findOwnerByUsername(principal.getName());
+		if(owner.isPresent()) {
+			return showOwner(model, owner.get().getId());
+		}
+		return initFindForm(model);
 	}
 	
 	@GetMapping(value="/owners/{ownerId}/delete")
