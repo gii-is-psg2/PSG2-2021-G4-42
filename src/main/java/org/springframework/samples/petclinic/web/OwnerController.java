@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -58,11 +59,12 @@ public class OwnerController {
 	ReservaService reservaService;
 	@Autowired
 	AdopcionService adopcionService;
+	
 	@Autowired
 	public OwnerController(final OwnerService ownerService, final UserService userService, final AuthoritiesService authoritiesService) {
 		this.ownerService = ownerService;
 	}
-
+	
 	@InitBinder
 	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
@@ -140,6 +142,25 @@ public class OwnerController {
 	 */
 	@GetMapping("/owners/{ownerId}")
 	public String showOwner(final ModelMap model, @PathVariable("ownerId") final int ownerId) {
+		model.addAttribute("reservas", this.reservaService.findReservasByOwner(ownerId));
+		model.addAttribute("adopciones", this.adopcionService.findAdopcionByIdOwnerId(ownerId));
+		final Owner owner = this.ownerService.findOwnerById(ownerId);
+		model.addAttribute("owner", owner);
+		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+		String rol = "";
+		if(rolOptional.isPresent()) {
+			rol = rolOptional.get().getAuthority();
+		}
+		
+		model.addAttribute("showButtons", (rol.equals(ADMIN) || username.equals(owner.getUser().getUsername())));
+		
+		return "owners/ownerDetails";
+	}
+	
+	@GetMapping("/owners/profile")
+	public String showProfile(final ModelMap model, Principal principal) {
+		int ownerId = ownerService.findOwnerByUsername(principal.getName()).orElseThrow().getId();
 		model.addAttribute("reservas", this.reservaService.findReservasByOwner(ownerId));
 		model.addAttribute("adopciones", this.adopcionService.findAdopcionByIdOwnerId(ownerId));
 		final Owner owner = this.ownerService.findOwnerById(ownerId);
