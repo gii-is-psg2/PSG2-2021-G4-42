@@ -14,11 +14,13 @@
         <tr>
             <th>Nombre</th>
             <th>Especialidades</th>
+            <th>Editar</th>
            	<sec:authorize access="hasAuthority('admin')">
             <th></th>
             </sec:authorize>
 
           </tr>
+
         </thead>
         <tbody>
         <c:forEach items="${vets.vetList}" var="vet">
@@ -32,6 +34,13 @@
                     </c:forEach>
                     <c:if test="${vet.nrOfSpecialties == 0}">ninguna</c:if>
                 </td>
+                <td>
+                	<spring:url value="/vets/{id}/edit" var="vetUrl">
+                        <spring:param name="id" value="${vet.id}"/>
+                    </spring:url>
+                    <a class="btn btn-default" href="${fn:escapeXml(vetUrl)}">Editar</a>
+                
+                </td>              
            		<sec:authorize access="hasAuthority('admin')">
                 <td>
                  <spring:url value="/vets/{vetId}/delete" var="vetUrl">
@@ -47,9 +56,12 @@
 
     <table class="table-buttons">
         <tr>
+            <td style="padding-right: 7px">          
+                <a href="<spring:url value="/vets.xml"/>">Ver como XML</a>
+            </td>
             <td>
-                <a href="<spring:url value="/vets.xml" htmlEscape="true" />">Ver como XML</a>
-            </td>            
+                <a href="<spring:url value="/vets/new"/>">Añadir nuevo vet</a>  
+            </td>
         </tr>
     </table>
 </petclinic:layout>

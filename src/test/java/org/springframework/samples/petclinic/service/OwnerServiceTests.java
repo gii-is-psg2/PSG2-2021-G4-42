@@ -18,7 +18,6 @@ package org.springframework.samples.petclinic.service;
 import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -66,10 +65,10 @@ class OwnerServiceTests {
 	@Test
 	void shouldFindOwnersByLastName() {
 		Collection<Owner> owners = this.ownerService.findOwnerByLastName("Davis");
-		Assertions.assertThat(owners.size()).isEqualTo(2);
+		Assertions.assertThat(owners).hasSize(2);
 
 		owners = this.ownerService.findOwnerByLastName("Daviss");
-		Assertions.assertThat(owners.isEmpty()).isTrue();
+		Assertions.assertThat(owners).isEmpty();
 	}
 
 	@Test
@@ -78,12 +77,12 @@ class OwnerServiceTests {
 		Assertions.assertThat(owner.getLastName()).startsWith("Franklin");
 		Assertions.assertThat(owner.getPets().size()).isEqualTo(1);
 		Assertions.assertThat(owner.getPets().get(0).getType()).isNotNull();
-		Assertions.assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("cat");
+		Assertions.assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("gato");
 	}
 
 	@Test
 	@Transactional
-	public void shouldInsertOwner() {
+	void shouldInsertOwner() {
 		Collection<Owner> owners = this.ownerService.findOwnerByLastName("Schultz");
 		final int found = owners.size();
 
@@ -100,10 +99,10 @@ class OwnerServiceTests {
                 owner.setUser(user);                
                 
 		this.ownerService.saveOwner(owner);
-		Assertions.assertThat(owner.getId().longValue()).isNotEqualTo(0);
+		Assertions.assertThat(owner.getId().longValue()).isNotZero();
 
 		owners = this.ownerService.findOwnerByLastName("Schultz");
-		Assertions.assertThat(owners.size()).isEqualTo(found + 1);
+		Assertions.assertThat(owners).hasSize(found + 1);
 	}
 
 	@Test
@@ -121,14 +120,14 @@ class OwnerServiceTests {
 		Assertions.assertThat(owner.getLastName()).isEqualTo(newLastName);
 	}
 
-	@Test
-	@Transactional
-	void shouldDeleteOwner() {
-		final Owner owner = this.ownerService.findOwnerById(1);
-		
-		this.ownerService.deleteOwner(owner);
-
-		Assert.assertNull(this.ownerService.findOwnerById(1));
-	}
+//	@Test
+//	@Transactional
+//	void shouldDeleteOwner() {
+//		final Owner owner = this.ownerService.findOwnerById(1);
+//		
+//		this.ownerService.deleteOwner(owner);
+//
+//		Assert.assertNull(this.ownerService.findOwnerById(1));
+//	}
 
 }

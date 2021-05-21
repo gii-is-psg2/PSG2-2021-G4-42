@@ -18,21 +18,26 @@ package org.springframework.samples.petclinic.web;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Habitacion;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Reserva;
 import org.springframework.samples.petclinic.service.HabitacionService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.ReservaService;
+import org.springframework.samples.petclinic.web.exceptions.ReservaNoEncontradaException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,8 +47,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/reserva")
 public class ReservaController {
 
-	private static final String VIEWS_RESERVA_FECHA_CREATE_OR_UPDATE_FORM = "reserva/createOrUpdateReservaFechaForm";
-	private static final String VIEWS_RESERVA_CREATE_OR_UPDATE_FORM = "reserva/createOrUpdateReservaForm";
+	public static final String VIEWS_RESERVA_FECHA_CREATE_OR_UPDATE_FORM = "reserva/createOrUpdateReservaFechaForm";
+	public static final String VIEWS_RESERVA_CREATE_OR_UPDATE_FORM = "reserva/createOrUpdateReservaForm";
+	public static final String MESSAGE = "message";
 	
 	@Autowired
 	private PetService petService;
@@ -55,8 +61,8 @@ public class ReservaController {
 	private HabitacionService habitacionService;
 	
 	@GetMapping("")
-	public String reservas(ModelMap model) {
-		model.addAttribute("reservas", reservaService.findAll());
+	public String reservas(final ModelMap model) {
+		model.addAttribute("reservas", this.reservaService.findAll());
 		return "/reserva/reservaList";
 		
 	}
@@ -75,14 +81,15 @@ public class ReservaController {
 		}
 		try {
 			this.reservaService.save(reserva);
+			model.addAttribute(MESSAGE, String.format("Habitación nº %d reservada correctamente", reserva.getHabitacion().getNumero()));
+			return "welcome";
 		}catch (final Exception e) {
-			model.addAttribute("message", e.getMessage());
+			model.addAttribute(MESSAGE, e.getMessage());
 			model.addAttribute("messageType", "danger");
 			this.addModelData(model, reserva);
 			return ReservaController.VIEWS_RESERVA_CREATE_OR_UPDATE_FORM;
 		}
-		model.addAttribute("message", String.format("Habitación nº %d reservada correctamente", reserva.getHabitacion().getNumero()));
-		return "welcome";
+
 	}
 	
 	@PostMapping(value="/new/fechas")
@@ -98,6 +105,37 @@ public class ReservaController {
 		this.addModelData(model, reserva);
 		
 		return ReservaController.VIEWS_RESERVA_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@GetMapping(value="/delete/{reservaId}")
+	public String deleteReserva(@PathVariable final int reservaId, final ModelMap model) throws ReservaNoEncontradaException {
+		final Optional<Reserva> reserva = this.reservaService.findById(reservaId);
+		
+		if(!reserva.isPresent()) {
+			model.addAttribute(MESSAGE, "La reserva seleccionada no existe: " + reservaId);
+			model.addAttribute("messageType", "warning");
+			return this.reservas(model);
+		}
+		
+		final Pet pet = reserva.get().getPet();
+		final Owner owner = pet.getOwner();
+		
+		final String usernameOwner = owner.getUser().getUsername();
+		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+		String rol = "";
+		if(rolOptional.isPresent()) {
+			rol = rolOptional.get().toString();
+		}
+		
+		if(username.equals(usernameOwner)||rol.equals("admin")) {
+			try {
+				this.reservaService.delete(reserva.get());
+			}catch(final Exception e) {
+				throw new ReservaNoEncontradaException();
+			}
+		}
+		return "redirect:/owners/" + owner.getId();
 	}
 	
 	public void addModelData(final ModelMap model, final Reserva reserva) {

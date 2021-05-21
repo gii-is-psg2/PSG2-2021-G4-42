@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -27,6 +28,8 @@ import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+import org.springframework.samples.petclinic.web.exceptions.OwnerNoEncontradoException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -64,16 +67,6 @@ public class PetController {
 	public Owner findOwner(@PathVariable("ownerId") final int ownerId) {
 		return this.ownerService.findOwnerById(ownerId);
 	}
-        
-        /*@ModelAttribute("pet")
-	public Pet findPet(@PathVariable("petId") Integer petId) {
-            Pet result=null;
-		if(petId!=null)
-                    result=this.clinicService.findPetById(petId);
-                else
-                    result=new Pet();
-            return result;
-	}*/
                 
 	@InitBinder("owner")
 	public void initOwnerBinder(final WebDataBinder dataBinder) {
@@ -86,10 +79,14 @@ public class PetController {
 	}
 	
 	@GetMapping(value="/pets/{petId}/delete")
-	public String deletePet(@PathVariable("petId") final int petId, final ModelMap model, final Owner owner) {
+	public String deletePet(@PathVariable("petId") final int petId, final ModelMap model, final Owner owner) throws OwnerNoEncontradoException {
 		final Pet p = this.petService.findPetById(petId);
 		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		final String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().toString();
+		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+		String rol = "";
+		if(rolOptional.isPresent()) {
+			rol = rolOptional.get().toString();
+		}
 		final String nameOwner = owner.getUser().getUsername();
 		if (username.equals(nameOwner)||rol.equals("admin")) {
 			try {
@@ -97,10 +94,17 @@ public class PetController {
 				this.ownerService.saveOwner(owner);
 				this.petService.delete(p);
 			}catch(final Exception e) {	
+				throw new OwnerNoEncontradoException();
 			}
 		}
 		
 		return "redirect:/owners/" + owner.getId();
+	}
+	
+	@GetMapping(value = "/pets/{petId}/visits")
+	public String showVisits(@PathVariable final int petId, final ModelMap model) {
+		model.put("visits", this.petService.findPetById(petId).getVisits());
+		return "visits/visitList";
 	}
 	
 	@GetMapping(value = "/pets/new")
@@ -147,7 +151,7 @@ public class PetController {
      * @return
      */
         @PostMapping(value = "/pets/{petId}/edit")
-	public String processUpdateForm(@Valid final Pet pet, final BindingResult result, final Owner owner,@PathVariable("petId") final int petId, final ModelMap model) {
+	public String processUpdateForm(@Valid final Pet pet, final BindingResult result, final Owner owner, @PathVariable("petId") final int petId, final ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("pet", pet);
 			return PetController.VIEWS_PETS_CREATE_OR_UPDATE_FORM;
