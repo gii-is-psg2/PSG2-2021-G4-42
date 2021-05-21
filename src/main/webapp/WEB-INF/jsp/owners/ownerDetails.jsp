@@ -87,6 +87,10 @@
 						<dd>
 							<c:out value="${pet.type.name}" />
 						</dd>
+						<dt>Raza</dt>
+						<dd>
+							<c:out value="${pet.raza}" />
+						</dd>
 					</dl>
 				</td>
 				<td valign="top"><c:if test="${showButtons}">

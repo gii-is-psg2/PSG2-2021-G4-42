@@ -30,6 +30,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
@@ -54,6 +55,10 @@ public class Pet extends NamedEntity {
 	@ManyToOne
 	@JoinColumn(name = "type_id")
 	private PetType type;
+	
+	@Column(name = "raza")
+	@NotNull
+	private String raza;
 
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
@@ -88,6 +93,14 @@ public class Pet extends NamedEntity {
 
 	public PetType getType() {
 		return this.type;
+	}
+
+	public String getRaza() {
+		return raza;
+	}
+
+	public void setRaza(String raza) {
+		this.raza = raza;
 	}
 
 	public void setType(final PetType type) {

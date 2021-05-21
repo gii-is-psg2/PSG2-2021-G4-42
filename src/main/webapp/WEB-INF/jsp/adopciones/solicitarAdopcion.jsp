@@ -19,6 +19,7 @@
 			<tr>
 				<th>Mascota</th>
 				<th>Tipo Mascota</th>
+				<th>Raza Mascota</th>
 				<th>Cumpleaños</th>
 				<th>Dueño Actual</th>
 				<th>Fecha puesta en adopción</th>
@@ -29,6 +30,7 @@
 			<tr>
 				<td><c:out value="${pet}" /></td>
 				<td><c:out value="${pet.type}" /></td>
+				<td><c:out value="${pet.raza}" /></td>
 				<td><c:out value="${pet.birthDate}" /></td>
 				<td><c:out value="${pet.owner.firstName} ${pet.owner.lastName}" /></td>
 				<td><c:out value="${adopcion.fechaPuestaEnAdopcion}" /></td>
