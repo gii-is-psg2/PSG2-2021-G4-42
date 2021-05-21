@@ -160,21 +160,11 @@ public class OwnerController {
 	
 	@GetMapping("/owners/profile")
 	public String showProfile(final ModelMap model, Principal principal) {
-		int ownerId = ownerService.findOwnerByUsername(principal.getName()).orElseThrow().getId();
-		model.addAttribute("reservas", this.reservaService.findReservasByOwner(ownerId));
-		model.addAttribute("adopciones", this.adopcionService.findAdopcionByIdOwnerId(ownerId));
-		final Owner owner = this.ownerService.findOwnerById(ownerId);
-		model.addAttribute("owner", owner);
-		final String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		final Optional<? extends GrantedAuthority> rolOptional = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
-		String rol = "";
-		if(rolOptional.isPresent()) {
-			rol = rolOptional.get().getAuthority();
+		Optional<Owner> owner = ownerService.findOwnerByUsername(principal.getName());
+		if(owner.isPresent()) {
+			return showOwner(model, owner.get().getId());
 		}
-		
-		model.addAttribute("showButtons", (rol.equals(ADMIN) || username.equals(owner.getUser().getUsername())));
-		
-		return "owners/ownerDetails";
+		return initFindForm(model);
 	}
 	
 	@GetMapping(value="/owners/{ownerId}/delete")
