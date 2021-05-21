@@ -11,7 +11,7 @@
 		<petclinic:inputField label="Nombre de la organización" name="organizacion"></petclinic:inputField>
 		<petclinic:textarea label="Descripción" name="descripcion"></petclinic:textarea>
 		<petclinic:inputField label="Establece la recaudación objetivo de la causa"
-								 name="recaudacionObjetivo" type="number"></petclinic:inputField>
+								 name="recaudacionObjetivo"></petclinic:inputField>
 		<div>
 			<button class="btn btn-default" type="submit">Crear causa</button>
 		</div>

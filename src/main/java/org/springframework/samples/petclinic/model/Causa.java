@@ -3,6 +3,8 @@ package org.springframework.samples.petclinic.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -23,6 +25,7 @@ public class Causa extends BaseEntity {
 	@NotEmpty(message = "La descripcion no puede estar vacio")
 	private String descripcion;
 	
+	@DecimalMin(value = "1.0", inclusive = true)
 	@NotNull
 	@Column(name = "recaudacion_objetivo")
 	private Double recaudacionObjetivo;

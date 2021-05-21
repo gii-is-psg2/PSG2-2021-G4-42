@@ -10,6 +10,7 @@ import org.springframework.samples.petclinic.model.Causa;
 import org.springframework.samples.petclinic.model.Donacion;
 import org.springframework.samples.petclinic.repository.CausaRepository;
 import org.springframework.samples.petclinic.repository.DonacionRepository;
+import org.springframework.samples.petclinic.service.exceptions.CausaNoValidaException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +34,13 @@ public class CausaService {
 	}
 	
 	@Transactional
-	public void save(@Valid final Causa causa) {
-		this.causaRepository.save(causa);
+	public void save(@Valid final Causa causa) throws CausaNoValidaException {
+		if(causa.getRecaudacionObjetivo()<1) {
+			throw new CausaNoValidaException();
+		}else {
+			this.causaRepository.save(causa);
+		}
+		
 	}
 	
 	@Transactional
