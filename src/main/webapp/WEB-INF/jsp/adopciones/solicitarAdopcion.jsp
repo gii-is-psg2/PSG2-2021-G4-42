@@ -46,7 +46,7 @@
 				<input type='hidden' value='${solicitud.nuevoOwner.id}' name='nuevoOwner'>
 				<input type='hidden' value='${adopcion.id}' name='adopcion'>
 				<input type='hidden' value='${solicitud.fechaSolicitud}' name='fechaSolicitud' >
-				<petclinic:inputField label="Solicitud de adopción" name="solicitud" />
+				<petclinic:textarea label="Solicitud de adopción" name="solicitud" />
 				<button class="btn btn-default" type="submit">Solicitar	adopción</button>
 
 			</div>
