@@ -77,5 +77,10 @@ public class OwnerService {
 		this.userService.delete(owner);
 		this.ownerRepository.delete(owner);
 	}
+	
+	@Transactional
+	public Collection<Owner> findAll(){
+		return ownerRepository.findAll();
+	}
 
 }
