@@ -102,6 +102,7 @@ class PetServiceTests {
 		final Collection<PetType> types = this.petService.findPetTypes();
 		pet.setType(EntityUtils.getById(types, PetType.class, 2));
 		pet.setBirthDate(LocalDate.now());
+		pet.setRaza("Bulldog");
 		owner6.addPet(pet);
 		org.assertj.core.api.Assertions.assertThat(owner6.getPets().size()).isEqualTo(found + 1);
 
@@ -127,6 +128,7 @@ class PetServiceTests {
 		final Collection<PetType> types = this.petService.findPetTypes();
 		pet.setType(EntityUtils.getById(types, PetType.class, 2));
 		pet.setBirthDate(LocalDate.now());
+		pet.setRaza("Bulldog");
 		owner6.addPet(pet);
 		try {
 			this.petService.savePet(pet);		
@@ -168,12 +170,14 @@ class PetServiceTests {
 		final Collection<PetType> types = this.petService.findPetTypes();
 		pet.setType(EntityUtils.getById(types, PetType.class, 2));
 		pet.setBirthDate(LocalDate.now());
+		pet.setRaza("Bulldog");
 		owner6.addPet(pet);
 		
 		final Pet anotherPet = new Pet();		
 		anotherPet.setName("waluigi");
 		anotherPet.setType(EntityUtils.getById(types, PetType.class, 1));
 		anotherPet.setBirthDate(LocalDate.now().minusWeeks(2));
+		anotherPet.setRaza("Gato Bombay");
 		owner6.addPet(anotherPet);
 		
 		try {

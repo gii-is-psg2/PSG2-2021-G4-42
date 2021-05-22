@@ -23,6 +23,7 @@
                 <th>Nombre</th>
                 <th>Cumpleaños</th>
                 <th>Tipo</th>
+                <th>Raza</th>
                 <th>Dueño</th>
             </tr>
             </thead>
@@ -30,6 +31,7 @@
                 <td><c:out value="${visit.pet.name}"/></td>
                 <td><petclinic:localDate date="${visit.pet.birthDate}" pattern="yyyy/MM/dd"/></td>
                 <td><c:out value="${visit.pet.type.name}"/></td>
+                <td><c:out value="${visit.pet.raza}"/></td>
                 <td><c:out value="${visit.pet.owner.firstName} ${visit.pet.owner.lastName}"/></td>
             </tr>
         </table>

@@ -61,9 +61,15 @@ INSERT INTO types VALUES (1, 'gato');
 INSERT INTO types VALUES (2, 'perro');
 INSERT INTO types VALUES (3, 'lagartija');
 INSERT INTO types VALUES (4, 'serpiente');
-INSERT INTO types VALUES (5, 'pajaro');
+INSERT INTO types VALUES (5, 'ave');
 INSERT INTO types VALUES (6, 'hamster');
 INSERT INTO types VALUES (7, 'conejo');
+INSERT INTO types VALUES (8, 'tortuga');
+INSERT INTO types VALUES (9, 'hurón');
+INSERT INTO types VALUES (10, 'ornitorrinco');
+INSERT INTO types VALUES (11, 'vaca');
+INSERT INTO types VALUES (12, 'cabra');
+INSERT INTO types VALUES (13, 'toro');
 
 INSERT INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
 INSERT INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749', 'owner2');
@@ -76,19 +82,19 @@ INSERT INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '
 INSERT INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435', 'owner9');
 INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487', 'owner10');
 
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-04-17', 2, 3);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (4, 'Jewel', '2010-03-07', 2, 3);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (5, 'Iggy', '2010-11-30', 3, 4);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (6, 'George', '2010-01-20', 4, 5);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (7, 'Samantha', '2012-09-04', 1, 6);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (8, 'Max', '2012-09-04', 1, 6);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (9, 'Lucky', '2011-08-06', 5, 7);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (10, 'Mulligan', '2007-02-24', 2, 8);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (11, 'Freddy', '2010-03-09', 5, 9);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 'Abisinio',1);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 'Ruso enano',2);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (3, 'Rosy', '2011-04-17', 2, 'Husky siberiano',3);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (4, 'Jewel', '2010-03-07', 2, 'Caniche',3);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (5, 'Iggy', '2010-11-30', 3, 'Lagartija colilarga',4);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (6, 'George', '2010-01-20', 4, 'Víbora común',5);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (7, 'Samantha', '2012-09-04', 1, 'British Shorthair',6);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (8, 'Max', '2012-09-04', 1, 'Maine Coon',6);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (9, 'Lucky', '2011-08-06', 5, 'Canario',7);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (10, 'Mulligan', '2007-02-24', 2, 'Bichón maltés',8);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (11, 'Freddy', '2010-03-09', 5, 'Gallina New Hampshire',9);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 'Chihuahua',10);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 'Gato Bosque de Noruega',10);
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'vacuna de la rabia');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'vacuna de la rabia');
@@ -156,7 +162,3 @@ INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (24, 
 INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (25, '2021-03-19', 50, 1, 1);
 INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (26, '2020-03-21', 80, 1, 1);
 INSERT INTO donaciones(id, fecha_don, cantidad, id_causa, id_owner) VALUES (27, '2021-01-10', 20, 1, 2);
-
-
-
-

@@ -42,14 +42,14 @@
 				</petclinic:menuItem>
 
 				<sec:authorize access="hasAuthority('owner')">
-				<petclinic:menuItem active="${name eq 'vets'}" url="/adopciones"
+				<petclinic:menuItem active="${name eq 'adopciones'}" url="/adopciones"
 					title="adopciones">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>adopciones</span>
 				</petclinic:menuItem>
 				</sec:authorize>
 
-				<petclinic:menuItem active="${name eq 'causa'}" url="/causa"
+				<petclinic:menuItem active="${name eq 'causas'}" url="/causa"
 					title="causas">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>causas</span>
