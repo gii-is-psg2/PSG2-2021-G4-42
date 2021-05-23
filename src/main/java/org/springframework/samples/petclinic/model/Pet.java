@@ -59,6 +59,10 @@ public class Pet extends NamedEntity {
 	@Column(name = "raza")
 	@NotNull
 	private String raza;
+	
+	@Column(name = "estado_salud")
+	@NotNull
+	private String estadoSalud;
 
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
@@ -96,10 +100,10 @@ public class Pet extends NamedEntity {
 	}
 
 	public String getRaza() {
-		return raza;
+		return this.raza;
 	}
 
-	public void setRaza(String raza) {
+	public void setRaza(final String raza) {
 		this.raza = raza;
 	}
 
