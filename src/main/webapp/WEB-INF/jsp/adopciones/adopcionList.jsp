@@ -15,6 +15,7 @@
             <th>Mascota</th>
             <th>Tipo Mascota</th>
             <th>Raza Mascota</th>
+            <th>Estado de salud</th>
             <th>Cumple Mascota</th>
             <th>Puesta en adopcion</th>
             <th>Adoptar</th>
@@ -38,6 +39,9 @@
                 </td>
                 <td>
                     <c:out value="${adopcion.pet.raza}"/>
+                </td>
+                <td>
+                    <c:out value="${adopcion.pet.estadoSalud}"/>
                 </td>
                 <td>
                     <c:out value="${adopcion.pet.birthDate}"/>
