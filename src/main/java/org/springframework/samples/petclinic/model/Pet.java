@@ -31,6 +31,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
@@ -60,6 +61,10 @@ public class Pet extends NamedEntity {
 	@NotNull
 	private String raza;
 
+	@Size(min=3, max=50)
+	@Column(name = "estado_salud")
+	private String estadoSalud;
+
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
 	private Owner owner;
@@ -69,6 +74,15 @@ public class Pet extends NamedEntity {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="pet")
 	private Set<Reserva> reservas;
+
+	public String getEstadoSalud() {
+		return this.estadoSalud;
+	}
+
+	
+	public void setEstadoSalud(final String estadoSalud) {
+		this.estadoSalud = estadoSalud;
+	}
 	
 	public Boolean estaOcupada(final LocalDate fechaIni, final LocalDate fechaFin) {
 		return ReservaUtil.estaOcupada(fechaIni, fechaFin, this.reservas);
@@ -96,10 +110,10 @@ public class Pet extends NamedEntity {
 	}
 
 	public String getRaza() {
-		return raza;
+		return this.raza;
 	}
 
-	public void setRaza(String raza) {
+	public void setRaza(final String raza) {
 		this.raza = raza;
 	}
 

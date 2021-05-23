@@ -82,19 +82,19 @@ INSERT INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '
 INSERT INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435', 'owner9');
 INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487', 'owner10');
 
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 'Abisinio',1);
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 'Ruso enano',2);
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (3, 'Rosy', '2011-04-17', 2, 'Husky siberiano',3);
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (4, 'Jewel', '2010-03-07', 2, 'Caniche',3);
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (5, 'Iggy', '2010-11-30', 3, 'Lagartija colilarga',4);
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (6, 'George', '2010-01-20', 4, 'Víbora común',5);
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (7, 'Samantha', '2012-09-04', 1, 'British Shorthair',6);
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (8, 'Max', '2012-09-04', 1, 'Maine Coon',6);
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (9, 'Lucky', '2011-08-06', 5, 'Canario',7);
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (10, 'Mulligan', '2007-02-24', 2, 'Bichón maltés',8);
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (11, 'Freddy', '2010-03-09', 5, 'Gallina New Hampshire',9);
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 'Chihuahua',10);
-INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 'Gato Bosque de Noruega',10);
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (1, 'Leo', '2010-09-07', 1, 'Abisinio',1,'Escucha regular');
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (2, 'Basil', '2012-08-06', 6, 'Ruso enano',2,'sano');
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (3, 'Rosy', '2011-04-17', 2, 'Husky siberiano',3,'sano');
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (4, 'Jewel', '2010-03-07', 2, 'Caniche',3,'sano');
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (5, 'Iggy', '2010-11-30', 3, 'Lagartija colilarga',4,'No ve bien');
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (6, 'George', '2010-01-20', 4, 'Víbora común',5,'sano');
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (7, 'Samantha', '2012-09-04', 1, 'British Shorthair',6,'sano');
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (8, 'Max', '2012-09-04', 1, 'Maine Coon',6,'sano');
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (9, 'Lucky', '2011-08-06', 5, 'Canario',7,'Tiene dolencias en la pata derecha');
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (10, 'Mulligan', '2007-02-24', 2, 'Bichón maltés',8,'sano');
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (11, 'Freddy', '2010-03-09', 5, 'Gallina New Hampshire',9,'sano');
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (12, 'Lucky', '2010-06-24', 2, 'Chihuahua',10,'sano');
+INSERT INTO pets(id,name,birth_date,type_id,raza,owner_id,estado_salud) VALUES (13, 'Sly', '2012-06-08', 1, 'Gato Bosque de Noruega',10,'Diabetes');
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'vacuna de la rabia');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'vacuna de la rabia');
