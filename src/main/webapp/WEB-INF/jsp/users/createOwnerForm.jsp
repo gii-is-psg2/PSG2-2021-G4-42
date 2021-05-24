@@ -18,7 +18,7 @@
             <petclinic:inputField label="Ciudad" name="city"/>
             <petclinic:inputField label="Telefono" name="telephone"/>
             <petclinic:inputField label="Usuario" name="user.username"/>
-            <petclinic:inputField label="Contraseña" name="user.password"/>
+            <petclinic:inputField type="password" label="Contraseña" name="user.password"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
