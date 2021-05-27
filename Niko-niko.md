@@ -52,10 +52,10 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day 16 (22/05)       |    :smile:    |      -         |                |                |       -        |       -        |
 | Day 17 (23/05)       |    :smile:    |    :smile:     |                |                |    :smile:     |     :smile:    |
 | Day 18 (24/05)       |               |    :smile:     |                |                |                |                |
-| Day 19 (25/05)       |               |                |                |                |                |                |
-| Day 20 (26/05)       |               |                |                |                |                |                |
-| Day 21 (27/05)       |               |                |                |                |                |                |
-| Day 22 (28/05)       |               |                |                |                |                |                |
+| Day 19 (25/05)       |               |       -        |                |                |                |                |
+| Day 20 (26/05)       |               |       -        |                |                |                |                |
+| Day 21 (27/05)       |               |    :fearful:   |                |                |                |                |
+| Day 22 (28/05)       |               |    :smile:     |                |                |                |                |
 | Day 23 (29/05)       |               |                |                |                |                |                |
 | Day 24 (30/05)       |               |                |                |                |                |                |
 | Day 25 (31/05)       |               |                |                |                |                |                |
