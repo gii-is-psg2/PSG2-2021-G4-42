@@ -56,6 +56,6 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day 20 (26/05)       |    :smile:    |       -        |                |    :smile:     |                |                |
 | Day 21 (27/05)       |       -       |    :fearful:   |                |       -        |                |                |
 | Day 22 (28/05)       |    :smile:    |    :smile:     |                |                |                |                |
-| Day 23 (29/05)       |               |                |                |                |                |                |
-| Day 24 (30/05)       |               |                |                |                |                |                |
+| Day 23 (29/05)       |               |    :smile:     |                |                |                |                |
+| Day 24 (30/05)       |               |    :smile:     |                |                |                |                |
 | Day 25 (31/05)       |               |                |                |                |                |                |
