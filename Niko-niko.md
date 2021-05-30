@@ -51,11 +51,11 @@ In the retrospective meeting, the team has a discussion about those results.
 | Day 15 (21/05)       |    :smile:    |    :smile:     |                |   :smile:      |    :smile:     |     :smile:    |
 | Day 16 (22/05)       |    :smile:    |      -         |                |       -        |       -        |       -        |
 | Day 17 (23/05)       |    :smile:    |    :smile:     |                |       -        |    :smile:     |     :smile:    |
-| Day 18 (24/05)       |    :smile:    |    :smile:     |                |   :smile:      |    :smile:     |                |
-| Day 19 (25/05)       |       -       |       -        |                |       -        |     -          |                |
-| Day 20 (26/05)       |    :smile:    |       -        |                |    :smile:     |     -          |                |
-| Day 21 (27/05)       |       -       |    :fearful:   |                |       -        |     :smile:    |                |
-| Day 22 (28/05)       |    :smile:    |    :smile:     |                |                |     :smile:    |                |
-| Day 23 (29/05)       |    :worried:  |    :smile:     |                |                |     -          |                |
-| Day 24 (30/05)       |   :smile:     |    :smile:     |                |                |     :smile:    |                |
+| Day 18 (24/05)       |    :smile:    |    :smile:     |                |   :smile:      |    :smile:     |       -        |
+| Day 19 (25/05)       |       -       |       -        |                |       -        |     -          |       -        |
+| Day 20 (26/05)       |    :smile:    |       -        |                |    :smile:     |     -          |       -        |
+| Day 21 (27/05)       |       -       |    :fearful:   |                |       -        |     :smile:    |     :smile:    |
+| Day 22 (28/05)       |    :smile:    |    :smile:     |                |                |     :smile:    |        -       |
+| Day 23 (29/05)       |    :worried:  |    :smile:     |                |                |     -          |        -       |
+| Day 24 (30/05)       |   :smile:     |    :smile:     |                |                |     :smile:    |     :smile:    |
 | Day 25 (31/05)       |               |                |                |                |                |                |
