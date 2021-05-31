@@ -5,7 +5,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ page session="false" trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
 
-<petclinic:layout pageName = "crearCausas">
+<petclinic:layout pageName = "causas">
 	<form:form action="/causa/new" modelAttribute="causa" class="form-horizontal">
 		<petclinic:inputField label="Nombre de la causa" name="nombre"></petclinic:inputField>
 		<petclinic:inputField label="Nombre de la organización" name="organizacion"></petclinic:inputField>
