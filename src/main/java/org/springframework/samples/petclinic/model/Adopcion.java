@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
+//
 @Entity(name="adopcion")
 @Table(name= "adopcion")
 public class Adopcion extends BaseEntity{

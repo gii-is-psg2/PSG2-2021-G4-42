@@ -35,22 +35,31 @@ public class PetValidator implements Validator {
 	private static final String REQUIRED = "requerido";
 
 	@Override
-	public void validate(Object obj, Errors errors) {
-		Pet pet = (Pet) obj;
-		String name = pet.getName();
+	public void validate(final Object obj, final Errors errors) {
+		final Pet pet = (Pet) obj;
+		final String name = pet.getName();
 		// name validation
 		if (!StringUtils.hasLength(name) || name.length()>50 || name.length()<3) {
-			errors.rejectValue("name", REQUIRED+" entre 3 y 50 caracteres", REQUIRED+" entre 3 y 50 caracteres");
+			errors.rejectValue("name", PetValidator.REQUIRED+" entre 3 y 50 caracteres", PetValidator.REQUIRED+" entre 3 y 50 caracteres");
 		}
 
 		// type validation
 		if (pet.isNew() && pet.getType() == null) {
-			errors.rejectValue("type", REQUIRED, REQUIRED);
+			errors.rejectValue("type", PetValidator.REQUIRED, PetValidator.REQUIRED);
 		}
 
 		// birth date validation
 		if (pet.getBirthDate() == null) {
-			errors.rejectValue("birthDate", REQUIRED, REQUIRED);
+			errors.rejectValue("birthDate", PetValidator.REQUIRED, PetValidator.REQUIRED);
+		}
+		// raza validation
+		if (pet.getRaza() == null || pet.getRaza().equals("")) {
+			errors.rejectValue("raza", PetValidator.REQUIRED, PetValidator.REQUIRED);
+		}
+		// estado de salud validation
+		final String estado = pet.getEstadoSalud();
+		if (!StringUtils.hasLength(estado) || estado.length()>50 || estado.length()<3) {
+			errors.rejectValue("estadoSalud", PetValidator.REQUIRED+" entre 3 y 50 caracteres", PetValidator.REQUIRED+" entre 3 y 50 caracteres");
 		}
 	}
 
@@ -58,7 +67,7 @@ public class PetValidator implements Validator {
 	 * This Validator validates *just* Pet instances
 	 */
 	@Override
-	public boolean supports(Class<?> clazz) {
+	public boolean supports(final Class<?> clazz) {
 		return Pet.class.isAssignableFrom(clazz);
 	}
 

@@ -87,6 +87,14 @@
 						<dd>
 							<c:out value="${pet.type.name}" />
 						</dd>
+						<dt>Raza</dt>
+						<dd>
+							<c:out value="${pet.raza}" />
+						</dd>
+						<dt>Estado de salud</dt>
+						<dd>
+							<c:out value="${pet.estadoSalud}" />
+						</dd>
 					</dl>
 				</td>
 				<td valign="top"><c:if test="${showButtons}">
@@ -200,6 +208,14 @@
 						<dt>Tipo</dt>
 						<dd>
 							<c:out value="${adopcion.pet.type.name}" />
+						</dd>
+						<dt>Raza</dt>
+						<dd>
+							<c:out value="${adopcion.pet.raza}" />
+						</dd>
+						<dt>Estado de salud</dt>
+						<dd>
+							<c:out value="${adopcion.pet.estadoSalud}" />
 						</dd>
 					</dl>
 				</td>

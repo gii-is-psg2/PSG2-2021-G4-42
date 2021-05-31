@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -58,11 +59,12 @@ public class OwnerController {
 	ReservaService reservaService;
 	@Autowired
 	AdopcionService adopcionService;
+	
 	@Autowired
 	public OwnerController(final OwnerService ownerService, final UserService userService, final AuthoritiesService authoritiesService) {
 		this.ownerService = ownerService;
 	}
-
+	
 	@InitBinder
 	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
@@ -71,6 +73,7 @@ public class OwnerController {
 	@GetMapping(value = "/owners/find")
 	public String initFindForm(final Map<String, Object> model) {
 		model.put("owner", new Owner());
+		model.put("owners", ownerService.findAll());
 		return "owners/findOwners";
 	}
 
@@ -87,6 +90,7 @@ public class OwnerController {
 		if (results.isEmpty()) {
 			// no owners found
 			result.rejectValue("lastName", "notFound", "not found");
+			model.put("owners", ownerService.findAll());
 			return "owners/findOwners";
 		}
 		else if (results.size() == 1) {
@@ -94,8 +98,13 @@ public class OwnerController {
 			owner = results.iterator().next();
 			return "redirect:/owners/" + owner.getId();
 		}
+		else if(results.size() == ownerService.findAll().size()) {
+			result.rejectValue("lastName", "Escribe un apellido", "Escribe un apellido");
+			model.put("owners", ownerService.findAll());
+			return "owners/findOwners";
+			
+		}
 		else {
-			// multiple owners found
 			model.put("selections", results);
 			return "owners/ownersList";
 		}
@@ -154,6 +163,15 @@ public class OwnerController {
 		model.addAttribute("showButtons", (rol.equals(ADMIN) || username.equals(owner.getUser().getUsername())));
 		
 		return "owners/ownerDetails";
+	}
+	
+	@GetMapping("/owners/profile")
+	public String showProfile(final ModelMap model, Principal principal) {
+		Optional<Owner> owner = ownerService.findOwnerByUsername(principal.getName());
+		if(owner.isPresent()) {
+			return showOwner(model, owner.get().getId());
+		}
+		return initFindForm(model);
 	}
 	
 	@GetMapping(value="/owners/{ownerId}/delete")

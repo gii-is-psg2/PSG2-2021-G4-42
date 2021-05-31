@@ -5,7 +5,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ page session="false" trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
 
-<petclinic:layout pageName="owners">
+<petclinic:layout pageName="reserva">
     <jsp:body>
         <h2>
             <c:if test="${reserva['new']}">Nueva </c:if> Reserva
